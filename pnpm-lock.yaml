@@ -72,8 +72,8 @@ dependencies:
     specifier: ^10.2.6
     version: 10.4.5(@nestjs/common@10.0.5)(@nestjs/core@10.0.5)(class-validator@0.14.0)(rxjs@7.8.1)
   nodemailer:
-    specifier: 6.9.3
-    version: 6.9.3
+    specifier: 6.9.9
+    version: 6.9.9
   passport:
     specifier: 0.6.0
     version: 0.6.0
@@ -6720,8 +6720,8 @@ packages:
       asn1: 0.2.6
     dev: false
 
-  /nodemailer@6.9.3:
-    resolution: {integrity: sha512-fy9v3NgTzBngrMFkDsKEj0r02U7jm6XfC3b52eoNV+GCrGj+s8pt5OqhiJdWKuw51zCTdiNR/IUD1z33LIIGpg==}
+  /nodemailer@6.9.9:
+    resolution: {integrity: sha512-dexTll8zqQoVJEZPwQAKzxxtFn0qTnjdQTchoU6Re9BUUGBJiOy3YMn/0ShTW6J5M0dfQ1NeDeRTTl4oIWgQMA==}
     engines: {node: '>=6.0.0'}
     dev: false
 
