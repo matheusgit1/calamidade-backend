@@ -5,4 +5,4 @@ Descreva por que as alterações neste Pull Request são necessárias. Detalhe c
 Descreva brevemente o que foi realizado na tarefa e as decisões tomadas.
 
 # Como testar?
-Aqui pode ser descrito como testar a feature caso exista algum passo automatizado ou manual específico para garantir que os revisores consigam testar a feature ou alteração.
+Aqui pode ser descrito (opcionalmente) como testar a feature caso exista algum passo manual específico para garantir que os revisores consigam testar a feature ou alteração.
