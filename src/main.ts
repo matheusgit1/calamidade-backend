@@ -10,6 +10,14 @@ import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
+import { CustomExceptionFilter } from './infrastructure/filters/custom-exception-filter';
+
+/**
+ * use in case of implementing trace via aws xray
+ */
+// import * as AWSXray from 'aws-xray-sdk';
+// import * as http from 'http';
+// import * as https from 'https';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -31,6 +39,12 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalFilters(new CustomExceptionFilter());
+
+  /**
+   * use in case of implementing trace via aws xray
+   */
+  // app.use(AWSXray.express.openSegment(process.env.APP_NAME || 'calamidade-backend));
 
   const options = new DocumentBuilder()
     .setTitle('API')

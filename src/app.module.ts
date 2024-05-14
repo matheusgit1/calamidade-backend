@@ -30,6 +30,11 @@ import { AllConfigType } from './config/config.type';
 import { SessionModule } from './modules/session/session.module';
 import { MailerModule } from './mailer/mailer.module';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './infrastructure/interceptors/logging.interceptor';
+import { RolesGuard } from './modules/user/roles/roles.guard';
+import { AppController } from './modules/app/app.controller';
+import { AppService } from './modules/app/app.service';
 
 @Module({
   imports: [
@@ -92,6 +97,23 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     MailModule,
     MailerModule,
     HomeModule,
+    AppModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+    /**
+     * In a future scenario where it is interesting to use request tracing via xRay in AWS, simply enable this logging
+     */
+    /**
+     * { provide: APP_INTERCEPTOR, useClass: XRayInterceptor }
+     */
+
+    /**
+     * RolesGuard validates the access logic of a role to an endpoint
+     */
+    { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
 export class AppModule {}
