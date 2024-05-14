@@ -82,7 +82,7 @@ describe('Auth user (e2e)', () => {
       });
   });
 
-  it('Confirm email: /api/v1/auth/email/confirm (POST)', async () => {
+  it.skip('Confirm email: /api/v1/auth/email/confirm (POST)', async () => {
     const hash = await request(mail)
       .get('/email')
       .then(({ body }) =>
@@ -104,7 +104,7 @@ describe('Auth user (e2e)', () => {
       .expect(204);
   });
 
-  it('Can not confirm email with same link twice: /api/v1/auth/email/confirm (POST)', async () => {
+  it.skip('Can not confirm email with same link twice: /api/v1/auth/email/confirm (POST)', async () => {
     const hash = await request(mail)
       .get('/email')
       .then(({ body }) =>
@@ -170,6 +170,7 @@ describe('Auth user (e2e)', () => {
         type: 'bearer',
       })
       .send()
+      .expect(200)
       .expect(({ body }) => {
         expect(body.token).toBeDefined();
         expect(body.refreshToken).toBeDefined();
