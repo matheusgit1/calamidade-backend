@@ -4,6 +4,10 @@
 
 Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">CooPartilhar</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
+# Board de tasks
+
+https://trello.com/invite/b/jb3dm3Kh/ATTI193114154320787c87ca1380acdcf80cACEFCDC9/desenvolvimento-api
+
 # Tecnologias Utilizadas
 
 - [Nest JS](https://docs.nestjs.com/).
