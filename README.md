@@ -2,6 +2,12 @@
 
 Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">App Ajuda Enchentes RS</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
+# Tecnologias Utilizadas
+
+- [Docker](https://docs.docker.com/) com plugin [Docker compose](https://docs.docker.com/compose/).
+- [PostgreSQL](https://www.postgresql.org/docs/).
+- [Nest JS](https://docs.nestjs.com/).
+
 # Instalação e execução do projeto
 
 Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>.
