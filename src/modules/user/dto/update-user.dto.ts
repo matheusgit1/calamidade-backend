@@ -47,14 +47,14 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @ApiProperty({ type: UserRole })
   @IsOptional()
-  @Validate(IsExist, ['Role', 'id'], {
+  @Validate(IsExist, ['UserRole', 'id'], {
     message: 'roleNotExists',
   })
   role?: UserRole | null;
 
   @ApiProperty({ type: UserStatus })
   @IsOptional()
-  @Validate(IsExist, ['Status', 'id'], {
+  @Validate(IsExist, ['UserStatus', 'id'], {
     message: 'statusNotExists',
   })
   status?: UserStatus;
