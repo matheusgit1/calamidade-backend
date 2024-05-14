@@ -8,7 +8,12 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     // TODO - to implement auth middleware
 
-    const roles = this.reflector.getAllAndOverride<number[]>('roles', [
+    // const roles = this.reflector.getAllAndOverride<number[]>('roles', [
+    //   context.getClass(),
+    //   context.getHandler(),
+    // ]);
+
+    this.reflector.getAllAndOverride<number[]>('roles', [
       context.getClass(),
       context.getHandler(),
     ]);
