@@ -5,7 +5,6 @@
 ## Table of Contents
 
 - [Comfortable development](#comfortable-development)
-- [Quick run](#quick-run)
 - [Links](#links)
 
 ---
@@ -15,94 +14,49 @@
 1. Clone repository
 
     ```bash
-    git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
+    git clone https://github.com/Flutterando/calamidade-backend.git
     ```
 
 1. Go to folder, and copy `env-example` as `.env`.
 
     ```bash
-    cd my-app/
+    cd calamidade-backend/
     cp env-example .env
     ```
 
-1. Change `DATABASE_HOST=postgres` to `DATABASE_HOST=localhost`
+If you don't want to run API as a docker container, change `MAIL_HOST=maildev` to `MAIL_HOST=localhost` and `DATABASE_HOST=postgres` to `DATABASE_HOST=localhost`.
 
-   Change `MAIL_HOST=maildev` to `MAIL_HOST=localhost`
+1. Run the containers:
 
-1. Run additional container:
-
-    ```bash
-    docker compose up -d postgres adminer maildev
-    ```
-
-1. Install dependency
-
-    ```bash
-    npm install
-    ```
-
-1. Run sync
-
-    ```bash
-    npm run schema:sync
-    ```
-
-When running the command it will give an error in "INDEX", you continue with commands
-    
-1. Run migrations
-
-    ```bash
-    npm run migration:run
-    ```
-
-1. Run seeds
-
-    ```bash
-    npm run seed:run
-    ```
-
-1. Run app in dev mode
-
-    ```bash
-    npm run start:dev
-    ```
-
-1. Open http://localhost:3000
-
----
-
-## Quick run
-
-If you want quick run your app, you can use following commands:
-
-1. Clone repository
-
-    ```bash
-    git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
-    ```
-
-1. Go to folder, and copy `env-example` as `.env`.
-
-    ```bash
-    cd my-app/
-    cp env-example .env
-    ```
-
-1. Run containers
-
+- If you want to run the project entirely with docker containers
     ```bash
     docker compose up -d
     ```
 
-1. For check status run
+- If you want to run API using NPM:
 
-    ```bash
-    docker compose logs
-    ```
+    - Install dependency
+        ```bash
+        npm install
+        ```
+    - Run sync
+        ```bash
+        npm run schema:sync
+        ```
+    - Run migrations
+        ```bash
+        npm run migration:run
+        ```
+    - Run seeds
+        ```bash
+        npm run seed:run
+        ```
+    - Run app in dev mode
+        ```bash
+        npm run start:dev
+        ```
 
-1. Open http://localhost:3000
-
-### Video guideline
+2. Open http://localhost:3000
 
 ---
 
