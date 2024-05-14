@@ -12,7 +12,7 @@ Este projeto contempla a implementação da API usada no projeto <a href="https:
 
 Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>.
 
-Para instalar e configurar este projeto localmente, siga os passos descritos [aqui]().
+Para instalar e configurar este projeto localmente, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running.md).
 
 # Como contribuir
 
