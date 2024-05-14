@@ -1,142 +1,23 @@
-# NestJS REST API boilerplate
+<p align="center"><img height="180px" style="background-color: #FFFFFF;" src="https://github.com/Flutterando/calamidade-backend/blob/docs-improvements/.github/logo-coopartilhar-v1.svg"></p>
 
-![github action status](https://github.com/alexanderbraga/nestjs-boilerplate/actions/workflows/docker-e2e.yml/badge.svg)
+# Nest API - Coopartilha
 
-## Description
+Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">CooPartilha</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
-NestJS REST API boilerplate for typical project
+# Tecnologias Utilizadas
 
-[Full documentation here](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md)
+- [Docker](https://docs.docker.com/) com plugin [Docker compose](https://docs.docker.com/compose/).
+- [PostgreSQL](https://www.postgresql.org/docs/).
+- [Nest JS](https://docs.nestjs.com/).
 
-## Table of Contents
+# Instalação e execução do projeto
 
-- [Features](#features)
-- [Quick run](#quick-run)
-- [Comfortable development](#comfortable-development)
-- [Links](#links)
-- [Automatic update of dependencies](#automatic-update-of-dependencies)
-- [Database utils](#database-utils)
-- [Tests](#tests)
+Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>.
 
-## Features
+Para instalar e configurar este projeto localmente, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running.md).
 
-- [x] Database ([typeorm](https://www.npmjs.com/package/typeorm)).
-- [x] Seeding.
-- [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
-- [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
-- [x] Sign in and sign up via email.
-- [x] Social sign in (Apple, Facebook, Google, Twitter).
-- [x] Admin and User roles.
-- [x] I18N ([nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)).
-- [x] File uploads. Support local and Amazon S3 drivers.
-- [x] Swagger.
-- [x] E2E and units tests.
-- [x] Docker.
-- [x] CI (Github Actions).
+# Como contribuir
 
-## Quick run
+Contribuições são bem-vindas! Para contribuir com o projeto é necessário que através do Fork do projeto e aponte as alterações para a branch `development`. é necessário também que o template do pull request também seja preenchido explicando o motivo da mudança, como foi abordado e instruções de teste quando aplicável.
 
-```bash
-git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
-cd my-app/
-cp env-example .env
-docker compose up -d
-```
-
-For check status run
-
-```bash
-docker compose logs
-```
-
-## Comfortable development
-
-```bash
-git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
-cd my-app/
-cp env-example .env
-```
-
-Change `DATABASE_HOST=postgres` to `DATABASE_HOST=localhost`
-
-Change `MAIL_HOST=maildev` to `MAIL_HOST=localhost`
-
-Run additional container:
-
-```bash
-docker compose up -d postgres adminer maildev
-```
-
-```bash
-npm install
-
-npm run migration:run
-
-npm run seed:run
-
-npm run start:dev
-```
-
-## Links
-
-- Swagger: http://localhost:3000/docs
-- Adminer (client for DB): http://localhost:8080
-- Maildev: http://localhost:1080
-
-## Automatic update of dependencies
-
-If you want to automatically update dependencies, you can connect [Renovate](https://github.com/marketplace/renovate) for your project.
-
-## Database utils
-
-Generate migration
-
-```bash
-npm run migration:generate -- src/database/migrations/CreateNameTable 
-```
-
-Run migration
-
-```bash
-npm run migration:run
-```
-
-Revert migration
-
-```bash
-npm run migration:revert
-```
-
-Drop all tables in database
-
-```bash
-npm run schema:drop
-```
-
-Run seed
-
-```bash
-npm run seed:run
-```
-
-## Tests
-
-```bash
-# unit tests
-npm run test
-
-# e2e tests
-npm run test:e2e
-```
-
-## Tests in Docker
-
-```bash
-docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up --build --exit-code-from api && docker compose -p ci rm -svf
-```
-
-## Test benchmarking
-
-```bash
-docker run --rm jordi/ab -n 100 -c 100 -T application/json -H "Authorization: Bearer USER_TOKEN" -v 2 http://<server_ip>:3000/api/v1/users
-```
+![image](https://github.com/Flutterando/calamidade-backend/assets/63257275/a4a9ffdf-a0b8-45a2-a13e-fbd5f2cb2f43)
