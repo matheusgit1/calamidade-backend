@@ -1,14 +1,15 @@
 <p align="center"><img height="180px" style="background-color: #FFFFFF;" src="https://raw.githubusercontent.com/Flutterando/calamidade-backend/master/.github/logo-coopartilhar-v1.svg"></p>
 
-# Nest API - Coopartilha
+# API - CooPartilhar
 
-Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">CooPartilha</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
+Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">CooPartilhar</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
 # Tecnologias Utilizadas
 
+- [Nest JS](https://docs.nestjs.com/).
 - [Docker](https://docs.docker.com/) com plugin [Docker compose](https://docs.docker.com/compose/).
 - [PostgreSQL](https://www.postgresql.org/docs/).
-- [Nest JS](https://docs.nestjs.com/).
+
 
 # Instalação e execução do projeto
 
