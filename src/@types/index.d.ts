@@ -1,4 +1,4 @@
-import type { Request } from 'express';
+//import {Request,Response,NextFunction} from "@types/express";
 
 declare global {
   namespace Express {
@@ -7,3 +7,5 @@ declare global {
     }
   }
 }
+
+export {};

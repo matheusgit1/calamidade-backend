@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import {
   ArgumentsHost,
   BadRequestException,
@@ -15,10 +15,6 @@ import { ResourceNotFoundException } from '../exceptions/resource-not-found.exce
 import { ProxyException } from '../exceptions/proxy.exception';
 import { InvalidInputException } from '../exceptions/invalid-input.exception';
 
-interface RequestWithHash extends Request {
-  hash: string;
-}
-
 @Injectable()
 export class CustomExceptionFilter implements ExceptionFilter {
   private readonly logger: Logger;
@@ -26,7 +22,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
     this.logger = new Logger(CustomExceptionFilter.name);
   }
 
-  logStackTrace(exception: any, request: RequestWithHash) {
+  logStackTrace(exception: any, request: Request) {
     if (request.hash) {
       this.logger.error(
         `[${request.hash}] Request processed with error`,
@@ -39,7 +35,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
 
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const request = ctx.getRequest<RequestWithHash>();
+    const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const { hash } = request;
 
