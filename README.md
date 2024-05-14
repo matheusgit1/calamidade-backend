@@ -1,4 +1,4 @@
-<p align="center"><img height="180px" style="background-color: #FFFFFF;" src="https://github.com/Flutterando/calamidade-backend/blob/docs-improvements/.github/logo-coopartilhar-v1.svg"></p>
+<p align="center"><img height="180px" style="background-color: #FFFFFF;" src="https://raw.githubusercontent.com/Flutterando/calamidade-backend/master/.github/logo-coopartilhar-v1.svg"></p>
 
 # Nest API - Coopartilha
 
