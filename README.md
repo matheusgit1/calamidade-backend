@@ -1,4 +1,6 @@
-# Nest API - App Ajuda Enchentes RS
+<p align="center"><img height="180px" style="background-color: #FFFFFF;" src="https://github.com/Flutterando/calamidade-backend/blob/docs-improvements/.github/logo-coopartilhar-v1.svg"></p>
+
+# Nest API - Coopartilha
 
 Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">CooPartilha</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
