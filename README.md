@@ -4,7 +4,7 @@ Este projeto contempla a implementação da API usada no projeto [App Ajuda Ench
 
 # Instalação e execução do projeto
 
-Este projeto foi criado utilizando os exemplos [Boilerplate Nest](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md).
+Este projeto foi criado utilizando exemplos [boilerplate](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md).
 
 Para instalar e configurar este projeto localmente, siga os passos descritos [aqui]().
 
