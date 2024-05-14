@@ -1,10 +1,10 @@
 # Nest API - App Ajuda Enchentes RS
 
-Este projeto contempla a implementação da API usada no projeto [App Ajuda Enchentes RS](https://github.com/Flutterando/calamidade), que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
+Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">App Ajuda Enchentes RS</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
 # Instalação e execução do projeto
 
-Este projeto foi criado utilizando exemplos [boilerplate](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md).
+Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>
 
 Para instalar e configurar este projeto localmente, siga os passos descritos [aqui]().
 
