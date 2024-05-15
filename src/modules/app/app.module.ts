@@ -55,7 +55,7 @@ import { CooperatedModule } from "../cooperated/cooperated.module";
     MailerModule,
     HomeModule,
     AppModule,
-    CooperatedModule
+    CooperatedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
