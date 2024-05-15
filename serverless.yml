@@ -5,6 +5,7 @@ useDotenv: true
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-prune-plugin
 
 provider:
   name: aws
@@ -13,12 +14,15 @@ provider:
   lambdaHashingVersion: 20201221
   # stage: prd
 
+  logRetentionInDays: 30
+
 # Files on package
 package:
   individually: true
   patterns:
     - "dist/**"
     - "files/"
+    - "!.data/**"
     - "!package.json"
     - "!package-lock.json"
     - "!pnpm-lock.yaml"
@@ -37,6 +41,9 @@ package:
 custom:
   serverless-offline:
     httpPort: 4000
+  prune:
+    automatic: true
+    number: 3
 
 functions:
   api:
@@ -48,3 +55,18 @@ functions:
       - http:
           path: /{proxy+}
           method: ANY
+
+  api_url:
+    handler: dist/handler.handler
+    timeout: 30
+    memorySize: 512
+    url:
+      cors:
+        allowedOrigins:
+          - '*'
+        allowedHeaders:
+          - '*'
+        allowedMethods:
+          - '*'
+    layers:
+      - arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:51
