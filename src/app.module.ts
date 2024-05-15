@@ -30,6 +30,7 @@ import { AllConfigType } from './config/config.type';
 import { SessionModule } from './modules/session/session.module';
 import { MailerModule } from './mailer/mailer.module';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { CooperatedModule } from './modules/cooperated/cooperated.module';
 
 @Module({
   imports: [
@@ -92,6 +93,7 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     MailModule,
     MailerModule,
     HomeModule,
+    CooperatedModule,
   ],
 })
 export class AppModule {}

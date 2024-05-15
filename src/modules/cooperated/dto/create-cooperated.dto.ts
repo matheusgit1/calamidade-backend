@@ -1,0 +1,32 @@
+import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, Validate } from 'class-validator';
+import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
+import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
+
+export class CreateCooperatedDto {
+  @ApiProperty({ example: 'test1@example.com' })
+  @Transform(lowerCaseTransformer)
+  @IsNotEmpty()
+  @Validate(IsNotExist, ['Cooperated'], {
+    message: 'emailAlreadyExists',
+  })
+  @IsEmail()
+  email: string | null;
+
+  @ApiProperty({ example: 'Morgan' })
+  @IsNotEmpty()
+  firstName: string | null;
+
+  @ApiProperty({ example: 'Stark' })
+  @IsNotEmpty()
+  lastName: string | null;
+
+  @ApiProperty({ example: '+5511995039284' })
+  @IsNotEmpty()
+  phone: string | null;
+
+  @ApiProperty({ example: '44444444444' })
+  @IsNotEmpty()
+  document: string | null;
+}
