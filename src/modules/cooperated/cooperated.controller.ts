@@ -29,7 +29,7 @@ import { NullableType } from '../../utils/types/nullable.type';
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user, UserRoleEnum.admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@ApiTags('cooperateds')
+@ApiTags('Cooperateds')
 @Controller({
   path: 'cooperateds',
   version: '1',
@@ -42,6 +42,18 @@ export class CooperatedController {
   create(@Body() createCooperatedDto: CreateCooperatedDto) {
     return this.cooperatedService.create(createCooperatedDto);
   }
+
+  @Post('bulk')
+  @HttpCode(HttpStatus.CREATED)
+  async createBulk(@Body() createCooperatedDtos: CreateCooperatedDto[]) {
+    try {
+      const createdCooperateds = await this.cooperatedService.createBulk(createCooperatedDtos);
+      return { success: true, createdCooperateds };
+    } catch (error) {
+      return { success: false, error: 'Failed to create cooperateds in bulk.' };
+    }
+  }
+
 
   @HttpCode(HttpStatus.OK)
   @Get('/list')
