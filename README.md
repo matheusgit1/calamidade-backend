@@ -4,6 +4,10 @@
 
 Este projeto contempla a implementação da API usada no projeto <a href="https://github.com/Flutterando/calamidade" target="_blank">CooPartilhar</a>, que visa conectar voluntários, doadores e famílias afetadas pelas enchentes do estado do Rio Grande do Sul.
 
+# Board de tasks
+
+https://trello.com/invite/b/jb3dm3Kh/ATTI193114154320787c87ca1380acdcf80cACEFCDC9/desenvolvimento-api
+
 # Tecnologias Utilizadas
 
 - [Nest JS](https://docs.nestjs.com/).
@@ -15,7 +19,8 @@ Este projeto contempla a implementação da API usada no projeto <a href="https:
 
 Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>.
 
-Para instalar e configurar este projeto localmente, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running.md).
+- Para instalar e configurar este projeto 100% localmente, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running.md).
+- Para instalar e configurar o projeto com as dependências locais, mas banco de dados remoto, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running-db-remotely.md).
 
 # Como contribuir
 
