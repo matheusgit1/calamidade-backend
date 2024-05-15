@@ -1,8 +1,8 @@
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, Validate } from 'class-validator';
-import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
-import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
+import { IsNotExist } from '../../../utils/validators/is-not-exists.validator';
+import { lowerCaseTransformer } from '../../../utils/transformers/lower-case.transformer';
 
 export class CreateCooperatedDto {
   @ApiProperty({ example: 'test1@example.com' })

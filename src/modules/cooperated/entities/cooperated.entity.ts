@@ -1,6 +1,6 @@
-import { Column, AfterLoad, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { EntityHelper } from 'src/utils/entity-helper';
-import { Exclude, Expose } from 'class-transformer';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { EntityHelper } from '../../../utils/entity-helper';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class Cooperated extends EntityHelper {

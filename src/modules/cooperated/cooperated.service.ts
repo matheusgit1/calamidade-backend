@@ -3,9 +3,9 @@ import { CreateCooperatedDto } from './dto/create-cooperated.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cooperated } from './entities/cooperated.entity';
 import { DeepPartial, Repository } from 'typeorm';
-import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { EntityCondition } from 'src/utils/types/entity-condition.type';
-import { NullableType } from 'src/utils/types/nullable.type';
+import { IPaginationOptions } from '../../utils/types/pagination-options';
+import { EntityCondition } from '../../utils/types/entity-condition.type';
+import { NullableType } from '../../utils/types/nullable.type';
 
 @Injectable()
 export class CooperatedService {

@@ -21,16 +21,19 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../user/roles/roles.guard';
 import { UserRoleEnum } from '../user/enums/roles.enum';
 import { Roles } from '../user/roles/roles.decorator';
-import { InfinityPaginationResultType } from 'src/utils/types/infinity-pagination-result.type';
+import { InfinityPaginationResultType } from '../../utils/types/infinity-pagination-result.type';
 import { Cooperated } from './entities/cooperated.entity';
-import { infinityPagination } from 'src/utils/infinity-pagination';
-import { NullableType } from 'src/utils/types/nullable.type';
+import { infinityPagination } from '../../utils/infinity-pagination';
+import { NullableType } from '../../utils/types/nullable.type';
 
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user, UserRoleEnum.admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Cooperated')
-@Controller('cooperated')
+@Controller({
+  path: 'cooperated',
+  version: '1',
+})
 export class CooperatedController {
   constructor(private readonly cooperatedService: CooperatedService) {}
 
