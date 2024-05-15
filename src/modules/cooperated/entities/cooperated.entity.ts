@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { EntityHelper } from '../../../utils/entity-helper';
 import { Expose } from 'class-transformer';
 
@@ -19,4 +26,16 @@ export class Cooperated extends EntityHelper {
 
   @Column({ type: String, nullable: true })
   phone: string | null;
+
+  @Column({ type: String, nullable: true })
+  document: string | null;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

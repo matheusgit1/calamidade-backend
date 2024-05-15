@@ -5,39 +5,48 @@ import { APP_URL, TESTER_EMAIL, TESTER_PASSWORD } from '../utils/constants';
 
 describe('CooperatedController (e2e)', () => {
   let createdCooperatedId: number;
+  let token: string;
 
   const app = APP_URL;
 
-  it('Create new cooperated entity', async () => {
-    const cooperatedData: Partial<Cooperated> = {
-      email: 'fakeemail@gmail.com',
-      firstName: 'Morgan',
-      lastName: 'Stark',
-      phone: '+551677777777',
-    };
+  const cooperatedData: Partial<Cooperated> = {
+    email: `fakeemail2${Date.now()}@gmail.com`,
+    firstName: 'Morgan',
+    lastName: 'Stark',
+    phone: '+551677777777',
+    document: '222222221',
+  };
 
-    const token = await request(app)
+  beforeAll(async () => {
+    await request(app)
       .post('/api/v1/auth/email/login')
       .send({ email: TESTER_EMAIL, password: TESTER_PASSWORD })
-      .then(({ body }) => body.token);
+      .then(({ body }) => {
+        token = body.token;
+      });
 
-    const response = await request(app)
+    await request(app)
+      .post('/api/v1/cooperated')
+      .send(cooperatedData)
+      .auth(token, {
+        type: 'bearer',
+      })
+      .then(({ body }) => {
+        createdCooperatedId = body.id;
+      });
+  });
+
+  it('Create new cooperated entity', async () => {
+    await request(app)
       .post('/api/v1/cooperated')
       .auth(token, {
         type: 'bearer',
       })
-      .send(cooperatedData)
+      .send({ ...cooperatedData, email: `fakeemail2${Date.now()}-2@gmail.com` })
       .expect(HttpStatus.CREATED);
-
-    createdCooperatedId = response.body.id;
   });
 
   it('Retrieve list of cooperated entities', async () => {
-    const token = await request(app)
-      .post('/api/v1/auth/email/login')
-      .send({ email: TESTER_EMAIL, password: TESTER_PASSWORD })
-      .then(({ body }) => body.token);
-
     await request(app)
       .get('/api/v1/cooperated/list')
       .auth(token, {
@@ -47,11 +56,6 @@ describe('CooperatedController (e2e)', () => {
   });
 
   it('Retrieve a single cooperated entity by ID', async () => {
-    const token = await request(app)
-      .post('/api/v1/auth/email/login')
-      .send({ email: TESTER_EMAIL, password: TESTER_PASSWORD })
-      .then(({ body }) => body.token);
-
     await request(app)
       .get(`/api/v1/cooperated/${createdCooperatedId}`)
       .auth(token, {
@@ -60,18 +64,24 @@ describe('CooperatedController (e2e)', () => {
       .expect(HttpStatus.OK);
   });
 
-  it.skip('Update a cooperated entity', async () => {
+  it('Update a cooperated entity', async () => {
     const updatedCooperatedData: Partial<Cooperated> = {};
 
     await request(app)
       .patch(`/api/v1/cooperated/${createdCooperatedId}`)
+      .auth(token, {
+        type: 'bearer',
+      })
       .send(updatedCooperatedData)
       .expect(HttpStatus.OK);
   });
 
-  it.skip('Delete a cooperated entity', async () => {
+  it('Delete a cooperated entity', async () => {
     await request(app)
       .delete(`/api/v1/cooperated/${createdCooperatedId}`)
+      .auth(token, {
+        type: 'bearer',
+      })
       .expect(HttpStatus.NO_CONTENT);
   });
 });
