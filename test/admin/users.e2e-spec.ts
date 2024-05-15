@@ -1,7 +1,7 @@
 import { APP_URL, ADMIN_EMAIL, ADMIN_PASSWORD } from '../utils/constants';
 import request from 'supertest';
-import { RoleEnum } from '../../src/roles/roles.enum';
-import { StatusEnum } from '../../src/statuses/statuses.enum';
+import { UserRoleEnum } from '../../src/modules/user/enums/roles.enum';
+import { UserStatusEnum } from '../../src/modules/user/enums/status.enum';
 
 describe('Users admin (e2e)', () => {
   const app = APP_URL;
@@ -38,9 +38,9 @@ describe('Users admin (e2e)', () => {
       });
   });
 
-  it('Change password for new user: /api/v1/users/:id (PATCH)', () => {
+  it('Change password for new user: /api/v1/user/:id (PATCH)', () => {
     return request(app)
-      .patch(`/api/v1/users/${newUserFirst.id}`)
+      .patch(`/api/v1/user/${newUserFirst.id}`)
       .auth(apiToken, {
         type: 'bearer',
       })
@@ -58,9 +58,9 @@ describe('Users admin (e2e)', () => {
       });
   });
 
-  it('Fail create new user by admin: /api/v1/users (POST)', () => {
+  it('Fail create new user by admin: /api/v1/user (POST)', () => {
     return request(app)
-      .post(`/api/v1/users`)
+      .post(`/api/v1/user`)
       .auth(apiToken, {
         type: 'bearer',
       })
@@ -68,9 +68,9 @@ describe('Users admin (e2e)', () => {
       .expect(422);
   });
 
-  it('Success create new user by admin: /api/v1/users (POST)', () => {
+  it('Success create new user by admin: /api/v1/user (POST)', () => {
     return request(app)
-      .post(`/api/v1/users`)
+      .post(`/api/v1/user`)
       .auth(apiToken, {
         type: 'bearer',
       })
@@ -80,10 +80,10 @@ describe('Users admin (e2e)', () => {
         firstName: `UserByAdmin${Date.now()}`,
         lastName: 'E2E',
         role: {
-          id: RoleEnum.user,
+          id: UserRoleEnum.user,
         },
         status: {
-          id: StatusEnum.active,
+          id: UserStatusEnum.active,
         },
       })
       .expect(201);
@@ -102,9 +102,9 @@ describe('Users admin (e2e)', () => {
       });
   });
 
-  it('Get list of users by admin: /api/v1/users (GET)', () => {
+  it('Get list of users by admin: /api/v1/user (GET)', () => {
     return request(app)
-      .get(`/api/v1/users`)
+      .get(`/api/v1/user/list`)
       .auth(apiToken, {
         type: 'bearer',
       })
