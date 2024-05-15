@@ -1,0 +1,50 @@
+service: coopartilhar-serverless
+frameworkVersion: "3"
+useDotenv: true
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: sa-east-1
+  lambdaHashingVersion: 20201221
+  # stage: prd
+
+# Files on package
+package:
+  individually: true
+  patterns:
+    - "dist/**"
+    - "files/"
+    - "!package.json"
+    - "!package-lock.json"
+    - "!pnpm-lock.yaml"
+    - "!env-example"
+    - "!test/**"
+    - "!docs/**"
+    - "!.husky/**"
+    - "!.hygen*"
+    - "!*docker*"
+    - "!*Dockerfile*"
+    - "!*.md"
+    - "!*.sh"
+    - "!*.js"
+    - "!*.json"
+
+custom:
+  serverless-offline:
+    httpPort: 4000
+
+functions:
+  api:
+    handler: dist/handler.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{proxy+}
+          method: ANY

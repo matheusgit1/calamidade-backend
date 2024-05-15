@@ -14,7 +14,6 @@ https://trello.com/invite/b/jb3dm3Kh/ATTI193114154320787c87ca1380acdcf80cACEFCDC
 - [Docker](https://docs.docker.com/) com plugin [Docker compose](https://docs.docker.com/compose/).
 - [PostgreSQL](https://www.postgresql.org/docs/).
 
-
 # Instalação e execução do projeto
 
 Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>.
@@ -27,3 +26,7 @@ Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoder
 Contribuições são bem-vindas! Para contribuir com o projeto é necessário que através do Fork do projeto e aponte as alterações para a branch `development`. é necessário também que o template do pull request também seja preenchido explicando o motivo da mudança, como foi abordado e instruções de teste quando aplicável.
 
 ![image](https://github.com/Flutterando/calamidade-backend/assets/63257275/a4a9ffdf-a0b8-45a2-a13e-fbd5f2cb2f43)
+
+# Health
+
+https://p543yt5535.execute-api.sa-east-1.amazonaws.com/dev/core/app/health
