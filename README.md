@@ -19,7 +19,8 @@ https://trello.com/invite/b/jb3dm3Kh/ATTI193114154320787c87ca1380acdcf80cACEFCDC
 
 Este projeto foi criado utilizando exemplos <a href="https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md" target="_blank">boilerplate</a>.
 
-Para instalar e configurar este projeto localmente, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running.md).
+- Para instalar e configurar este projeto 100% localmente, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running.md).
+- Para instalar e configurar o projeto com as dependências locais, mas banco de dados remoto, siga os passos descritos [aqui](https://github.com/Flutterando/calamidade-backend/blob/master/docs/installing-and-running-db-remotely.md).
 
 # Como contribuir
 
