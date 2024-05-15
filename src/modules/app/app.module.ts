@@ -28,8 +28,6 @@ import { AllConfigType } from '../../config/config.type';
 import { SessionModule } from '../session/session.module';
 import { MailerModule } from '../../mailer/mailer.module';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor } from '../../infrastructure/interceptors/logging.interceptor';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -74,15 +72,6 @@ import { AppService } from './app.service';
     AppModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    //{ provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
-    /**
-     * In a future scenario where it is interesting to use request tracing via xRay in AWS, simply enable this logging
-     */
-    /**
-     * { provide: APP_INTERCEPTOR, useClass: XRayInterceptor }
-     */
-  ],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
