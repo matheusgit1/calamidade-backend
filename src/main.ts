@@ -1,16 +1,11 @@
-import {
-  ClassSerializerInterceptor,
-  INestApplication,
-  ValidationPipe,
-  VersioningType,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { NestFactory, Reflector } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { useContainer } from 'class-validator';
-import { AppModule } from './app.module';
-import { AllConfigType } from './config/config.type';
-import validationOptions from './utils/validation-options';
+import { ClassSerializerInterceptor, INestApplication, ValidationPipe, VersioningType } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { NestFactory, Reflector } from "@nestjs/core";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { useContainer } from "class-validator";
+import { AllConfigType } from "./config/config.type";
+import { AppModule } from "./modules/app/app.module";
+import validationOptions from "./utils/validation-options";
 
 interface AppBootStrap {
   app: INestApplication;
@@ -26,8 +21,8 @@ export async function bootstrap(): Promise<AppBootStrap> {
   const config = app.get(ConfigService<AllConfigType>);
 
   app.enableShutdownHooks();
-  app.setGlobalPrefix(config.getOrThrow('app.apiPrefix', { infer: true }), {
-    exclude: ['/'],
+  app.setGlobalPrefix(config.getOrThrow("app.apiPrefix", { infer: true }), {
+    exclude: ["/"],
   });
 
   app.enableVersioning({
@@ -36,16 +31,18 @@ export async function bootstrap(): Promise<AppBootStrap> {
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  //app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)), new LoggingInterceptor());
+  //app.useGlobalFilters(new CustomExceptionFilter());
 
-  const options = new DocumentBuilder()
-    .setTitle('API')
-    .setDescription('API docs')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  /**
+   * use in case of implementing trace via aws xray
+   */
+  // app.use(AWSXray.express.openSegment(process.env.APP_NAME || 'calamidade-backend));
+
+  const options = new DocumentBuilder().setTitle("API").setDescription("API docs").setVersion("1.0").addBearerAuth().build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup("docs", app, document);
 
   return { app, config };
 }
