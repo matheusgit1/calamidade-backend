@@ -29,9 +29,9 @@ import { NullableType } from '../../utils/types/nullable.type';
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user, UserRoleEnum.admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@ApiTags('Cooperated')
+@ApiTags('cooperateds')
 @Controller({
-  path: 'cooperated',
+  path: 'cooperateds',
   version: '1',
 })
 export class CooperatedController {
