@@ -7,10 +7,11 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
-import { AppModule } from './app.module';
+import { AppModule } from './modules/app/app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { CustomExceptionFilter } from './infrastructure/filters/custom-exception-filter';
+import { LoggingInterceptor } from './infrastructure/interceptors/logging.interceptor';
 
 /**
  * use in case of implementing trace via aws xray
@@ -39,7 +40,8 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  app.useGlobalFilters(new CustomExceptionFilter());
+  //app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)), new LoggingInterceptor());
+  //app.useGlobalFilters(new CustomExceptionFilter());
 
   /**
    * use in case of implementing trace via aws xray
