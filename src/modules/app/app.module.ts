@@ -1,55 +1,39 @@
-import { Module } from '@nestjs/common';
-import databaseConfig from '../../config/database.config';
-import authConfig from '../../config/auth.config';
-import appConfig from '../../config/app.config';
-import mailConfig from '../../config/mail.config';
-import fileConfig from '../../config/file.config';
-import facebookConfig from '../../config/facebook.config';
-import googleConfig from '../../config/google.config';
-import twitterConfig from '../../config/twitter.config';
-import appleConfig from '../../config/apple.config';
-import path from 'path';
+import { Module } from "@nestjs/common";
+import appConfig from "../../config/app.config";
+import appleConfig from "../../config/apple.config";
+import authConfig from "../../config/auth.config";
+import databaseConfig from "../../config/database.config";
+import facebookConfig from "../../config/facebook.config";
+import fileConfig from "../../config/file.config";
+import googleConfig from "../../config/google.config";
+import mailConfig from "../../config/mail.config";
+import twitterConfig from "../../config/twitter.config";
 
-import { UsersModule } from '../user/users.module';
-import { FilesModule } from '../files/files.module';
-import { AuthModule } from '../auth/auth.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthAppleModule } from '../auth/social/apple/auth-apple.module';
-import { AuthFacebookModule } from '../auth/social/facebook/auth-facebook.module';
-import { AuthGoogleModule } from '../auth/social/google/auth-google.module';
-import { AuthTwitterModule } from '../auth/social/twitter/auth-twitter.module';
-import { TypeOrmConfigService } from '../../database/typeorm-config.service';
-import { ForgotModule } from '../forgot/forgot.module';
-import { MailModule } from '../../mail/mail.module';
-import { HomeModule } from '../home/home.module';
-import { DataSource, DataSourceOptions } from 'typeorm';
-import { AllConfigType } from '../../config/config.type';
-import { SessionModule } from '../session/session.module';
-import { MailerModule } from '../../mailer/mailer.module';
-import { DevtoolsModule } from '@nestjs/devtools-integration';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
+import { TypeOrmConfigService } from "../../database/typeorm-config.service";
+import { MailModule } from "../../mail/mail.module";
+import { MailerModule } from "../../mailer/mailer.module";
+import { AuthModule } from "../auth/auth.module";
+import { AuthAppleModule } from "../auth/social/apple/auth-apple.module";
+import { AuthFacebookModule } from "../auth/social/facebook/auth-facebook.module";
+import { AuthGoogleModule } from "../auth/social/google/auth-google.module";
+import { AuthTwitterModule } from "../auth/social/twitter/auth-twitter.module";
+import { FilesModule } from "../files/files.module";
+import { ForgotModule } from "../forgot/forgot.module";
+import { HomeModule } from "../home/home.module";
+import { SessionModule } from "../session/session.module";
+import { UsersModule } from "../user/users.module";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 
 @Module({
   imports: [
-    DevtoolsModule.register({
-      http: process.env.NODE_ENV !== 'production',
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [
-        databaseConfig,
-        authConfig,
-        appConfig,
-        mailConfig,
-        fileConfig,
-        facebookConfig,
-        googleConfig,
-        twitterConfig,
-        appleConfig,
-      ],
-      envFilePath: ['.env'],
+      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig, facebookConfig, googleConfig, twitterConfig, appleConfig],
+      envFilePath: [".env"],
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
@@ -74,4 +58,4 @@ import { AppService } from './app.service';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

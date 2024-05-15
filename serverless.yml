@@ -1,5 +1,5 @@
 service: coopartilhar-serverless
-frameworkVersion: '3'
+frameworkVersion: "3"
 useDotenv: true
 
 plugins:
@@ -17,18 +17,22 @@ provider:
 package:
   individually: true
   patterns:
-    - 'src/**'
-    - '!package.json'
-    - '!package-lock.json'
-    - '!pnpm-lock.yaml'
-    - '!test/**'
-    - '!docs/**'
-    - '!.husky/**'
-    - '!.hygen/**'
-    - '!*docker*'
-    - '!*Dockerfile*'
-    - '!*.sh'
-    - '!*.json'
+    - "dist/**"
+    - "files/"
+    - "!package.json"
+    - "!package-lock.json"
+    - "!pnpm-lock.yaml"
+    - "!env-example"
+    - "!test/**"
+    - "!docs/**"
+    - "!.husky/**"
+    - "!.hygen*"
+    - "!*docker*"
+    - "!*Dockerfile*"
+    - "!*.md"
+    - "!*.sh"
+    - "!*.js"
+    - "!*.json"
 
 custom:
   serverless-offline:
