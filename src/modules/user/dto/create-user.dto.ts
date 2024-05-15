@@ -48,13 +48,13 @@ export class CreateUserDto {
   photo?: FileEntity | null;
 
   @ApiProperty({ type: UserRole })
-  @Validate(IsExist, ['Role', 'id'], {
+  @Validate(IsExist, ['UserRole', 'id'], {
     message: 'roleNotExists',
   })
   role?: UserRole | null;
 
   @ApiProperty({ type: UserStatus })
-  @Validate(IsExist, ['Status', 'id'], {
+  @Validate(IsExist, ['UserStatus', 'id'], {
     message: 'statusNotExists',
   })
   status?: UserStatus;

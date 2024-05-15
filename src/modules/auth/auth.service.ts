@@ -213,13 +213,6 @@ export class AuthService {
       } as UserStatus,
       hash,
     });
-
-    await this.mailService.userSignUp({
-      to: dto.email,
-      data: {
-        hash,
-      },
-    });
   }
 
   async confirmEmail(hash: string): Promise<void> {
@@ -381,11 +374,11 @@ export class AuthService {
   }
 
   async refreshToken(
-    data: Pick<JwtRefreshPayloadType, 'sessionId'>,
+    sessionId: number,
   ): Promise<Omit<LoginResponseType, 'user'>> {
     const session = await this.sessionService.findOne({
       where: {
-        id: data.sessionId,
+        id: sessionId,
       },
     });
 
