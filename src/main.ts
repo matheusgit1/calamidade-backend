@@ -1,7 +1,6 @@
 import { ClassSerializerInterceptor, INestApplication, ValidationPipe, VersioningType } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory, Reflector } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { useContainer } from "class-validator";
 import { AllConfigType } from "./config/config.type";
 import { AppModule } from "./modules/app/app.module";
@@ -38,11 +37,6 @@ export async function bootstrap(): Promise<AppBootStrap> {
    * use in case of implementing trace via aws xray
    */
   // app.use(AWSXray.express.openSegment(process.env.APP_NAME || 'calamidade-backend));
-
-  const options = new DocumentBuilder().setTitle("API").setDescription("API docs").setVersion("1.0").addBearerAuth().build();
-
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup("docs", app, document);
 
   return { app, config };
 }

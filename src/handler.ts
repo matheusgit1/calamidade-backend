@@ -1,14 +1,10 @@
-import serverlessExpress from '@codegenie/serverless-express';
-import { Callback, Context, Handler } from 'aws-lambda';
-import { bootstrap } from './main';
+import serverlessExpress from "@codegenie/serverless-express";
+import { Callback, Context, Handler } from "aws-lambda";
+import { bootstrap } from "./main";
 
 let server: Handler;
 
-export const handler: Handler = async (
-  event: any,
-  context: Context,
-  callback: Callback,
-) => {
+export const handler: Handler = async (event: any, context: Context, callback: Callback) => {
   const { app } = await bootstrap();
   await app.init();
 
