@@ -1,6 +1,8 @@
 # compiled output
 /dist
 /node_modules
+/.build
+/.serverless
 
 # Logs
 logs
@@ -38,3 +40,6 @@ lerna-debug.log*
 /files
 .env
 /ormconfig.json
+package-lock.json
+yarn.lock
+pnp-lock.yml
