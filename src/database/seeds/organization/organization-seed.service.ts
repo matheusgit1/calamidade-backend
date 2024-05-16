@@ -23,7 +23,7 @@ export class OrganizationSeedService {
     if (!countOrganization) {
       const manager = await this.userRepository.findOne({
         where: {
-          id: 1,
+          email: 'john.stark@coopartilhar.com',
         },
       });
 
