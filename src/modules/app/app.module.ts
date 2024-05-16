@@ -28,6 +28,7 @@ import { UsersModule } from "../user/users.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CooperatedModule } from "../cooperated/cooperated.module";
+import { OrganizationModule } from "../organization/organization.module";
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { CooperatedModule } from "../cooperated/cooperated.module";
     HomeModule,
     AppModule,
     CooperatedModule,
+    OrganizationModule
   ],
   controllers: [AppController],
   providers: [AppService],

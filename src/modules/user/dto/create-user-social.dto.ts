@@ -15,7 +15,7 @@ import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
 import { Organization } from 'src/modules/organization/entities/organization.entity';
 
-export class CreateUserDto {
+export class CreateUserSocialDto {
   @ApiProperty({ example: 'test1@example.com' })
   @Transform(lowerCaseTransformer)
   @IsNotEmpty()
@@ -60,13 +60,6 @@ export class CreateUserDto {
   })
   status?: UserStatus;
   
-  @ApiProperty({ type: Organization })
-  @Validate(IsExist, ['Organization', 'id'], {
-    message: 'OrganizationNotExists',
-  })
-  organization?: Organization | null;
-
   hash?: string | null;
-
 
 }

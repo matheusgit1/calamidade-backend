@@ -31,17 +31,19 @@ import { SessionService } from 'src/modules/session/session.service';
 import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.type';
 import { Session } from 'src/modules/session/entities/session.entity';
 import { JwtPayloadType } from './strategies/types/jwt-payload.type';
+import { OrganizationService } from 'src/modules/organization/organization.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private usersService: UsersService,
+    private organizationService: OrganizationService,
     private forgotService: ForgotService,
     private sessionService: SessionService,
     private mailService: MailService,
     private configService: ConfigService<AllConfigType>,
-  ) {}
+  ) { }
 
   async validateLogin(
     loginDto: AuthEmailLoginDto,
@@ -118,7 +120,7 @@ export class AuthService {
 
   async validateSocialLogin(
     authProvider: string,
-    socialData: SocialInterface,
+    socialData: SocialInterface
   ): Promise<LoginResponseType> {
     let user: NullableType<User>;
     const socialEmail = socialData.email?.toLowerCase();
@@ -147,6 +149,10 @@ export class AuthService {
         id: UserStatusEnum.active,
       });
 
+      var organizationById = await this.organizationService.findOne({ document: '92935741000182', })
+
+
+
       user = await this.usersService.create({
         email: socialEmail ?? null,
         firstName: socialData.firstName ?? null,
@@ -155,6 +161,7 @@ export class AuthService {
         provider: authProvider,
         role,
         status,
+        organization: organizationById
       });
 
       user = await this.usersService.findOne({
@@ -196,15 +203,15 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void> {
+  async register(data: AuthRegisterLoginDto): Promise<void> {
     const hash = crypto
       .createHash('sha256')
       .update(randomStringGenerator())
       .digest('hex');
 
     await this.usersService.create({
-      ...dto,
-      email: dto.email,
+      ...data,
+      email: data.email,
       role: {
         id: UserRoleEnum.user,
       } as UserRole,
