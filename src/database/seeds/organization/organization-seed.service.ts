@@ -36,6 +36,7 @@ export class OrganizationSeedService {
             manager: manager,
           }),
         );
+        console.info('Organization created');
       } else {
         console.error('Manager with id 1 not found. Organization creation skipped.');
       }
