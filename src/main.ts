@@ -6,6 +6,7 @@ import { AllConfigType } from "./config/config.type";
 import { AppModule } from "./modules/app/app.module";
 import validationOptions from "./utils/validation-options";
 import { CustomExceptionFilter } from "./infrastructure/filters/custom-exception-filter";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 interface AppBootStrap {
   app: INestApplication;
@@ -38,6 +39,11 @@ export async function bootstrap(): Promise<AppBootStrap> {
    * use in case of implementing trace via aws xray
    */
   // app.use(AWSXray.express.openSegment(process.env.APP_NAME || 'calamidade-backend));
+
+  const options = new DocumentBuilder().setTitle("API").setDescription("API docs").setVersion("1.0").addBearerAuth().build();
+  const document = SwaggerModule.createDocument(app, options);
+
+  SwaggerModule.setup("docs", app, document);
 
   return { app, config };
 }

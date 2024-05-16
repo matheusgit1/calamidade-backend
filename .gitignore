@@ -37,9 +37,11 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .data
-/files
+!/files/.keep
 .env
 /ormconfig.json
 package-lock.json
 yarn.lock
 pnp-lock.yml
+
+.env.**
