@@ -25,14 +25,14 @@ describe('CooperatedController (e2e)', () => {
 
   beforeAll(async () => {
     await request(app)
-      .post('/api/v1/auth/email/login')
+      .post(`/${process.env.API_PREFIX}/v1/auth/email/login`)
       .send({ email: TESTER_EMAIL, password: TESTER_PASSWORD })
       .then(({ body }) => {
         token = body.token;
       });
 
     await request(app)
-      .post('/api/v1/cooperateds')
+      .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
       .send(cooperatedData)
       .auth(token, {
         type: 'bearer',
@@ -44,7 +44,7 @@ describe('CooperatedController (e2e)', () => {
 
   it('Create new cooperated entity', async () => {
     await request(app)
-      .post('/api/v1/cooperateds')
+      .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
       .auth(token, {
         type: 'bearer',
       })
@@ -54,7 +54,7 @@ describe('CooperatedController (e2e)', () => {
 
   it('Retrieve list of cooperated entities', async () => {
     await request(app)
-      .get('/api/v1/cooperateds/list')
+      .get(`/${process.env.API_PREFIX}/v1/cooperateds/list`)
       .auth(token, {
         type: 'bearer',
       })
@@ -63,7 +63,7 @@ describe('CooperatedController (e2e)', () => {
 
   it('Retrieve a single cooperated entity by ID', async () => {
     await request(app)
-      .get(`/api/v1/cooperateds/${createdCooperatedId}`)
+      .get(`/${process.env.API_PREFIX}/v1/cooperateds/${createdCooperatedId}`)
       .auth(token, {
         type: 'bearer',
       })
@@ -74,7 +74,7 @@ describe('CooperatedController (e2e)', () => {
     const updatedCooperatedData: Partial<Cooperated> = {};
 
     await request(app)
-      .patch(`/api/v1/cooperateds/${createdCooperatedId}`)
+      .patch(`/${process.env.API_PREFIX}/v1/cooperateds/${createdCooperatedId}`)
       .auth(token, {
         type: 'bearer',
       })
@@ -84,7 +84,7 @@ describe('CooperatedController (e2e)', () => {
 
   it('Delete a cooperated entity', async () => {
     await request(app)
-      .delete(`/api/v1/cooperateds/${createdCooperatedId}`)
+      .delete(`/${process.env.API_PREFIX}/v1/cooperateds/${createdCooperatedId}`)
       .auth(token, {
         type: 'bearer',
       })
@@ -102,13 +102,13 @@ describe('CooperatedController (e2e)', () => {
 
     let adminToken: string;
     const res = await request(app)
-      .post('/api/v1/auth/admin/email/login')
+      .post(`/${process.env.API_PREFIX}/v1/auth/admin/email/login`)
       .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
 
     adminToken = res.body.token;
 
     await request(app)
-      .post('/api/v1/cooperateds/bulk')
+      .post(`/${process.env.API_PREFIX}/v1/cooperateds/bulk`)
       .auth(adminToken, {
         type: 'bearer',
       })
@@ -129,7 +129,7 @@ describe('CooperatedController (e2e)', () => {
     }));
 
     await request(app)
-      .post('/api/v1/cooperateds/bulk')
+      .post(`/${process.env.API_PREFIX}/v1/cooperateds/bulk`)
       .auth(token, {
         type: 'bearer',
       })
