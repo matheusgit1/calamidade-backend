@@ -13,9 +13,6 @@ import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
 import { SessionModule } from 'src/modules/session/session.module';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { CooperatedService } from '../cooperated/cooperated.service';
-import { CooperatedModule } from '../cooperated/cooperated.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Cooperated } from '../cooperated/entities/cooperated.entity';
 
 @Module({
   imports: [
