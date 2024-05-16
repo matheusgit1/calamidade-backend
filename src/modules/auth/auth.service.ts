@@ -26,6 +26,7 @@ import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.ty
 import { Session } from "src/modules/session/entities/session.entity";
 import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
 import { CooperatedService } from "../cooperated/cooperated.service";
+import { AuthProvidersEnum } from "./auth-providers.enum";
 
 @Injectable()
 export class AuthService {
@@ -58,17 +59,17 @@ export class AuthService {
       );
     }
 
-    // if (user.provider !== AuthProvidersEnum.email) {
-    //   throw new HttpException(
-    //     {
-    //       status: HttpStatus.UNPROCESSABLE_ENTITY,
-    //       errors: {
-    //         email: `needLoginViaProvider:${user.provider}`,
-    //       },
-    //     },
-    //     HttpStatus.UNPROCESSABLE_ENTITY,
-    //   );
-    // }
+    if (user.provider !== AuthProvidersEnum.email) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            email: `needLoginViaProvider:${user.provider}`,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
 
     const isValidPassword = await bcrypt.compare(loginDto.password, user.password);
 
