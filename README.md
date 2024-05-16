@@ -6,7 +6,7 @@ Este projeto contempla a implementação da API usada no projeto <a href="https:
 
 # Board de tasks
 
-[https://trello.com/invite/b/jb3dm3Kh/ATTI193114154320787c87ca1380acdcf80cACEFCDC9/desenvolvimento-api](https://trello.com/c/Vq5QBynY/27-orienta%C3%A7%C3%B5es-para-contribuidores-readme)
+https://trello.com/c/Vq5QBynY/27-orienta%C3%A7%C3%B5es-para-contribuidores-readme
 
 # Tecnologias Utilizadas
 
