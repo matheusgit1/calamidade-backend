@@ -45,10 +45,11 @@ export class CooperatedController {
   })
   @Post("/document/validate")
   @HttpCode(HttpStatus.OK)
-  public async validateDocument(@Body() body: GetDocumentBodyDto): Promise<{
-    name: string | null;
-    document: string | null;
-  }> {
+  public async validateDocument(@Body() body: GetDocumentBodyDto): Promise<{name?: string,
+    document?: string,
+    email?: string,
+    phone?: string}
+  > {
     return await this.cooperatedService.validateDocument(body.document);
   }
 

@@ -54,9 +54,12 @@ export class CooperatedService {
   }
 
   
-  async validateDocument(document: string): Promise<{name: string, document: string}> {
+  async validateDocument(document: string): Promise<{name?: string,
+    document?: string,
+    email?: string,
+    phone?: string}
+  > {
     const cooperated = await this.cooperatedRepository.findOne({where: { document: document.replace(/[^0-9]/g, "") }});
-
     if (!cooperated) {
       throw new HttpException(
         {
@@ -68,8 +71,10 @@ export class CooperatedService {
     }
 
     return {
-      name: cooperated.firstName || "",
+      name: `${cooperated.firstName} ${cooperated.lastName}` || "",
       document: cooperated.document || "",
+      email: cooperated.email || "",
+      phone: cooperated.phone || "",
     };
   }
 }
