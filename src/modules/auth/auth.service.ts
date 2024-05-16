@@ -25,7 +25,7 @@ import { SessionService } from "src/modules/session/session.service";
 import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 import { Session } from "src/modules/session/entities/session.entity";
 import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { CooperatedService } from "../cooperated/cooperated.service";
+import { AuthProvidersEnum } from "./auth-providers.enum";
 
 @Injectable()
 export class AuthService {
@@ -36,15 +36,12 @@ export class AuthService {
     private sessionService: SessionService,
     private mailService: MailService,
     private configService: ConfigService<AllConfigType>,
-    private cooperatedService: CooperatedService,
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto, onlyAdmin: boolean): Promise<LoginResponseType> {
     const user = await this.usersService.findOne({
       email: loginDto.email,
     });
-    const validation = !user || (user?.role && !(onlyAdmin ? [UserRoleEnum.admin] : [UserRoleEnum.user]).includes(user.role.id));
-    console.log(user, validation);
 
     if (!user || (user?.role && !(onlyAdmin ? [UserRoleEnum.admin] : [UserRoleEnum.user]).includes(user.role.id))) {
       throw new HttpException(
@@ -58,17 +55,17 @@ export class AuthService {
       );
     }
 
-    // if (user.provider !== AuthProvidersEnum.email) {
-    //   throw new HttpException(
-    //     {
-    //       status: HttpStatus.UNPROCESSABLE_ENTITY,
-    //       errors: {
-    //         email: `needLoginViaProvider:${user.provider}`,
-    //       },
-    //     },
-    //     HttpStatus.UNPROCESSABLE_ENTITY,
-    //   );
-    // }
+    if (user.provider !== AuthProvidersEnum.email) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            email: `needLoginViaProvider:${user.provider}`,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
 
     const isValidPassword = await bcrypt.compare(loginDto.password, user.password);
 
@@ -416,25 +413,6 @@ export class AuthService {
       token,
       refreshToken,
       tokenExpires,
-    };
-  }
-
-  async validateDocument(document: string): Promise<{ name: string | null; document: string | null }> {
-    const cooperated = await this.cooperatedService.findOne({ document: document.replace(/[^0-9]/g, "") });
-
-    if (!cooperated) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          errors: "Uncooperative",
-        },
-        HttpStatus.NOT_FOUND,
-      );
-    }
-
-    return {
-      name: cooperated.firstName || "",
-      document: cooperated.document || "",
     };
   }
 }

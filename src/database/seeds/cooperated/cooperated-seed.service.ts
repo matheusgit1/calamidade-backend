@@ -17,26 +17,26 @@ export class CooperatedSeedService {
       await this.repository.save([
         {
           email: "admin1@example.com",
-          firstName: "firstName",
-          lastName: "lastName",
+          firstName: "admin",
+          lastName: "example",
           document: "28839550003",
         },
         {
           email: "admin2@example.com",
-          firstName: "firstName",
-          lastName: "lastName",
+          firstName: "admin2",
+          lastName: "example",
           document: "13353030069",
         },
         {
           email: "admin3@example.com",
-          firstName: "firstName",
-          lastName: "lastName",
+          firstName: "admin3",
+          lastName: "example",
           document: "14267215014",
         },
         {
           email: "admin4@example.com",
-          firstName: "firstName",
-          lastName: "lastName",
+          firstName: "admin4",
+          lastName: "example",
           document: "64349485066",
         },
       ]);
