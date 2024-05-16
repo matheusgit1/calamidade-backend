@@ -3,7 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { URL } from 'url';
 
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = `postgresql://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`;
 if (!databaseUrl) {
   throw new Error('Database URL is not defined');
 }
