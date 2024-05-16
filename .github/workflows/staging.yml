@@ -25,5 +25,13 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Deploy Serverless
-        run: npm run build:deploy
+      - name: Build typescript
+        run: npm run build
+
+      - name: Serverless deploy
+        uses: serverless/github-action@v3.2.0
+        with:
+          args: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
