@@ -23,6 +23,7 @@ import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
 import { LoginResponseType } from './types/login-response.type';
 import { User } from '../user/entities/user.entity';
 import { NullableType } from '../../utils/types/nullable.type';
+import { GetDocumentBodyDto } from './dto/auth-get-document.dto';
 
 @ApiTags('Auth')
 @Controller({
@@ -31,6 +32,20 @@ import { NullableType } from '../../utils/types/nullable.type';
 })
 export class AuthController {
   constructor(private readonly service: AuthService) {}
+
+  
+  @ApiBearerAuth()
+  @SerializeOptions({
+    groups: ["me"],
+  })
+  @Post("/document/validate")
+  @HttpCode(HttpStatus.OK)
+  public async validateDocument(@Body() body: GetDocumentBodyDto): Promise<{
+    name: string | null;
+    document: string | null;
+  }> {
+    return await this.service.validateDocument(body.document);
+  }
 
   @SerializeOptions({
     groups: ['me'],

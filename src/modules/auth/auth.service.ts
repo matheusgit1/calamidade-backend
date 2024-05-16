@@ -12,7 +12,6 @@ import crypto from "crypto";
 import { plainToClass } from "class-transformer";
 import { UserStatus } from "src/modules/user/entities/user-status.entity";
 import { UserRole } from "src/modules/user/entities/user-role.entity";
-import { AuthProvidersEnum } from "./auth-providers.enum";
 import { SocialInterface } from "src/modules/auth/social/interfaces/social.interface";
 import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
 import { UsersService } from "src/modules/user/users.service";
@@ -26,6 +25,7 @@ import { SessionService } from "src/modules/session/session.service";
 import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 import { Session } from "src/modules/session/entities/session.entity";
 import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
+import { CooperatedService } from "../cooperated/cooperated.service";
 
 @Injectable()
 export class AuthService {
@@ -36,6 +36,7 @@ export class AuthService {
     private sessionService: SessionService,
     private mailService: MailService,
     private configService: ConfigService<AllConfigType>,
+    private cooperatedService: CooperatedService,
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto, onlyAdmin: boolean): Promise<LoginResponseType> {
@@ -415,6 +416,25 @@ export class AuthService {
       token,
       refreshToken,
       tokenExpires,
+    };
+  }
+
+  async validateDocument(document: string): Promise<{ name: string | null; document: string | null }> {
+    const cooperated = await this.cooperatedService.findOne({ document: document.replace(/[^0-9]/g, "") });
+
+    if (!cooperated) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: "Uncooperative",
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      name: cooperated.firstName || "",
+      document: cooperated.document || "",
     };
   }
 }

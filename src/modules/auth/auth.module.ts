@@ -12,6 +12,10 @@ import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
 import { SessionModule } from 'src/modules/session/session.module';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { CooperatedService } from '../cooperated/cooperated.service';
+import { CooperatedModule } from '../cooperated/cooperated.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Cooperated } from '../cooperated/entities/cooperated.entity';
 
 @Module({
   imports: [
@@ -21,6 +25,7 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
     PassportModule,
     MailModule,
     JwtModule.register({}),
+    CooperatedModule, TypeOrmModule.forFeature([Cooperated])
   ],
   controllers: [AuthController],
   providers: [
@@ -30,7 +35,8 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
     JwtStrategy,
     JwtRefreshStrategy,
     AnonymousStrategy,
+    CooperatedService
   ],
-  exports: [AuthService],
+  exports: [AuthService, CooperatedService],
 })
 export class AuthModule {}
