@@ -149,9 +149,20 @@ export class AuthService {
         id: UserStatusEnum.active,
       });
 
-      var organizationById = await this.organizationService.findOne({ document: '92935741000182', })
+      const organizationById = await this.organizationService.findOne({ document: '92935741000182' });
 
-
+      // Verificar se a organização foi encontrada
+      if (!organizationById) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNPROCESSABLE_ENTITY,
+            errors: {
+              organization: 'organizationNotFound',
+            },
+          },
+          HttpStatus.UNPROCESSABLE_ENTITY
+        );
+      }
 
       user = await this.usersService.create({
         email: socialEmail ?? null,
@@ -161,7 +172,7 @@ export class AuthService {
         provider: authProvider,
         role,
         status,
-        organization: organizationById
+        //organization: organizationById
       });
 
       user = await this.usersService.findOne({
@@ -204,6 +215,7 @@ export class AuthService {
   }
 
   async register(data: AuthRegisterLoginDto): Promise<void> {
+    console.log(data);
     const hash = crypto
       .createHash('sha256')
       .update(randomStringGenerator())

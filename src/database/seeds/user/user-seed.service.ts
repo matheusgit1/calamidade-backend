@@ -26,7 +26,7 @@ export class UserSeedService {
         this.repository.create({
           firstName: 'Super',
           lastName: 'Admin',
-          email: 'admin@example.com',
+          email: 'admin@coopartilhar.com.br',
           password: 'password123',
           role: {
             id: UserRoleEnum.admin,

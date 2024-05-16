@@ -60,13 +60,6 @@ export class CreateUserDto {
   })
   status?: UserStatus;
   
-  @ApiProperty({ type: Organization })
-  @Validate(IsExist, ['Organization', 'id'], {
-    message: 'OrganizationNotExists',
-  })
-  organization?: Organization | null;
-
   hash?: string | null;
-
-
+  
 }
