@@ -25,7 +25,6 @@ import { SessionService } from "src/modules/session/session.service";
 import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 import { Session } from "src/modules/session/entities/session.entity";
 import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { CooperatedService } from "../cooperated/cooperated.service";
 import { AuthProvidersEnum } from "./auth-providers.enum";
 
 @Injectable()
