@@ -22,7 +22,7 @@
     "build:deploy": "npm run build && sls deploy --stage dev",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:off": "sls offline start --reloadHandler --stage dev",
+    "start:off": "npm run build && sls offline start --reloadHandler --stage dev",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

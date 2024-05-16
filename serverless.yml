@@ -16,6 +16,9 @@ provider:
 
   logRetentionInDays: 30
 
+  environment:
+    DATABASE_PASSWORD: ${env:DATABASE_PASSWORD}
+
 # Files on package
 package:
   individually: true
@@ -68,5 +71,6 @@ functions:
           - '*'
         allowedMethods:
           - '*'
+
     layers:
       - arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:51

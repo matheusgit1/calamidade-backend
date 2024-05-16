@@ -43,3 +43,5 @@ lerna-debug.log*
 package-lock.json
 yarn.lock
 pnp-lock.yml
+
+.env.**
