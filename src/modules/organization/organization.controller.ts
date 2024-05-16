@@ -8,7 +8,7 @@ import { UserRoleEnum } from '../user/enums/roles.enum';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../user/roles/roles.guard';
 import { NullableType } from 'src/utils/types/nullable.type';
-import { Organization } from './entities/organization.entity';
+import { OrganizationEntity } from './entities/organization.entity';
 
 @ApiBearerAuth()
 @Roles(UserRoleEnum.admin)
@@ -34,7 +34,7 @@ export class OrganizationController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string): Promise<NullableType<Organization>> {
+  findOne(@Param('id') id: string): Promise<NullableType<OrganizationEntity>> {
     return this.organizationService.findOne({ id: +id });
   }
 

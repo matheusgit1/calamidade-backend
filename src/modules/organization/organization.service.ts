@@ -1,7 +1,7 @@
 import { Body, Injectable } from '@nestjs/common';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
-import { Organization } from './entities/organization.entity';
+import { OrganizationEntity } from './entities/organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
@@ -11,8 +11,8 @@ import { NullableType } from 'src/utils/types/nullable.type';
 export class OrganizationService {
 
   constructor(
-    @InjectRepository(Organization)
-    private organizationRepository: Repository<Organization>,
+    @InjectRepository(OrganizationEntity)
+    private organizationRepository: Repository<OrganizationEntity>,
   ) { }
 
   create(createOrganizationDto) {
@@ -26,7 +26,7 @@ export class OrganizationService {
     return `This action returns all organization`;
   }
 
-  findOne(fields: EntityCondition<Organization>): Promise<NullableType<Organization>> {
+  findOne(fields: EntityCondition<OrganizationEntity>): Promise<NullableType<OrganizationEntity>> {
     return this.organizationRepository.findOne({
       where: fields,
     });

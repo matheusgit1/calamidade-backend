@@ -26,5 +26,6 @@ export class StatusSeedService {
         }),
       ]);
     }
+    console.log("Finalizou Seed -  UserStatus")
   }
 }

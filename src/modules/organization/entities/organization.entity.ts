@@ -1,9 +1,9 @@
 import { User } from 'src/modules/user/entities/user.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('organization')
-export class Organization extends EntityHelper {
+@Entity({ name: 'organization' })
+export class OrganizationEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -14,6 +14,7 @@ export class Organization extends EntityHelper {
   email: string | null;
 
   @Column({ type: 'varchar', unique: true })
+  @Index()
   document: string;
 
   @Column({ type: 'varchar', nullable: true })
@@ -31,8 +32,8 @@ export class Organization extends EntityHelper {
   @Column({ type: 'varchar', nullable: true })
   address_zipcode?: string | null;
 
-  @ManyToOne(() => User, { eager: true })
-  manager: User;
+  @ManyToOne(() => User, { eager: false })
+  manager?: User | null;
 
   @CreateDateColumn()
   createdAt: Date;

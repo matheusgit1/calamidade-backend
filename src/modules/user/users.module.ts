@@ -5,10 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
-import { Organization } from '../organization/entities/organization.entity';
+import { OrganizationEntity } from '../organization/entities/organization.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Organization])],
+  imports: [TypeOrmModule.forFeature([User, OrganizationEntity])],
   controllers: [UsersController],
   providers: [IsExist, IsNotExist, UsersService],
   exports: [UsersService],

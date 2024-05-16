@@ -1,6 +1,5 @@
 import {
   Column,
-  AfterLoad,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -10,6 +9,7 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  AfterLoad,
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { UserStatus } from './user-status.entity';
@@ -18,9 +18,9 @@ import bcrypt from 'bcryptjs';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
-import { Organization } from 'src/modules/organization/entities/organization.entity';
+import { OrganizationEntity } from 'src/modules/organization/entities/organization.entity';
 
-@Entity('user')
+@Entity({ name: 'user' })
 export class User extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
@@ -71,6 +71,10 @@ export class User extends EntityHelper {
 
   @ManyToOne(() => FileEntity, { eager: true })
   photo?: FileEntity | null;
+
+  @ManyToOne(() => OrganizationEntity, { eager: true })
+  @Expose({ groups: ['me', 'admin'] })
+  organization?: OrganizationEntity | null;
 
   @ManyToOne(() => UserRole, { eager: true })
   role?: UserRole | null;

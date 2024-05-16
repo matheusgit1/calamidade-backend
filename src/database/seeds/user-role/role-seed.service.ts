@@ -41,5 +41,6 @@ export class RoleSeedService {
         }),
       );
     }
+    console.log("Finalizou Seed -  UserRole")
   }
 }
