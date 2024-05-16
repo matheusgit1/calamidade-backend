@@ -25,7 +25,6 @@ import { Cooperated } from '../cooperated/entities/cooperated.entity';
     PassportModule,
     MailModule,
     JwtModule.register({}),
-    CooperatedModule, TypeOrmModule.forFeature([Cooperated])
   ],
   controllers: [AuthController],
   providers: [

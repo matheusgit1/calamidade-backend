@@ -2,10 +2,6 @@
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import {  JwtService } from "@nestjs/jwt";
-import { ValidationArguments, ValidatorConstraintInterface } from "class-validator";
-import { OrNeverType } from "src/utils/types/or-never.type";
-import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 import * as dotenv from "dotenv";
 import { MailData } from "src/mail/interfaces/mail-data.interface";
 import { User } from "../user/entities/user.entity";
@@ -34,11 +30,10 @@ const session = new Session();
 const forgot = new Forgot();
 
 
-cooperated.firstName = 'firstName'
+cooperated.firstName = 'barack'
 cooperated.id = 1
-cooperated.email = "test@example.com";
-cooperated.firstName = 'firstName'
-cooperated.lastName = 'lastName'
+cooperated.email = "barack.obama@example.com";
+cooperated.lastName = 'obama'
 cooperated.phone = '27997000065'
 cooperated.document = '51260605035'
 cooperated.createdAt = new Date();
@@ -57,8 +52,8 @@ user.password = "$2a$10$yJyGsexHRWW37yGtCFMSR.Y4kL7QcX8Eyl7Kam8E1L3fkxvFrHhE2";
 user.previousPassword = "previousPassword";
 user.provider = "email";
 user.socialId = "socialId";
-user.firstName = "firstName";
-user.lastName = "lastName";
+user.firstName = "lindissei";
+user.lastName = "lorran";
 user.photo = null;
 user.role = userRole;
 user.status = userStatus;
@@ -80,31 +75,6 @@ forgot.id = 1
 forgot.hash = 'hash'
 forgot.user = user
 
-// class IsExistMocked implements ValidatorConstraintInterface {
-//   validate = jest.fn(async (_value: string, _validationArguments: ValidationArguments): Promise<boolean> => false);
-// }
-
-// class IsNotExistMocked implements ValidatorConstraintInterface {
-//   validate = jest.fn(async (_value: string, _validationArguments: ValidationArguments): Promise<boolean> => false);
-// }
-
-// class JwtStrategyMocked {
-//   validate = jest.fn((_payload: JwtPayloadType): OrNeverType<JwtPayloadType> => {
-//     return { id: 1, sessionId: 1, iat: 1, exp: 1 };
-//   });
-// }
-
-// class JwtRefreshStrategyMocked {
-//   validate = jest.fn((_payload: JwtRefreshPayloadType): OrNeverType<JwtRefreshPayloadType> => {
-//     return { sessionId: 1, iat: 1, exp: 1 };
-//   });
-// }
-
-// class AnonymousStrategyMocked {
-//   validate = jest.fn((_payload: unknown, _request: unknown): unknown => {
-//     return jest.fn();
-//   });
-// }
 
 class MailServiceMocked {
   userSignUp = jest.fn(async (_mailData: MailData<{ hash: string }>): Promise<void> => {});
@@ -196,13 +166,21 @@ const forgotServiceMocked = new ForgotServiceMocked();
 const sessionServiceMocked = new SessionServiceMocked();
 const mailServiceMocked = new MailServiceMocked();
 const configService = new ConfigService<AllConfigType>();
-const cooperatedServiceMocked= new CooperatedServiceMocked()
 
-let controller: AuthController = new AuthController(
-  new AuthService( jwtService, usersServiceMocked as any, forgotServiceMocked as any, sessionServiceMocked as any, mailServiceMocked as any, configService, cooperatedServiceMocked as any),
-);
+
 describe("TestingController", () => {
-
+  let controller: AuthController = new AuthController(
+    new AuthService(
+      jwtService,
+      //@ts-ignore
+      usersServiceMocked,
+      //@ts-ignore
+      forgotServiceMocked,
+      sessionServiceMocked,
+      mailServiceMocked,
+      configService,
+    ),
+  );
   beforeEach(async () => {
     jest.clearAllMocks()
   });
@@ -216,33 +194,6 @@ describe("TestingController", () => {
   });
 
   describe("success cases", () => {
-    // it("should do login correctly", async () => {
-    //   user.role = undefined;
-    //   user.provider = "email";
-    //   usersServiceMocked.findOne.mockResolvedValueOnce(user);
-    //   const res = await controller.login({
-    //     email: "test@example.com",
-    //     password: "password123",
-    //   });
-    //   console.log(res);
-
-    //   expect(res).toBeDefined();
-    //   expect(res).toHaveProperty("token");
-    //   expect(res).toHaveProperty("refreshToken");
-    //   expect(res).toHaveProperty("tokenExpires");
-    // });
-
-    it("should validate document correctly if exists", async () => {
-      const document = "21668658011"
-
-      const spy_cooperatedService_findOne = jest.spyOn(cooperatedServiceMocked,"findOne")
-      const response = await controller.validateDocument({document})
-      expect(spy_cooperatedService_findOne).toHaveBeenCalledTimes(1)
-      expect(spy_cooperatedService_findOne).toHaveBeenCalledWith({ document: document.replace(/[^0-9]/g, "") })
-      expect(spy_cooperatedService_findOne).toHaveReturned()
-      expect(response).toHaveProperty('name')
-      expect(response).toHaveProperty('document')
-    })
 
     it("should execute soft delete without erro", async () => {
 
@@ -316,48 +267,11 @@ describe("TestingController", () => {
       expect(response).toBeUndefined()
     })
 
-    // it("should execute refreshToken without erro", async () => {
-    //   sessionServiceMocked.findOne.mockResolvedValueOnce(session)
-    //   const spy_sessionServiceMocked_findOne = jest.spyOn(sessionServiceMocked,"findOne")
-      
-    //   const response = await controller.refresh({user: {sessionId: session.id}})
-    //   expect(spy_sessionServiceMocked_findOne).toHaveBeenCalledTimes(1)
-    //   expect(spy_sessionServiceMocked_findOne).toHaveBeenCalledWith({id: session.id})
-
-    //   expect(response).toHaveProperty("token")
-    //   expect(response).toHaveProperty("refreshToken")
-    //   expect(response).toHaveProperty("tokenExpires")
-    //   expect(response).toHaveProperty("user")
-    // })
-
     it("should execute me correctly", async () => {
       sessionServiceMocked.findOne.mockResolvedValueOnce(session)
       const response = await controller.me({user: user})
       expect(response).toBeDefined()
     })
-
-    // it("should execute resetPassword correctly", async () => {
-
-    //   forgotServiceMocked.findOne.mockResolvedValueOnce(forgot)
-      
-    //   const spy_forgotServiceMocked_findOne = jest.spyOn(forgotServiceMocked,"findOne")
-    //   const spy_forgotServiceMocked_softDelete = jest.spyOn(forgotServiceMocked,"softDelete")
-
-
-    //   const hash = 'hash'
-    //   const response = await controller.resetPassword({
-    //     hash: hash,
-    //     password: user.password
-    //   })
-
-    //   expect(response).toBeUndefined()
-    //   expect(spy_forgotServiceMocked_findOne).toHaveBeenCalledTimes(1)
-    //   expect(spy_forgotServiceMocked_findOne).toHaveBeenCalledWith({hash: hash})
-
-    //   expect(spy_forgotServiceMocked_softDelete).toHaveBeenCalledTimes(1)
-    //   expect(spy_forgotServiceMocked_softDelete).toHaveBeenCalledWith(forgot.id)
-    // })
-
 
     it("should execute forgotPassword correctly", async () => {
 

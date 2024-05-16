@@ -33,20 +33,6 @@ import { GetDocumentBodyDto } from './dto/auth-get-document.dto';
 export class AuthController {
   constructor(private readonly service: AuthService) {}
 
-  
-  @ApiBearerAuth()
-  @SerializeOptions({
-    groups: ["me"],
-  })
-  @Post("/document/validate")
-  @HttpCode(HttpStatus.OK)
-  public async validateDocument(@Body() body: GetDocumentBodyDto): Promise<{
-    name: string | null;
-    document: string | null;
-  }> {
-    return await this.service.validateDocument(body.document);
-  }
-
   @SerializeOptions({
     groups: ['me'],
   })
