@@ -17,7 +17,9 @@ import { MailModule } from "../../mail/mail.module";
 import { MailerModule } from "../../mailer/mailer.module";
 import { AuthModule } from "../auth/auth.module";
 import { AuthAppleModule } from "../auth/social/apple/auth-apple.module";
+import { AuthFacebookModule } from "../auth/social/facebook/auth-facebook.module";
 import { AuthGoogleModule } from "../auth/social/google/auth-google.module";
+import { AuthTwitterModule } from "../auth/social/twitter/auth-twitter.module";
 import { FileModule } from "../file/file.module";
 import { ForgotModule } from "../forgot/forgot.module";
 import { HomeModule } from "../home/home.module";
@@ -44,7 +46,9 @@ import { OrganizationModule } from "../organization/organization.module";
     UsersModule,
     FileModule,
     AuthModule,
+    AuthFacebookModule,
     AuthGoogleModule,
+    AuthTwitterModule,
     AuthAppleModule,
     ForgotModule,
     SessionModule,
