@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCooperatedDto } from './dto/create-cooperated.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cooperated } from './entities/cooperated.entity';
@@ -53,6 +53,31 @@ export class CooperatedService {
     await this.cooperatedRepository.softDelete(id);
   }
 
+  
+  async validateDocument(document: string): Promise<{name?: string,
+    document?: string,
+    email?: string,
+    phone?: string}
+  > {
+    const cooperated = await this.cooperatedRepository.findOne({where: { document: document.replace(/[^0-9]/g, "") }});
+    if (!cooperated) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: "cooperatedNotFound",
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      name: `${cooperated.firstName} ${cooperated.lastName}` || "",
+      document: cooperated.document || "",
+      email: cooperated.email || "",
+      phone: cooperated.phone || "",
+    };
+  }
+  
   async createBulk(createCooperatedDtos: CreateCooperatedDto[]): Promise<void> {
     const cooperatedEntities = createCooperatedDtos.map((dto) => {
       const cooperated = new Cooperated();
