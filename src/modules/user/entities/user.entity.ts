@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { UserStatus } from './user-status.entity';
-import { FileEntity } from '../../files/entities/file.entity';
+import { FileEntity } from '../../file/entities/file.entity';
 import bcrypt from 'bcryptjs';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';

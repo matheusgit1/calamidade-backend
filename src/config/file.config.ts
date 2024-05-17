@@ -3,47 +3,36 @@ import { FileConfig } from './config.type';
 import { IsEnum, IsOptional, IsString, ValidateIf } from 'class-validator';
 import validateConfig from 'src/utils/validate-config';
 
-enum FileDriver {
-  LOCAL = 'local',
-  S3 = 's3',
-}
-
 class EnvironmentVariablesValidator {
-  @IsEnum(FileDriver)
-  FILE_DRIVER: FileDriver;
 
-  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.S3)
   @IsString()
-  ACCESS_KEY_ID: string;
+  R2_REGION: string;
 
-  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.S3)
   @IsString()
-  SECRET_ACCESS_KEY: string;
+  R2_ENDPOINT: string;
 
-  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.S3)
   @IsString()
-  AWS_DEFAULT_S3_BUCKET: string;
+  R2_ACCESS_KEY_ID: string;
 
-  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.S3)
+  @IsString()
+  R2_SECRET_ACCESS_KEY: string;
+
   @IsString()
   @IsOptional()
-  AWS_DEFAULT_S3_URL: string;
+  R2_BUCKET: string;
 
-  @ValidateIf((envValues) => envValues.FILE_DRIVER === FileDriver.S3)
-  @IsString()
-  AWS_S3_REGION: string;
+
 }
 
 export default registerAs<FileConfig>('file', () => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
-    driver: process.env.FILE_DRIVER ?? 'local',
-    accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    awsDefaultS3Bucket: process.env.AWS_DEFAULT_S3_BUCKET,
-    awsDefaultS3Url: process.env.AWS_DEFAULT_S3_URL,
-    awsS3Region: process.env.AWS_S3_REGION,
+    r2Region: process.env.R2_REGION,
+    r2Endpoint: process.env.R2_ENDPOINT,
+    r2AccessKeyId: process.env.R2_ACCESS_KEY_ID,
+    r2SecretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+    r2Bucket: process.env.R2_BUCKET,
     maxFileSize: 5242880, // 5mb
   };
 });

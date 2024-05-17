@@ -2,14 +2,13 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  AfterLoad,
-  AfterInsert,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import appConfig from '../../../config/app.config';
-import { AppConfig } from 'src/config/config.type';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
@@ -21,11 +20,19 @@ export class FileEntity extends EntityHelper {
   @Column()
   path: string;
 
-  @AfterLoad()
-  @AfterInsert()
-  updatePath() {
-    if (this.path.indexOf('/') === 0) {
-      this.path = (appConfig() as AppConfig).backendDomain + this.path;
-    }
-  }
+  @Allow()
+  @Column()
+  key: string;
+
+  @Column()
+  bucket: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
