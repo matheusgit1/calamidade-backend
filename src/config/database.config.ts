@@ -12,10 +12,6 @@ import {
 import validateConfig from 'src/utils/validate-config';
 
 class EnvironmentVariablesValidator {
-  @ValidateIf((envValues) => envValues.DATABASE_URL)
-  @IsString()
-  DATABASE_URL: string;
-
   @ValidateIf((envValues) => !envValues.DATABASE_TYPE)
   @IsString()
   DATABASE_TYPE: string;
@@ -40,7 +36,7 @@ class EnvironmentVariablesValidator {
   @IsString()
   DATABASE_NAME: string;
 
-  @ValidateIf((envValues) => !envValues.DATABASE_URL)
+  @ValidateIf((envValues) => !envValues.DATABASE_USERNAME)
   @IsString()
   DATABASE_USERNAME: string;
 
@@ -77,7 +73,6 @@ export default registerAs<DatabaseConfig>('database', () => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
-    url: process.env.DATABASE_URL,
     type: process.env.DATABASE_TYPE,
     host: process.env.DATABASE_HOST,
     port: process.env.DATABASE_PORT
