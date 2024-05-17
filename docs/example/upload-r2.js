@@ -1,4 +1,5 @@
 async function uploadFile(file) {
+  
   const response = await fetch('/api/file/presigned-url', {
     method: 'POST',
     body: JSON.stringify({
@@ -10,8 +11,11 @@ async function uploadFile(file) {
       'Content-Type': 'application/json'
     }
   });
+  
   const data = await response.json();
   const { url, key, fileId } = data;
+
+  //Usar o fileId para vincular na requisição que for usar
 
   const uploadResponse = await fetch(url, {
     method: 'PUT',
@@ -26,4 +30,5 @@ async function uploadFile(file) {
   } else {
     console.error('File upload failed');
   }
+
 }
