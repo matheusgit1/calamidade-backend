@@ -12,6 +12,7 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  SerializeOptions,
 } from '@nestjs/common';
 import { CooperatedService } from './cooperated.service';
 import { CreateCooperatedDto } from './dto/create-cooperated.dto';
@@ -25,9 +26,8 @@ import { InfinityPaginationResultType } from '../../utils/types/infinity-paginat
 import { Cooperated } from './entities/cooperated.entity';
 import { infinityPagination } from '../../utils/infinity-pagination';
 import { NullableType } from '../../utils/types/nullable.type';
+import { GetDocumentBodyDto } from '../auth/dto/auth-get-document.dto';
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Cooperateds')
 @Controller({
   path: 'cooperateds',
@@ -36,14 +36,31 @@ import { NullableType } from '../../utils/types/nullable.type';
 export class CooperatedController {
   constructor(private readonly cooperatedService: CooperatedService) {}
 
+  @SerializeOptions({
+    groups: ["me"],
+  })
+  @Post("/document/validate")
+  @HttpCode(HttpStatus.OK)
+  public async validateDocument(@Body() body: GetDocumentBodyDto): Promise<{name?: string,
+    document?: string,
+    email?: string,
+    phone?: string}
+  > {
+    return await this.cooperatedService.validateDocument(body.document);
+  }
+
   @Post()
-  @Roles(UserRoleEnum.user)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRoleEnum.admin)
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createCooperatedDto: CreateCooperatedDto) {
     return this.cooperatedService.create(createCooperatedDto);
   }
 
   @Post('bulk')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.admin)
   @HttpCode(HttpStatus.CREATED)
   async createBulk(@Body() createCooperatedDtos: CreateCooperatedDto[]) {
@@ -57,6 +74,8 @@ export class CooperatedController {
 
 
   @Get('/list')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   async findAll(
@@ -77,6 +96,8 @@ export class CooperatedController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string): Promise<NullableType<Cooperated>> {
@@ -84,6 +105,8 @@ export class CooperatedController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   update(
@@ -94,6 +117,8 @@ export class CooperatedController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: number): Promise<void> {

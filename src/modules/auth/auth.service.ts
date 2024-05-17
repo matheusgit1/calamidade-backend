@@ -1,32 +1,37 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
-import ms from "ms";
-import { JwtService } from "@nestjs/jwt";
-import { User } from "../user/entities/user.entity";
-import bcrypt from "bcryptjs";
-import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
-import { AuthUpdateDto } from "./dto/auth-update.dto";
-import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
-import { UserStatusEnum } from "src/modules/user/enums/status.enum";
-import { UserRoleEnum } from "../user/enums/roles.enum";
-import crypto from "crypto";
-import { plainToClass } from "class-transformer";
-import { UserStatus } from "src/modules/user/entities/user-status.entity";
-import { UserRole } from "src/modules/user/entities/user-role.entity";
-import { SocialInterface } from "src/modules/auth/social/interfaces/social.interface";
-import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
-import { UsersService } from "src/modules/user/users.service";
-import { ForgotService } from "src/modules/forgot/forgot.service";
-import { MailService } from "src/mail/mail.service";
-import { NullableType } from "../../utils/types/nullable.type";
-import { LoginResponseType } from "./types/login-response.type";
-import { ConfigService } from "@nestjs/config";
-import { AllConfigType } from "src/config/config.type";
-import { SessionService } from "src/modules/session/session.service";
-import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
-import { Session } from "src/modules/session/entities/session.entity";
-import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { AuthProvidersEnum } from "./auth-providers.enum";
-import { OrganizationService } from "../organization/organization.service";
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import ms from 'ms';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '../user/entities/user.entity';
+import bcrypt from 'bcryptjs';
+import { AuthEmailLoginDto } from './dto/auth-email-login.dto';
+import { AuthUpdateDto } from './dto/auth-update.dto';
+import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
+import { UserStatusEnum } from 'src/modules/user/enums/status.enum';
+import { UserRoleEnum } from '../user/enums/roles.enum';
+import crypto from 'crypto';
+import { plainToClass } from 'class-transformer';
+import { UserStatus } from 'src/modules/user/entities/user-status.entity';
+import { UserRole } from 'src/modules/user/entities/user-role.entity';
+import { AuthProvidersEnum } from './auth-providers.enum';
+import { SocialInterface } from 'src/modules/auth/social/interfaces/social.interface';
+import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
+import { UsersService } from 'src/modules/user/users.service';
+import { ForgotService } from 'src/modules/forgot/forgot.service';
+import { MailService } from 'src/mail/mail.service';
+import { NullableType } from '../../utils/types/nullable.type';
+import { LoginResponseType } from './types/login-response.type';
+import { ConfigService } from '@nestjs/config';
+import { AllConfigType } from 'src/config/config.type';
+import { SessionService } from 'src/modules/session/session.service';
+import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.type';
+import { Session } from 'src/modules/session/entities/session.entity';
+import { JwtPayloadType } from './strategies/types/jwt-payload.type';
+import { OrganizationService } from 'src/modules/organization/organization.service';
 
 @Injectable()
 export class AuthService {
@@ -44,8 +49,6 @@ export class AuthService {
     const user = await this.usersService.findOne({
       email: loginDto.email,
     });
-    const validation = !user || (user?.role && !(onlyAdmin ? [UserRoleEnum.admin] : [UserRoleEnum.user]).includes(user.role.id));
-    console.log(user, validation);
 
     if (!user || (user?.role && !(onlyAdmin ? [UserRoleEnum.admin] : [UserRoleEnum.user]).includes(user.role.id))) {
       throw new HttpException(

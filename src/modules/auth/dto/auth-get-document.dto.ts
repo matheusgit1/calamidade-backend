@@ -3,7 +3,7 @@ import { IsString, MinLength } from "class-validator";
 
 export class GetDocumentBodyDto {
   @ApiProperty({
-    example: "99999999999",
+    example: "14267215014",
   })
   @MinLength(11)
   @IsString()
