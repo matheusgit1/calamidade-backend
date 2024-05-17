@@ -87,7 +87,6 @@ export class CooperatedService {
       }
       await queryRunner.commitTransaction();
     } catch (err) {
-      console.log(err)
       await queryRunner.rollbackTransaction();
     } finally {
       await queryRunner.release();
