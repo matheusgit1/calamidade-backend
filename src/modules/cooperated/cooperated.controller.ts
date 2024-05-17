@@ -28,8 +28,6 @@ import { infinityPagination } from '../../utils/infinity-pagination';
 import { NullableType } from '../../utils/types/nullable.type';
 import { GetDocumentBodyDto } from '../auth/dto/auth-get-document.dto';
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Cooperateds')
 @Controller({
   path: 'cooperateds',
@@ -38,7 +36,6 @@ import { GetDocumentBodyDto } from '../auth/dto/auth-get-document.dto';
 export class CooperatedController {
   constructor(private readonly cooperatedService: CooperatedService) {}
 
-  @ApiBearerAuth()
   @SerializeOptions({
     groups: ["me"],
   })
@@ -53,13 +50,17 @@ export class CooperatedController {
   }
 
   @Post()
-  @Roles(UserRoleEnum.user)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRoleEnum.admin)
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createCooperatedDto: CreateCooperatedDto) {
     return this.cooperatedService.create(createCooperatedDto);
   }
 
   @Post('bulk')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.admin)
   @HttpCode(HttpStatus.CREATED)
   async createBulk(@Body() createCooperatedDtos: CreateCooperatedDto[]) {
@@ -73,6 +74,8 @@ export class CooperatedController {
 
 
   @Get('/list')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   async findAll(
@@ -93,6 +96,8 @@ export class CooperatedController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string): Promise<NullableType<Cooperated>> {
@@ -100,6 +105,8 @@ export class CooperatedController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   update(
@@ -110,6 +117,8 @@ export class CooperatedController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: number): Promise<void> {
