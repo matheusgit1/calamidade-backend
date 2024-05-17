@@ -1,18 +1,11 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  HttpStatus,
-  NotFoundException,
-  UnauthorizedException,
-  Logger,
-} from '@nestjs/common';
-import { TestingModule, Test } from '@nestjs/testing';
-import { BusinessException } from '../exceptions/business.exception';
-import { ResourceNotFoundException } from '../exceptions/resource-not-found.exception';
-import { ProxyException } from '../exceptions/proxy.exception';
-import { InvalidInputException } from '../exceptions/invalid-input.exception';
+import { BadRequestException, ForbiddenException, HttpStatus, NotFoundException, UnauthorizedException, Logger } from "@nestjs/common";
+import { TestingModule, Test } from "@nestjs/testing";
+import { BusinessException } from "../exceptions/business.exception";
+import { ResourceNotFoundException } from "../exceptions/resource-not-found.exception";
+import { ProxyException } from "../exceptions/proxy.exception";
+import { InvalidInputException } from "../exceptions/invalid-input.exception";
 
-import { CustomExceptionFilter } from './custom-exception-filter';
+import { CustomExceptionFilter } from "./custom-exception-filter";
 
 const mockAppLoggerService = {
   setContext: jest.fn(),
@@ -26,7 +19,7 @@ const mockStatus = jest.fn().mockImplementation(() => ({
   json: mockJson,
 }));
 const mockGetRequest = jest.fn().mockImplementation(() => ({
-  hash: '123',
+  hash: "123",
 }));
 const mockGetResponse = jest.fn().mockImplementation(() => ({
   status: mockStatus,
@@ -45,7 +38,7 @@ const mockArgumentsHost = {
   switchToWs: jest.fn(),
 };
 
-describe('CustomExceptionFilter', () => {
+describe("CustomExceptionFilter", () => {
   let service: CustomExceptionFilter;
 
   beforeEach(async () => {
@@ -61,116 +54,109 @@ describe('CustomExceptionFilter', () => {
     }).compile();
     service = module.get<CustomExceptionFilter>(CustomExceptionFilter);
   });
-  test('Deveria estar definido', () => {
+  test("Should be defined", () => {
     expect(service).toBeDefined();
   });
 
-  test('UnauthorizedException', () => {
+  test("UnauthorizedException", () => {
     service.catch(new UnauthorizedException(), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.UNAUTHORIZED);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Unauthorized',
-
-      transaction: '123',
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.UNAUTHORIZED);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Unauthorized",
+      transaction: "123",
     });
   });
 
-  test('ForbiddenException', () => {
+  test("ForbiddenException", () => {
     service.catch(new ForbiddenException(), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Forbidden',
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.FORBIDDEN);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Forbidden",
 
-      transaction: '123',
+      transaction: "123",
     });
   });
 
-  test('BadRequestException', () => {
+  test("BadRequestException", () => {
     service.catch(new BadRequestException(), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.BAD_REQUEST);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith(expect.objectContaining({}));
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith(expect.objectContaining({}));
   });
 
-  test('BusinessException', () => {
-    service.catch(new BusinessException(91, 'Teste'), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.BAD_REQUEST);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Teste',
+  test("BusinessException", () => {
+    service.catch(new BusinessException(91, "Teste"), mockArgumentsHost);
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Teste",
 
-      transaction: '123',
+      transaction: "123",
     });
   });
 
-  test('ResourceNotFoundException', () => {
-    service.catch(
-      new ResourceNotFoundException('Resource not found'),
-      mockArgumentsHost,
-    );
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.NOT_FOUND);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Resource not found',
-      transaction: '123',
+  test("ResourceNotFoundException", () => {
+    service.catch(new ResourceNotFoundException("Resource not found"), mockArgumentsHost);
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.NOT_FOUND);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Resource not found",
+      transaction: "123",
     });
   });
 
-  test('NotFoundException', () => {
+  test("NotFoundException", () => {
     service.catch(new NotFoundException(), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.NOT_FOUND);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Not Found',
-      transaction: '123',
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.NOT_FOUND);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Not Found",
+      transaction: "123",
     });
   });
 
-  test('ProxyException', () => {
-    service.catch(
-      new ProxyException('erro', 'test-mock-erro'),
-      mockArgumentsHost,
-    );
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Internal Server Error',
-      transaction: '123',
+  test("ProxyException", () => {
+    service.catch(new ProxyException("erro", "test-mock-erro"), mockArgumentsHost);
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Internal Server Error",
+      transaction: "123",
     });
   });
 
-  test('InvalidInputException', () => {
-    service.catch(new InvalidInputException('erro'), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.BAD_REQUEST);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'erro',
-      transaction: '123',
+  test("InvalidInputException", () => {
+    service.catch(new InvalidInputException("erro"), mockArgumentsHost);
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "erro",
+      transaction: "123",
     });
   });
 
-  test('Erro não mapeado', () => {
-    service.catch(new Error('Random'), mockArgumentsHost);
-    expect(mockStatus).toBeCalledTimes(1);
-    expect(mockStatus).toBeCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
-    expect(mockJson).toBeCalledTimes(1);
-    expect(mockJson).toBeCalledWith({
-      description: 'Unmapped error',
-      transaction: '123',
+  test("Unmaped error", () => {
+    service.catch(new Error("Random"), mockArgumentsHost);
+    expect(mockStatus).toHaveBeenCalledTimes(1);
+    expect(mockStatus).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
+    expect(mockJson).toHaveBeenCalledTimes(1);
+    expect(mockJson).toHaveBeenCalledWith({
+      description: "Unmapped error",
+      transaction: "123",
     });
   });
 
-  test('Deveria realizar log sem HASH', () => {
+  test("should log without hash", () => {
     mockGetRequest.mockReturnValueOnce(() => ({}));
     service.catch(new Error(), mockArgumentsHost);
   });

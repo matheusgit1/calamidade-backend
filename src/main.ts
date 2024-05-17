@@ -5,6 +5,7 @@ import { useContainer } from "class-validator";
 import { AllConfigType } from "./config/config.type";
 import { AppModule } from "./modules/app/app.module";
 import validationOptions from "./utils/validation-options";
+import { CustomExceptionFilter } from "./infrastructure/filters/custom-exception-filter";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 interface AppBootStrap {
@@ -32,7 +33,7 @@ export async function bootstrap(): Promise<AppBootStrap> {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   //app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)), new LoggingInterceptor());
-  //app.useGlobalFilters(new CustomExceptionFilter());
+  app.useGlobalFilters(new CustomExceptionFilter());
 
   /**
    * use in case of implementing trace via aws xray

@@ -3,8 +3,6 @@ name: NestJS API CI Production
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
@@ -20,7 +18,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: 'Setup env'
+      - name: "Setup env"
         run: cp env-deploy .env
 
       - name: Install dependencies
