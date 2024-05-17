@@ -6,17 +6,21 @@ import { DeepPartial, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { NullableType } from '../../utils/types/nullable.type';
+import { OrganizationEntity } from '../organization/entities/organization.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(OrganizationEntity)
+    private organizationRepository: Repository<OrganizationEntity>
+    
   ) {}
 
-  create(createProfileDto: CreateUserDto): Promise<User> {
+  create(createUser: CreateUserDto): Promise<User> {
     return this.usersRepository.save(
-      this.usersRepository.create(createProfileDto),
+      this.usersRepository.create(createUser),
     );
   }
 

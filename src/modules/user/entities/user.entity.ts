@@ -1,6 +1,5 @@
 import {
   Column,
-  AfterLoad,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
@@ -10,6 +9,7 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  AfterLoad,
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { UserStatus } from './user-status.entity';
@@ -18,15 +18,14 @@ import bcrypt from 'bcryptjs';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
+import { OrganizationEntity } from 'src/modules/organization/entities/organization.entity';
 
-@Entity()
+@Entity({ name: 'user' })
 export class User extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // For "string | null" we need to use String type.
-  // More info: https://github.com/typeorm/typeorm/issues/2567
-  @Column({ type: String, unique: true, nullable: true })
+  @Column({ type: 'varchar', unique: true, nullable: true })
   @Expose({ groups: ['me', 'admin'] })
   email: string | null;
 
@@ -56,34 +55,34 @@ export class User extends EntityHelper {
   provider: string;
 
   @Index()
-  @Column({ type: String, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   @Expose({ groups: ['me', 'admin'] })
   socialId: string | null;
 
   @Index()
-  @Column({ type: String, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  @Expose({ groups: ['me', 'admin'] })
   firstName: string | null;
 
   @Index()
-  @Column({ type: String, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  @Expose({ groups: ['me', 'admin'] })
   lastName: string | null;
 
-  @ManyToOne(() => FileEntity, {
-    eager: true,
-  })
+  @ManyToOne(() => FileEntity, { eager: true })
   photo?: FileEntity | null;
 
-  @ManyToOne(() => UserRole, {
-    eager: true,
-  })
+  @ManyToOne(() => OrganizationEntity, { eager: true })
+  @Expose({ groups: ['me', 'admin'] })
+  organization?: OrganizationEntity | null;
+
+  @ManyToOne(() => UserRole, { eager: true })
   role?: UserRole | null;
 
-  @ManyToOne(() => UserStatus, {
-    eager: true,
-  })
+  @ManyToOne(() => UserStatus, { eager: true })
   status?: UserStatus;
 
-  @Column({ type: String, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   @Index()
   @Exclude({ toPlainOnly: true })
   hash: string | null;

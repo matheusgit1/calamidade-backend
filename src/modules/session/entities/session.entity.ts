@@ -17,7 +17,6 @@ export class Session extends EntityHelper {
   @ManyToOne(() => User, {
     eager: true,
   })
-  @Index()
   user: User;
 
   @CreateDateColumn()

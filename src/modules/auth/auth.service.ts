@@ -26,17 +26,19 @@ import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.ty
 import { Session } from "src/modules/session/entities/session.entity";
 import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
 import { AuthProvidersEnum } from "./auth-providers.enum";
+import { OrganizationService } from "../organization/organization.service";
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private usersService: UsersService,
+    private organizationService: OrganizationService,
     private forgotService: ForgotService,
     private sessionService: SessionService,
     private mailService: MailService,
     private configService: ConfigService<AllConfigType>,
-  ) {}
+  ) { }
 
   async validateLogin(loginDto: AuthEmailLoginDto, onlyAdmin: boolean): Promise<LoginResponseType> {
     const user = await this.usersService.findOne({
@@ -101,7 +103,10 @@ export class AuthService {
     };
   }
 
-  async validateSocialLogin(authProvider: string, socialData: SocialInterface): Promise<LoginResponseType> {
+  async validateSocialLogin(
+    authProvider: string,
+    socialData: SocialInterface
+  ): Promise<LoginResponseType> {
     let user: NullableType<User>;
     const socialEmail = socialData.email?.toLowerCase();
 
@@ -129,6 +134,21 @@ export class AuthService {
         id: UserStatusEnum.active,
       });
 
+      const organizationById = await this.organizationService.findOne({ document: '92935741000182' });
+
+      // Verificar se a organização foi encontrada
+      if (!organizationById) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNPROCESSABLE_ENTITY,
+            errors: {
+              organization: 'organizationNotFound',
+            },
+          },
+          HttpStatus.UNPROCESSABLE_ENTITY
+        );
+      }
+
       user = await this.usersService.create({
         email: socialEmail ?? null,
         firstName: socialData.firstName ?? null,
@@ -137,6 +157,7 @@ export class AuthService {
         provider: authProvider,
         role,
         status,
+        //organization: organizationById
       });
 
       user = await this.usersService.findOne({
@@ -178,12 +199,16 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void> {
-    const hash = crypto.createHash("sha256").update(randomStringGenerator()).digest("hex");
+  async register(data: AuthRegisterLoginDto): Promise<void> {
+    console.log(data);
+    const hash = crypto
+      .createHash('sha256')
+      .update(randomStringGenerator())
+      .digest('hex');
 
     await this.usersService.create({
-      ...dto,
-      email: dto.email,
+      ...data,
+      email: data.email,
       role: {
         id: UserRoleEnum.user,
       } as UserRole,
