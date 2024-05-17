@@ -12,6 +12,7 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  SerializeOptions,
 } from '@nestjs/common';
 import { CooperatedService } from './cooperated.service';
 import { CreateCooperatedDto } from './dto/create-cooperated.dto';
@@ -25,6 +26,7 @@ import { InfinityPaginationResultType } from '../../utils/types/infinity-paginat
 import { Cooperated } from './entities/cooperated.entity';
 import { infinityPagination } from '../../utils/infinity-pagination';
 import { NullableType } from '../../utils/types/nullable.type';
+import { GetDocumentBodyDto } from '../auth/dto/auth-get-document.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -35,6 +37,20 @@ import { NullableType } from '../../utils/types/nullable.type';
 })
 export class CooperatedController {
   constructor(private readonly cooperatedService: CooperatedService) {}
+
+  @ApiBearerAuth()
+  @SerializeOptions({
+    groups: ["me"],
+  })
+  @Post("/document/validate")
+  @HttpCode(HttpStatus.OK)
+  public async validateDocument(@Body() body: GetDocumentBodyDto): Promise<{name?: string,
+    document?: string,
+    email?: string,
+    phone?: string}
+  > {
+    return await this.cooperatedService.validateDocument(body.document);
+  }
 
   @Post()
   @Roles(UserRoleEnum.user)
