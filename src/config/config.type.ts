@@ -44,12 +44,11 @@ export type FacebookConfig = {
 };
 
 export type FileConfig = {
-  driver: string;
-  accessKeyId?: string;
-  secretAccessKey?: string;
-  awsDefaultS3Bucket?: string;
-  awsDefaultS3Url?: string;
-  awsS3Region?: string;
+  r2Region?: string;
+  r2Endpoint?: string;
+  r2AccessKeyId?: string;
+  r2SecretAccessKey?: string;
+  r2Bucket?: string;
   maxFileSize: number;
 };
 
