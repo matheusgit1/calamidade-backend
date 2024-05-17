@@ -13,7 +13,6 @@ import { AuthUpdateDto } from './dto/auth-update.dto';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { UserStatusEnum } from 'src/modules/user/enums/status.enum';
 import { UserRoleEnum } from '../user/enums/roles.enum';
-import crypto from 'crypto';
 import { plainToClass } from 'class-transformer';
 import { UserStatus } from 'src/modules/user/entities/user-status.entity';
 import { UserRole } from 'src/modules/user/entities/user-role.entity';
@@ -32,6 +31,8 @@ import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.ty
 import { Session } from 'src/modules/session/entities/session.entity';
 import { JwtPayloadType } from './strategies/types/jwt-payload.type';
 import { OrganizationService } from 'src/modules/organization/organization.service';
+
+import crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
