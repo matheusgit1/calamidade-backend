@@ -9,6 +9,7 @@ import { RoleSeedModule } from './user-role/role-seed.module';
 import { StatusSeedModule } from './user-status/status-seed.module';
 import { UserSeedModule } from './user/user-seed.module';
 import { OrganizationSeedModule } from './organization/organization-seed.module';
+import { CooperatedSeedModule } from './cooperated/cooperated-seed.module';
 
 
 @Module({
@@ -16,11 +17,12 @@ import { OrganizationSeedModule } from './organization/organization-seed.module'
     RoleSeedModule,
     StatusSeedModule,
     UserSeedModule,
+    CooperatedSeedModule,
     OrganizationSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],
-      envFilePath: ['.env'],
+      envFilePath: [".env"],
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,

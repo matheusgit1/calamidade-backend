@@ -1,8 +1,8 @@
-import { Injectable, UnprocessableEntityException } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from "@nestjs/common";
 import { CreateCooperatedDto } from "./dto/create-cooperated.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cooperated } from "./entities/cooperated.entity";
-import { DeepPartial, Repository } from "typeorm";
+import { DataSource, DeepPartial, Repository } from "typeorm";
 import { IPaginationOptions } from "../../utils/types/pagination-options";
 import { EntityCondition } from "../../utils/types/entity-condition.type";
 import { NullableType } from "../../utils/types/nullable.type";
@@ -14,6 +14,7 @@ export class CooperatedService {
     @InjectRepository(Cooperated)
     private cooperatedRepository: Repository<Cooperated>,
     private readonly organizationService: OrganizationService,
+    private dataSource: DataSource,
   ) {}
 
   async create(createCooperatedDto: CreateCooperatedDto) {
@@ -60,8 +61,33 @@ export class CooperatedService {
     await this.cooperatedRepository.softDelete(id);
   }
 
-  async createBulk(createCooperatedDtos: CreateCooperatedDto[]): Promise<void> {
-    const cooperatedEntities = createCooperatedDtos.map(dto => {
+  async validateDocument(document: string): Promise<{ name?: string; document?: string; email?: string; phone?: string }> {
+    const cooperated = await this.cooperatedRepository.findOne({ where: { document: document.replace(/[^0-9]/g, "") } });
+    if (!cooperated) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: "cooperatedNotFound",
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      name: `${cooperated.firstName} ${cooperated.lastName}` || "",
+      document: cooperated.document || "",
+      email: cooperated.email || "",
+      phone: cooperated.phone || "",
+    };
+  }
+
+  async createBulk(dtos: CreateCooperatedDto[]): Promise<void> {
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    const cooperatedEntities = dtos.map(dto => {
       const cooperated = new Cooperated();
       cooperated.email = dto.email;
       cooperated.firstName = dto.firstName;
@@ -72,6 +98,15 @@ export class CooperatedService {
       return cooperated;
     });
 
-    await Cooperated.save(cooperatedEntities);
+    try {
+      for (const dto of cooperatedEntities) {
+        await queryRunner.manager.save(dto);
+      }
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
   }
 }
