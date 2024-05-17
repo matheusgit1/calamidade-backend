@@ -9,7 +9,7 @@ import { OrganizationService } from "../organization/organization.service";
 import { OrganizationEntity } from "../organization/entities/organization.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cooperated]), TypeOrmModule.forFeature([OrganizationEntity])],
+  imports: [TypeOrmModule.forFeature([Cooperated, OrganizationEntity])],
   controllers: [CooperatedController],
   providers: [IsExist, IsNotExist, CooperatedService, OrganizationService],
 })
