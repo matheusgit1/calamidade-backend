@@ -16,24 +16,23 @@ import { FileService } from './file.service';
   version: '1',
 })
 export class FileController {
-  constructor(private readonly filesService: FileService) {}
+  constructor(private readonly fileService: FileService) {}
 
   @ApiBearerAuth()
   //@UseGuards(AuthGuard('jwt'))
   @Get('presigned-url')
   @ApiQuery({ name: 'fileName', required: true, type: String })
-  @ApiQuery({ name: 'mimeType', required: true, type: String })
+  @ApiQuery({ name: 'folder', required: false, type: String })
   async generatePresignedUrl(
     @Query('fileName') fileName: string,
-    @Query('mimeType') mimeType: string,
-    @Query('folder') folder: string,
+    @Query('folder') folder?: string,
   ) {
-    return this.filesService.generatePresignedUrl(fileName, mimeType, folder);
+    return this.fileService.generatePresignedUrl(fileName, folder);
   }
 
-  @Get(':uuid')
+  @Get(':id')
   @HttpCode(HttpStatus.OK)
   getFile(@Param('id') id: string) {
-    return this.filesService.getPresignedUrl(id);
+    return this.fileService.getPresignedUrl(id);
   }
 }

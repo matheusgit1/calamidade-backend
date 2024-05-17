@@ -18,10 +18,6 @@ export class FileEntity extends EntityHelper {
 
   @Allow()
   @Column()
-  path: string;
-
-  @Allow()
-  @Column()
   key: string;
 
   @Column()

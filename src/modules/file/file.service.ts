@@ -8,6 +8,7 @@ import { AllConfigType } from 'src/config/config.type';
 import { CreateFileDto } from './dto/create-file.dto';
 import path from 'path';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import mime from 'mime-types';
 
 @Injectable()
 export class FileService {
@@ -37,12 +38,22 @@ export class FileService {
 
   async generatePresignedUrl(
     fileName: string,
-    mimeType: string,
     folder?: string,
   ): Promise<any> {
-    console.log(mimeType);
-
     const fileExtension = path.extname(fileName); // Extrai a extensão do arquivo
+    const mimeType = mime.lookup(fileExtension); // Obtém o mimeType a partir da extensão do arquivo
+    if (!mimeType) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          errors: {
+            message: 'Invalid file extension',
+          },
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const FileName = `${Date.now()}-${path.basename(
       fileName,
       fileExtension,
@@ -51,7 +62,19 @@ export class FileService {
     const bucket = this.configService.get('file.r2Bucket', { infer: true });
     const key = folder ? `${folder}/${FileName}` : FileName;
 
-    //Todo: Criar validação de nome de pasta para aceitar apenas (receipts, accidents)
+    // Validação de nome de pasta
+    const allowedFolders = ['receipts', 'accidents'];
+    if (folder && !allowedFolders.includes(folder)) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          errors: {
+            folder: 'Invalid folder name. Allowed folders are receipts and accidents',
+          },
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
     if (!bucket) {
       return { status: "error", error: 'Bucket was not informed' };
