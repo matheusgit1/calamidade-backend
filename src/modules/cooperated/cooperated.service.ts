@@ -18,9 +18,6 @@ export class CooperatedService {
   ) {}
 
   async create(createCooperatedDto: CreateCooperatedDto) {
-    if (!createCooperatedDto.document) throw new UnprocessableEntityException("document should not be empty");
-    if (!createCooperatedDto.organization) throw new UnprocessableEntityException("organization should not be empty");
-
     const normalizedDocument = createCooperatedDto.document.replace(/\D/g, "");
     const alreadyOneWithDocument = await this.cooperatedRepository.findOne({
       where: {

@@ -51,7 +51,6 @@ function FactoryOrganization(): Partial<OrganizationEntity> {
 
 describe("CooperatedController (e2e)", () => {
   let createdCooperatedId: number;
-  let createdOrganizationId: number;
   let token: string;
   let tokenAdmin: string;
   let userAdminId: string;
@@ -96,7 +95,7 @@ describe("CooperatedController (e2e)", () => {
     await request(app)
       .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
       .send({ ...FactoryCooperated(), organization: organizationId, document: generateCPF() })
-      .auth(token, {
+      .auth(tokenAdmin, {
         type: "bearer",
       })
       .then(({ body }) => {
@@ -110,7 +109,7 @@ describe("CooperatedController (e2e)", () => {
 
       await request(app)
         .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
-        .auth(token, {
+        .auth(tokenAdmin, {
           type: "bearer",
         })
         .send(mockCooperated)
@@ -122,7 +121,7 @@ describe("CooperatedController (e2e)", () => {
         await request(app)
           .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
           .send({ ...FactoryCooperated(), organization: organizationId, document: firstDocument })
-          .auth(token, {
+          .auth(tokenAdmin, {
             type: "bearer",
           })
           .expect(HttpStatus.CREATED);
@@ -131,12 +130,11 @@ describe("CooperatedController (e2e)", () => {
 
         const secondOne = await request(app)
           .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
-          .auth(token, {
+          .auth(tokenAdmin, {
             type: "bearer",
           })
           .send(mockCooperated)
           .expect(HttpStatus.UNPROCESSABLE_ENTITY);
-
         expect(secondOne.body.message).toBe("document already exists");
       });
 
@@ -144,7 +142,7 @@ describe("CooperatedController (e2e)", () => {
         const response = await request(app)
           .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
           .send({ ...FactoryCooperated(), organization: 3232, document: generateCPF() })
-          .auth(token, {
+          .auth(tokenAdmin, {
             type: "bearer",
           })
           .expect(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -170,7 +168,7 @@ describe("CooperatedController (e2e)", () => {
         ...cooperatedData,
         organization: organizationId,
       })
-      .auth(token, {
+      .auth(tokenAdmin, {
         type: "bearer",
       });
 

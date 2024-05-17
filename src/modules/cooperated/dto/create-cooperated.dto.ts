@@ -14,11 +14,11 @@ export class CreateCooperatedDto {
     message: "emailAlreadyExists",
   })
   @IsEmail()
-  email: string | null;
+  email: string;
 
   @ApiProperty({ example: "Morgan" })
   @IsNotEmpty()
-  firstName: string | null;
+  firstName: string;
 
   @ApiProperty({ example: "Stark" })
   @IsNotEmpty()
@@ -27,14 +27,14 @@ export class CreateCooperatedDto {
   @ApiProperty({ example: "+5511995039284" })
   @IsNotEmpty()
   @IsPhoneNumber("BR")
-  phone: string | null;
+  phone: string;
 
   @ApiProperty({ example: "44444444444" })
   @IsNotEmpty()
   @IsValidCpfOrCnpj()
-  document: string | null;
+  document: string;
 
-  @ApiProperty({ example: "44444444444" })
+  @ApiProperty({ example: 2 })
   @IsNotEmpty()
   organization: OrganizationEntity;
 }
