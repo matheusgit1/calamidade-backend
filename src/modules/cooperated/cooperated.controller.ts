@@ -29,9 +29,8 @@ import { NullableType } from '../../utils/types/nullable.type';
 import { GetDocumentBodyDto } from '../auth/dto/auth-get-document.dto';
 
 @ApiBearerAuth()
-@Roles(UserRoleEnum.user, UserRoleEnum.admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@ApiTags('cooperateds')
+@ApiTags('Cooperateds')
 @Controller({
   path: 'cooperateds',
   version: '1',
@@ -54,13 +53,28 @@ export class CooperatedController {
   }
 
   @Post()
+  @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createCooperatedDto: CreateCooperatedDto) {
     return this.cooperatedService.create(createCooperatedDto);
   }
 
-  @HttpCode(HttpStatus.OK)
+  @Post('bulk')
+  @Roles(UserRoleEnum.admin)
+  @HttpCode(HttpStatus.CREATED)
+  async createBulk(@Body() createCooperatedDtos: CreateCooperatedDto[]) {
+    try {
+      const createdCooperateds = await this.cooperatedService.createBulk(createCooperatedDtos);
+      return { success: true, createdCooperateds };
+    } catch (error) {
+      return { success: false, error: 'Failed to create cooperateds in bulk.' + error.message };
+    }
+  }
+
+
   @Get('/list')
+  @Roles(UserRoleEnum.user)
+  @HttpCode(HttpStatus.OK)
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
@@ -79,12 +93,14 @@ export class CooperatedController {
   }
 
   @Get(':id')
+  @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string): Promise<NullableType<Cooperated>> {
     return this.cooperatedService.findOne({ id: +id });
   }
 
   @Patch(':id')
+  @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
   update(
     @Param('id') id: string,
@@ -94,6 +110,7 @@ export class CooperatedController {
   }
 
   @Delete(':id')
+  @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: number): Promise<void> {
     return this.cooperatedService.softDelete(id);

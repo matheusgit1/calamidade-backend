@@ -1,42 +1,49 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
-import ms from "ms";
-import { JwtService } from "@nestjs/jwt";
-import { User } from "../user/entities/user.entity";
-import bcrypt from "bcryptjs";
-import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
-import { AuthUpdateDto } from "./dto/auth-update.dto";
-import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
-import { UserStatusEnum } from "src/modules/user/enums/status.enum";
-import { UserRoleEnum } from "../user/enums/roles.enum";
-import crypto from "crypto";
-import { plainToClass } from "class-transformer";
-import { UserStatus } from "src/modules/user/entities/user-status.entity";
-import { UserRole } from "src/modules/user/entities/user-role.entity";
-import { SocialInterface } from "src/modules/auth/social/interfaces/social.interface";
-import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
-import { UsersService } from "src/modules/user/users.service";
-import { ForgotService } from "src/modules/forgot/forgot.service";
-import { MailService } from "src/mail/mail.service";
-import { NullableType } from "../../utils/types/nullable.type";
-import { LoginResponseType } from "./types/login-response.type";
-import { ConfigService } from "@nestjs/config";
-import { AllConfigType } from "src/config/config.type";
-import { SessionService } from "src/modules/session/session.service";
-import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
-import { Session } from "src/modules/session/entities/session.entity";
-import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { AuthProvidersEnum } from "./auth-providers.enum";
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import ms from 'ms';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '../user/entities/user.entity';
+import bcrypt from 'bcryptjs';
+import { AuthEmailLoginDto } from './dto/auth-email-login.dto';
+import { AuthUpdateDto } from './dto/auth-update.dto';
+import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
+import { UserStatusEnum } from 'src/modules/user/enums/status.enum';
+import { UserRoleEnum } from '../user/enums/roles.enum';
+import crypto from 'crypto';
+import { plainToClass } from 'class-transformer';
+import { UserStatus } from 'src/modules/user/entities/user-status.entity';
+import { UserRole } from 'src/modules/user/entities/user-role.entity';
+import { AuthProvidersEnum } from './auth-providers.enum';
+import { SocialInterface } from 'src/modules/auth/social/interfaces/social.interface';
+import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
+import { UsersService } from 'src/modules/user/users.service';
+import { ForgotService } from 'src/modules/forgot/forgot.service';
+import { MailService } from 'src/mail/mail.service';
+import { NullableType } from '../../utils/types/nullable.type';
+import { LoginResponseType } from './types/login-response.type';
+import { ConfigService } from '@nestjs/config';
+import { AllConfigType } from 'src/config/config.type';
+import { SessionService } from 'src/modules/session/session.service';
+import { JwtRefreshPayloadType } from './strategies/types/jwt-refresh-payload.type';
+import { Session } from 'src/modules/session/entities/session.entity';
+import { JwtPayloadType } from './strategies/types/jwt-payload.type';
+import { OrganizationService } from 'src/modules/organization/organization.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private usersService: UsersService,
+    private organizationService: OrganizationService,
     private forgotService: ForgotService,
     private sessionService: SessionService,
     private mailService: MailService,
     private configService: ConfigService<AllConfigType>,
-  ) {}
+  ) { }
 
   async validateLogin(loginDto: AuthEmailLoginDto, onlyAdmin: boolean): Promise<LoginResponseType> {
     const user = await this.usersService.findOne({
@@ -99,7 +106,10 @@ export class AuthService {
     };
   }
 
-  async validateSocialLogin(authProvider: string, socialData: SocialInterface): Promise<LoginResponseType> {
+  async validateSocialLogin(
+    authProvider: string,
+    socialData: SocialInterface
+  ): Promise<LoginResponseType> {
     let user: NullableType<User>;
     const socialEmail = socialData.email?.toLowerCase();
 
@@ -127,6 +137,21 @@ export class AuthService {
         id: UserStatusEnum.active,
       });
 
+      const organizationById = await this.organizationService.findOne({ document: '92935741000182' });
+
+      // Verificar se a organização foi encontrada
+      if (!organizationById) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNPROCESSABLE_ENTITY,
+            errors: {
+              organization: 'organizationNotFound',
+            },
+          },
+          HttpStatus.UNPROCESSABLE_ENTITY
+        );
+      }
+
       user = await this.usersService.create({
         email: socialEmail ?? null,
         firstName: socialData.firstName ?? null,
@@ -135,6 +160,7 @@ export class AuthService {
         provider: authProvider,
         role,
         status,
+        //organization: organizationById
       });
 
       user = await this.usersService.findOne({
@@ -176,12 +202,16 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void> {
-    const hash = crypto.createHash("sha256").update(randomStringGenerator()).digest("hex");
+  async register(data: AuthRegisterLoginDto): Promise<void> {
+    console.log(data);
+    const hash = crypto
+      .createHash('sha256')
+      .update(randomStringGenerator())
+      .digest('hex');
 
     await this.usersService.create({
-      ...dto,
-      email: dto.email,
+      ...data,
+      email: data.email,
       role: {
         id: UserRoleEnum.user,
       } as UserRole,

@@ -15,14 +15,14 @@ describe('Users admin (e2e)', () => {
 
   beforeAll(async () => {
     await request(app)
-      .post('/api/v1/auth/admin/email/login')
+      .post(`/${process.env.API_PREFIX}/v1/auth/admin/email/login`)
       .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
       .then(({ body }) => {
         apiToken = body.token;
       });
 
     await request(app)
-      .post('/api/v1/auth/email/register')
+      .post(`/${process.env.API_PREFIX}/v1/auth/email/register`)
       .send({
         email: newUserEmailFirst,
         password: newUserPasswordFirst,
@@ -31,16 +31,16 @@ describe('Users admin (e2e)', () => {
       });
 
     await request(app)
-      .post('/api/v1/auth/email/login')
+      .post(`/${process.env.API_PREFIX}/v1/auth/email/login`)
       .send({ email: newUserEmailFirst, password: newUserPasswordFirst })
       .then(({ body }) => {
         newUserFirst = body.user;
       });
   });
 
-  it('Change password for new user: /api/v1/user/:id (PATCH)', () => {
+  it(`Change password for new user: /${process.env.API_PREFIX}/v1/user/:id (PATCH)`, () => {
     return request(app)
-      .patch(`/api/v1/user/${newUserFirst.id}`)
+      .patch(`/${process.env.API_PREFIX}/v1/user/${newUserFirst.id}`)
       .auth(apiToken, {
         type: 'bearer',
       })
@@ -48,9 +48,9 @@ describe('Users admin (e2e)', () => {
       .expect(200);
   });
 
-  it('Login via registered user: /api/v1/auth/email/login (POST)', () => {
+  it(`Login via registered user: /${process.env.API_PREFIX}/v1/auth/email/login (POST)`, () => {
     return request(app)
-      .post('/api/v1/auth/email/login')
+      .post(`/${process.env.API_PREFIX}/v1/auth/email/login`)
       .send({ email: newUserEmailFirst, password: newUserChangedPasswordFirst })
       .expect(200)
       .expect(({ body }) => {
@@ -58,9 +58,9 @@ describe('Users admin (e2e)', () => {
       });
   });
 
-  it('Fail create new user by admin: /api/v1/user (POST)', () => {
+  it(`Fail create new user by admin: /${process.env.API_PREFIX}/v1/user (POST)`, () => {
     return request(app)
-      .post(`/api/v1/user`)
+      .post(`/${process.env.API_PREFIX}/v1/user`)
       .auth(apiToken, {
         type: 'bearer',
       })
@@ -68,9 +68,9 @@ describe('Users admin (e2e)', () => {
       .expect(422);
   });
 
-  it('Success create new user by admin: /api/v1/user (POST)', () => {
+  it(`Success create new user by admin: /${process.env.API_PREFIX}/v1/user (POST)`, () => {
     return request(app)
-      .post(`/api/v1/user`)
+      .post(`/${process.env.API_PREFIX}/v1/user`)
       .auth(apiToken, {
         type: 'bearer',
       })
@@ -89,9 +89,9 @@ describe('Users admin (e2e)', () => {
       .expect(201);
   });
 
-  it('Login via created by admin user: /api/v1/auth/email/login (GET)', () => {
+  it(`Login via created by admin user: /${process.env.API_PREFIX}/v1/auth/email/login (GET)`, () => {
     return request(app)
-      .post('/api/v1/auth/email/login')
+      .post(`/${process.env.API_PREFIX}/v1/auth/email/login`)
       .send({
         email: newUserByAdminEmailFirst,
         password: newUserByAdminPasswordFirst,
@@ -102,9 +102,9 @@ describe('Users admin (e2e)', () => {
       });
   });
 
-  it('Get list of users by admin: /api/v1/user (GET)', () => {
+  it(`Get list of users by admin: /${process.env.API_PREFIX}/v1/user (GET)`, () => {
     return request(app)
-      .get(`/api/v1/user/list`)
+      .get(`/${process.env.API_PREFIX}/v1/user/list`)
       .auth(apiToken, {
         type: 'bearer',
       })

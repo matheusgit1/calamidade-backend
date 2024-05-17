@@ -6,7 +6,7 @@ Este projeto contempla a implementação da API usada no projeto <a href="https:
 
 # Board de tasks
 
-https://trello.com/invite/b/jb3dm3Kh/ATTI193114154320787c87ca1380acdcf80cACEFCDC9/desenvolvimento-api
+https://trello.com/c/Vq5QBynY/27-orienta%C3%A7%C3%B5es-para-contribuidores-readme
 
 # Tecnologias Utilizadas
 
@@ -27,6 +27,7 @@ Contribuições são bem-vindas! Para contribuir com o projeto é necessário qu
 
 ![image](https://github.com/Flutterando/calamidade-backend/assets/63257275/a4a9ffdf-a0b8-45a2-a13e-fbd5f2cb2f43)
 
-# Health
+# Ambiente de homologação
 
-https://p543yt5535.execute-api.sa-east-1.amazonaws.com/dev/core/app/health
+Documentação da API: https://ddbtzrk4ihoela73fvtvfpiyza0fetxg.lambda-url.sa-east-1.on.aws/docs
+URL /health da API: https://ddbtzrk4ihoela73fvtvfpiyza0fetxg.lambda-url.sa-east-1.on.aws/core/app/health

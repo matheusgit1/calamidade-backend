@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCooperatedDto } from './dto/create-cooperated.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cooperated } from './entities/cooperated.entity';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, Repository, getManager } from 'typeorm';
 import { IPaginationOptions } from '../../utils/types/pagination-options';
 import { EntityCondition } from '../../utils/types/entity-condition.type';
 import { NullableType } from '../../utils/types/nullable.type';
@@ -76,5 +76,19 @@ export class CooperatedService {
       email: cooperated.email || "",
       phone: cooperated.phone || "",
     };
+  }
+  
+  async createBulk(createCooperatedDtos: CreateCooperatedDto[]): Promise<void> {
+    const cooperatedEntities = createCooperatedDtos.map((dto) => {
+      const cooperated = new Cooperated();
+      cooperated.email = dto.email;
+      cooperated.firstName = dto.firstName;
+      cooperated.lastName = dto.lastName;
+      cooperated.phone = dto.phone;
+      cooperated.document = dto.document;
+      return cooperated;
+    });
+
+    await Cooperated.save(cooperatedEntities);
   }
 }
