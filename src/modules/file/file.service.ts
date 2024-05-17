@@ -51,8 +51,10 @@ export class FileService {
     const bucket = this.configService.get('file.r2Bucket', { infer: true });
     const key = folder ? `${folder}/${FileName}` : FileName;
 
+    //Todo: Criar validação de nome de pasta para aceitar apenas (receipts, accidents)
+
     if (!bucket) {
-      return;
+      return { status: "error", error: 'Bucket was not informed' };
     }
 
     const file = await this.create({
