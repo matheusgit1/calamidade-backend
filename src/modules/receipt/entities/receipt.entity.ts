@@ -2,12 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { RequestEntity } from "src/modules/request/entities/request.entity";
 import { FileEntity } from "src/modules/file/entities/file.entity";
-
-export enum ReceiptTypeEnum {
-  NOTA_FISCAL = "nota_fiscal",
-  COMPROVANTE = "comprovante",
-  OUTRO = "outro",
-}
+import { ReceiptType } from "./receipt-type.entity";
+import { ReceiptTypeEnum } from "../enums/receipt-type.enum";
 
 @Entity("receipt")
 export class ReceiptEntity {
@@ -23,9 +19,9 @@ export class ReceiptEntity {
   @ApiProperty({ example: 500, description: "O valor comprovado do recibo." })
   provenValue: number;
 
-  @Column({ default: ReceiptTypeEnum.OUTRO })
-  @ApiProperty({ enum: ReceiptTypeEnum, description: "O tipo de recibo.", default: ReceiptTypeEnum.OUTRO })
-  receiptType: ReceiptTypeEnum;
+  @ManyToOne(() => ReceiptType, { eager: true })
+  @ApiProperty({ enum: ReceiptTypeEnum, description: "O tipo de recibo.", default: ReceiptTypeEnum.OTHER })
+  receiptType?: ReceiptType;
 
   @ManyToOne(() => RequestEntity, { eager: true })
   @ApiProperty({ type: () => RequestEntity, example: { id: 1, title: "Exemplo de Requisição" }, description: "A requisição associada." })

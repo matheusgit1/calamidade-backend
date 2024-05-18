@@ -8,6 +8,7 @@ import { OrganizationSeedService } from './organization/organization-seed.servic
 import { RequestStatusSeedService } from './request-status/request-status-seed.service';
 import { RequestHelpTypeSeedService } from './request-help-type/request-help-type-seed.service';
 import { ReceiptSeedService } from './receipt/receipt-seed.service';
+import { ReceiptTypeSeedService } from './receipt-type/receipt-type-seed.service';
 
 
 const runSeed = async () => {
@@ -17,6 +18,8 @@ const runSeed = async () => {
   await app.get(RoleSeedService).run();
   await app.get(StatusSeedService).run();
   await app.get(UserSeedService).run();
+  await app.get(ReceiptTypeSeedService).run();
+  await app.get(ReceiptSeedService).run();
   // await app.get(CooperatedSeedService).run();
   await app.get(OrganizationSeedService).run();
   await app.get(ReceiptSeedService).run();

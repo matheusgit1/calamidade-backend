@@ -1,8 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, Validate } from "class-validator";
-import { ReceiptTypeEnum } from "../entities/receipt.entity";
+import { IsEnum, IsNotEmpty, IsNumber, Validate } from "class-validator";
 import { FileEntity } from "src/modules/file/entities/file.entity";
 import { IsExist } from "src/utils/validators/is-exists.validator";
+import { ReceiptTypeEnum } from "../enums/receipt-type.enum";
+import { ReceiptType } from "../entities/receipt-type.entity";
 
 export class CreateReceiptDto {
   @ApiProperty({ example: 2, type: FileEntity, description: "A chave do arquivo associado." })
@@ -12,10 +13,11 @@ export class CreateReceiptDto {
   })
   file?: FileEntity;
 
-  @ApiProperty({ enum: ReceiptTypeEnum, description: "O tipo de recibo.", default: ReceiptTypeEnum.OUTRO })
-  @IsEnum(ReceiptTypeEnum)
-  @IsNotEmpty()
-  receiptType: ReceiptTypeEnum;
+  @ApiProperty({ type: ReceiptType, description: "O tipo de recibo. (Nota Fiscal(0), Comprovante(1), Outro(3))", default: ReceiptTypeEnum.OTHER })
+  @Validate(IsExist, ["ReceiptType", "id"], {
+    message: "ReceiptNotExists",
+  })
+  receiptType?: ReceiptType;
 
   @ApiProperty({ example: "2024-05-18T12:00:00Z", description: "A data e hora em que o recibo foi criado." })
   createdAt: Date;
