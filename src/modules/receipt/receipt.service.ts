@@ -28,7 +28,7 @@ export class ReceiptService {
   private async validateAndUpdateRequest(dto: CreateReceiptDto): Promise<RequestEntity> {
     const request = await this.requestRepository.findOne({
       where: { id: +dto.request },
-      relations: ["receipts"],
+      relations: ["receipt"],
     });
 
     if (!request) {

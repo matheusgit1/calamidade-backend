@@ -7,7 +7,7 @@ import { ReceiptType } from "../entities/receipt-type.entity";
 import { RequestEntity } from "src/modules/request/entities/request.entity";
 
 export class CreateReceiptDto {
-  @ApiProperty({ example: 2, type: FileEntity, description: "A chave do arquivo associado." })
+  @ApiProperty({ example: "2e871b8d-d1eb-454c-bf45-dd8dc8e405a6", type: FileEntity, description: "A chave do arquivo associado." })
   @IsNotEmpty()
   @Validate(IsExist, ["file", "id"], {
     message: "Arquivo não encontrado",
