@@ -7,15 +7,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { NullableType } from '../../utils/types/nullable.type';
 import { OrganizationEntity } from '../organization/entities/organization.entity';
-import { Cooperated } from '../cooperated/entities/cooperated.entity';
+import { CooperatedEntity } from '../cooperated/entities/cooperated.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Cooperated)
-    private cooperatedRepository: Repository<Cooperated>,
+    @InjectRepository(CooperatedEntity)
+    private cooperatedRepository: Repository<CooperatedEntity>,
     @InjectRepository(OrganizationEntity)
     private organizationRepository: Repository<OrganizationEntity>
     

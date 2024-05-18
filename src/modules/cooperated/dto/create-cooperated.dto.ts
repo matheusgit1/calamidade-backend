@@ -11,7 +11,7 @@ export class CreateCooperatedDto {
   @ApiProperty({ example: "test1@example.com" })
   @Transform(lowerCaseTransformer)
   @IsNotEmpty()
-  @Validate(IsNotExist, ["Cooperated"], {
+  @Validate(IsNotExist, ["cooperated"], {
     message: "Email already exists",
   })
   @IsEmail()
@@ -35,7 +35,7 @@ export class CreateCooperatedDto {
   @IsNotEmpty()
   @IsValidCpfOrCnpj()
   @NumericOnlyTransform()
-  @Validate(IsNotExist, ["Cooperated"], {
+  @Validate(IsNotExist, ["cooperated"], {
     message: "Document already exists",
   })
   document: string;

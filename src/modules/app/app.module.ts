@@ -30,6 +30,7 @@ import { OrganizationModule } from "../organization/organization.module";
 import { AddressModule } from "../user/address/address.module";
 import { ReceiptModule } from "../receipt/receipt.module";
 import { RequestModule } from "../request/request.module";
+import { AccidentsModule } from "../accidents/accidents.module";
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { RequestModule } from "../request/request.module";
     HomeModule,
     AppModule,
     CooperatedModule,
+    AccidentsModule,
     OrganizationModule,
     AddressModule,
     ReceiptModule,

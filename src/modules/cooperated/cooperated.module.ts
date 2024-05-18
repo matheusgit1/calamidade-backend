@@ -4,12 +4,12 @@ import { CooperatedController } from "./cooperated.controller";
 import { IsNotExist } from "../../utils/validators/is-not-exists.validator";
 import { IsExist } from "../../utils/validators/is-exists.validator";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Cooperated } from "./entities/cooperated.entity";
+import { CooperatedEntity } from "./entities/cooperated.entity";
 import { OrganizationService } from "../organization/organization.service";
 import { OrganizationEntity } from "../organization/entities/organization.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cooperated, OrganizationEntity])],
+  imports: [TypeOrmModule.forFeature([CooperatedEntity, OrganizationEntity])],
   controllers: [CooperatedController],
   providers: [IsExist, IsNotExist, CooperatedService, OrganizationService],
 })

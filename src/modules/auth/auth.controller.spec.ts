@@ -1,7 +1,6 @@
-
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import {  JwtService } from "@nestjs/jwt";
+import { JwtService } from "@nestjs/jwt";
 import * as dotenv from "dotenv";
 import { MailData } from "src/mail/interfaces/mail-data.interface";
 import { User } from "../user/entities/user.entity";
@@ -17,25 +16,25 @@ import { ConfigService } from "@nestjs/config";
 import { AllConfigType } from "src/config/config.type";
 import { UserStatus } from "../user/entities/user-status.entity";
 import { UserRole } from "../user/entities/user-role.entity";
-import { Cooperated } from "../cooperated/entities/cooperated.entity";
-import { CreateCooperatedDto } from "../cooperated/dto/create-cooperated.dto";
+import { CooperatedEntity } from "../cooperated/entities/cooperated.entity";
+import { OrganizationEntity } from "../organization/entities/organization.entity";
 
 dotenv.config();
 
 const user = new User();
+const org = new OrganizationEntity();
 const userStatus = new UserStatus();
 const userRole = new UserRole();
-const cooperated = new Cooperated();
+const cooperated = new CooperatedEntity();
 const session = new Session();
 const forgot = new Forgot();
 
-
-cooperated.firstName = 'barack'
-cooperated.id = 1
+cooperated.firstName = "barack";
+cooperated.id = 1;
 cooperated.email = "barack.obama@example.com";
-cooperated.lastName = 'obama'
-cooperated.phone = '27997000065'
-cooperated.document = '51260605035'
+cooperated.lastName = "obama";
+cooperated.phone = "27997000065";
+cooperated.document = "51260605035";
 cooperated.createdAt = new Date();
 cooperated.updatedAt = new Date();
 cooperated.deletedAt = new Date();
@@ -62,18 +61,16 @@ user.createdAt = new Date();
 user.updatedAt = new Date();
 user.deletedAt = new Date();
 
-
-session.id = 1
-session.user = user
-session.createdAt = new Date()
-session.deletedAt = new Date()
-
+session.id = 1;
+session.user = user;
+session.createdAt = new Date();
+session.deletedAt = new Date();
 
 forgot.createdAt = new Date();
 forgot.deletedAt = new Date();
-forgot.id = 1
-forgot.hash = 'hash'
-forgot.user = user
+forgot.id = 1;
+forgot.hash = "hash";
+forgot.user = user;
 
 
 class MailServiceMocked {
@@ -81,92 +78,47 @@ class MailServiceMocked {
   forgotPassword = jest.fn(async (mailData: MailData<{ hash: string }>): Promise<void> => {});
 }
 
-class UsersServiceMocked {
-  create = jest.fn(async (_createProfileDto: CreateUserDto): Promise<User> => {
-    return user;
-  });
-
-  findManyWithPagination = jest.fn(async (_paginationOptions: IPaginationOptions): Promise<User[]> => {
-    return [user];
-  });
-  findOne = jest.fn(async (_fields: EntityCondition<User>): Promise<NullableType<User>> => {
-    return user;
-  });
-
-  update = jest.fn(async (_id: User["id"], _payload: DeepPartial<User>): Promise<User> => {
-    return user;
-  });
-
-  softDelete = jest.fn(async (_id: User["id"]): Promise<void> => {});
+interface Identifiable {
+  id: number | string;
 }
 
-class ForgotServiceMocked {
-  findOne = jest.fn(async (_options: FindOptions<Forgot>): Promise<NullableType<Forgot>> => {
-    return new Forgot();
+class ServiceMocked<T extends Identifiable> {
+  private readonly entity: T;
+
+  constructor(mockEntity: T) {
+    this.entity = mockEntity;
+  }
+
+  create = jest.fn(async (_createProfileDto: CreateUserDto): Promise<T> => {
+    return this.entity;
   });
 
-  findMany = jest.fn(async (_options: FindOptions<Forgot>): Promise<Forgot[]> => {
-    return [new Forgot()];
+  findManyWithPagination = jest.fn(async (_paginationOptions: IPaginationOptions): Promise<T[]> => {
+    return [this.entity];
   });
 
-  create = jest.fn(async (_data: DeepPartial<Forgot>): Promise<Forgot> => {
-    return new Forgot();
+  findMany = jest.fn(async (_options: FindOptions<T>): Promise<T[]> => {
+    return [this.entity];
   });
 
-  softDelete = jest.fn(async (_id: Forgot["id"]): Promise<void> => {});
+  findOne = jest.fn(async (_fields: EntityCondition<T>): Promise<NullableType<T>> => {
+    return this.entity;
+  });
+
+  update = jest.fn(async (_id: T["id"], _payload: DeepPartial<T>): Promise<T> => {
+    return this.entity;
+  });
+
+  softDelete = jest.fn(async (_id: T["id"]): Promise<void> => {});
 }
-
-class SessionServiceMocked {
-  findOne = jest.fn(async (_options: FindOptions<Session>): Promise<NullableType<Session>> => {
-    return new Session();
-  });
-
-  findMany = jest.fn(async (_options: FindOptions<Session>): Promise<Session[]> => {
-    return [new Session()];
-  });
-
-  create = jest.fn(async (_data: DeepPartial<Session>): Promise<Session> => {
-    return new Session();
-  });
-
-
-   softDelete = jest.fn(async({
-    excludeId,
-    ..._criteria
-  }: {
-    id?: Session['id'];
-    user?: Pick<User, 'id'>;
-    excludeId?: Session['id'];
-  }): Promise<void> => {})
-}
-
-class CooperatedServiceMocked {
-  create = jest.fn(async (_createCooperatedDto: CreateCooperatedDto): Promise<Cooperated> => {return new Cooperated() })
-
-  findManyWithPagination = jest.fn(async (
-    _paginationOptions: IPaginationOptions,
-  ): Promise<Cooperated[]> => {return [new Cooperated()]})
-
-  findOne = jest.fn(async (
-    _fields: EntityCondition<Cooperated>,
-  ): Promise<NullableType<Cooperated>> => {return new Cooperated() })
-
-  update = jest.fn(async (
-    _id: Cooperated['id'],
-    _payload: DeepPartial<Cooperated>,
-  ): Promise<Cooperated> => { return new Cooperated()})
-
-  softDelete = jest.fn(async (id: Cooperated['id']): Promise<void> => {})
-}
-
 
 const jwtService = new JwtService();
-const usersServiceMocked = new UsersServiceMocked();
-const forgotServiceMocked = new ForgotServiceMocked();
-const sessionServiceMocked = new SessionServiceMocked();
+const organizationServiceMocked = new ServiceMocked<OrganizationEntity>(org);
+const usersServiceMocked = new ServiceMocked<User>(user);
+const forgotServiceMocked = new ServiceMocked<Forgot>(forgot);
+const sessionServiceMocked = new ServiceMocked<Session>(session);
 const mailServiceMocked = new MailServiceMocked();
 const configService = new ConfigService<AllConfigType>();
-
 
 describe("TestingController", () => {
   let controller: AuthController = new AuthController(
@@ -174,7 +126,7 @@ describe("TestingController", () => {
       jwtService,
       //@ts-ignore
       usersServiceMocked,
-      //@ts-ignore
+      organizationServiceMocked,
       forgotServiceMocked,
       sessionServiceMocked,
       mailServiceMocked,
@@ -182,11 +134,11 @@ describe("TestingController", () => {
     ),
   );
   beforeEach(async () => {
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   });
 
   beforeAll(async () => {
-    jest.clearAllMocks()
+    jest.clearAllMocks();
   });
 
   it("should be defined", () => {
@@ -194,104 +146,96 @@ describe("TestingController", () => {
   });
 
   describe("success cases", () => {
-
     it("should execute soft delete without erro", async () => {
+      const spy_usersServiceMocked_softDelete = jest.spyOn(usersServiceMocked, "softDelete");
+      const response = await controller.delete({ user: user.toJSON() });
+      expect(spy_usersServiceMocked_softDelete).toHaveBeenCalledTimes(1);
+      expect(spy_usersServiceMocked_softDelete).toHaveBeenCalledWith(user.id);
 
-      const spy_usersServiceMocked_softDelete = jest.spyOn(usersServiceMocked,"softDelete")
-      const response = await controller.delete({user: user.toJSON()})
-      expect(spy_usersServiceMocked_softDelete).toHaveBeenCalledTimes(1)
-      expect(spy_usersServiceMocked_softDelete).toHaveBeenCalledWith(user.id)
-    
-      expect(response).toBeUndefined()
-    })
+      expect(response).toBeUndefined();
+    });
 
     it("should execute update without erro (without password)", async () => {
-
-      const spy_usersServiceMocked_update = jest.spyOn(usersServiceMocked,"update")
-      const spy_usersServiceMocked_findOne = jest.spyOn(usersServiceMocked,"findOne")
-      const spy_sessionServiceMocked_softDelete = jest.spyOn(sessionServiceMocked,"softDelete")
+      const spy_usersServiceMocked_update = jest.spyOn(usersServiceMocked, "update");
+      const spy_usersServiceMocked_findOne = jest.spyOn(usersServiceMocked, "findOne");
+      const spy_sessionServiceMocked_softDelete = jest.spyOn(sessionServiceMocked, "softDelete");
 
       const userUpdate = {
-        firstName: 'firstName',
-        lastName: 'lastName',
-        oldPassword: user.password
-      }
+        firstName: "firstName",
+        lastName: "lastName",
+        oldPassword: user.password,
+      };
 
-      const response = await controller.update({user: user.toJSON()},userUpdate)
+      const response = await controller.update({ user: user.toJSON() }, userUpdate);
 
-      expect(spy_usersServiceMocked_update).toHaveBeenCalledTimes(1)
-      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledTimes(1)
-      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledTimes(0)
-      expect(spy_usersServiceMocked_update).toHaveBeenCalledWith(user.id, userUpdate)
-    
-      expect(response).toBeDefined()
-      expect(response).toBeInstanceOf(User)
-    })
+      expect(spy_usersServiceMocked_update).toHaveBeenCalledTimes(1);
+      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledTimes(1);
+      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledTimes(0);
+      expect(spy_usersServiceMocked_update).toHaveBeenCalledWith(user.id, userUpdate);
 
+      expect(response).toBeDefined();
+      expect(response).toBeInstanceOf(User);
+    });
 
     it("should execute update without erro (with the same old password)", async () => {
+      usersServiceMocked.findOne.mockResolvedValueOnce(user);
 
-      usersServiceMocked.findOne.mockResolvedValueOnce(user)
-
-      const spy_usersServiceMocked_update = jest.spyOn(usersServiceMocked,"update")
-      const spy_usersServiceMocked_findOne = jest.spyOn(usersServiceMocked,"findOne")
-      const spy_sessionServiceMocked_softDelete = jest.spyOn(sessionServiceMocked,"softDelete")
+      const spy_usersServiceMocked_update = jest.spyOn(usersServiceMocked, "update");
+      const spy_usersServiceMocked_findOne = jest.spyOn(usersServiceMocked, "findOne");
+      const spy_sessionServiceMocked_softDelete = jest.spyOn(sessionServiceMocked, "softDelete");
       const userUpdate = {
-        firstName: 'firstName',
-        lastName: 'lastName',
-        oldPassword: 'password123',
-        password:  'password123'
-      }
+        firstName: "firstName",
+        lastName: "lastName",
+        oldPassword: "password123",
+        password: "password123",
+      };
 
-      user.password = "$2a$10$yJyGsexHRWW37yGtCFMSR.Y4kL7QcX8Eyl7Kam8E1L3fkxvFrHhE2"
+      user.password = "$2a$10$yJyGsexHRWW37yGtCFMSR.Y4kL7QcX8Eyl7Kam8E1L3fkxvFrHhE2";
 
-      const response = await controller.update({user: user},userUpdate)
-      expect(spy_usersServiceMocked_update).toHaveBeenCalledTimes(1)
-      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledTimes(2)
-      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledTimes(1)
-      expect(spy_usersServiceMocked_update).toHaveBeenCalledWith(user.id, userUpdate)
+      const response = await controller.update({ user: user }, userUpdate);
+      expect(spy_usersServiceMocked_update).toHaveBeenCalledTimes(1);
+      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledTimes(2);
+      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledTimes(1);
+      expect(spy_usersServiceMocked_update).toHaveBeenCalledWith(user.id, userUpdate);
 
-      console.log('response', response)
-    
-      expect(response).toBeDefined()
-      expect(response).toBeInstanceOf(User)
-    })
+      expect(response).toBeDefined();
+      expect(response).toBeInstanceOf(User);
+    });
 
     it("should execute logout without erro", async () => {
-      const spy_sessionServiceMocked_softDelete = jest.spyOn(sessionServiceMocked,"softDelete")
-      
-      const response = await controller.logout({user: {sessionId: session.id}})
-      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledTimes(1)
-      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledWith({id: session.id})
+      const spy_sessionServiceMocked_softDelete = jest.spyOn(sessionServiceMocked, "softDelete");
 
-      expect(response).toBeUndefined()
-    })
+      const response = await controller.logout({ user: { sessionId: session.id } });
+      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledTimes(1);
+      expect(spy_sessionServiceMocked_softDelete).toHaveBeenCalledWith({ id: session.id });
+
+      expect(response).toBeUndefined();
+    });
 
     it("should execute me correctly", async () => {
-      sessionServiceMocked.findOne.mockResolvedValueOnce(session)
-      const response = await controller.me({user: user})
-      expect(response).toBeDefined()
-    })
+      sessionServiceMocked.findOne.mockResolvedValueOnce(session);
+      const response = await controller.me({ user: user });
+      expect(response).toBeDefined();
+    });
 
     it("should execute forgotPassword correctly", async () => {
+      usersServiceMocked.findOne.mockResolvedValueOnce(user);
+      forgotServiceMocked.create.mockResolvedValueOnce(forgot);
 
-      usersServiceMocked.findOne.mockResolvedValueOnce(user)
-      forgotServiceMocked.create.mockResolvedValueOnce(forgot)
+      const spy_usersServiceMocked_findOne = jest.spyOn(usersServiceMocked, "findOne");
+      const spy_forgotServiceMocked_create = jest.spyOn(forgotServiceMocked, "create");
+      const spy_mailServiceMocked_forgotPassword = jest.spyOn(mailServiceMocked, "forgotPassword");
 
-      const spy_usersServiceMocked_findOne = jest.spyOn(usersServiceMocked,"findOne")
-      const spy_forgotServiceMocked_create = jest.spyOn(forgotServiceMocked,"create")
-      const spy_mailServiceMocked_forgotPassword = jest.spyOn(mailServiceMocked,"forgotPassword")
+      const input = { email: "test@example.com" };
+      const response = await controller.forgotPassword(input);
 
-      const input = {email: "test@example.com"}
-      const response = await controller.forgotPassword(input)
+      expect(response).toBeUndefined();
+      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledTimes(1);
+      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledWith({ email: input.email });
 
-      expect(response).toBeUndefined()
-      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledTimes(1)
-      expect(spy_usersServiceMocked_findOne).toHaveBeenCalledWith({email: input.email})
-
-      expect(spy_forgotServiceMocked_create).toHaveBeenCalledTimes(1)
-      expect(spy_mailServiceMocked_forgotPassword).toHaveBeenCalledTimes(1)
-    })
+      expect(spy_forgotServiceMocked_create).toHaveBeenCalledTimes(1);
+      expect(spy_mailServiceMocked_forgotPassword).toHaveBeenCalledTimes(1);
+    });
 
     // it("should execute confirmEmail correctly", async () => {
     //   //Revalidate
@@ -302,3 +246,4 @@ describe("TestingController", () => {
     // })
   });
 });
+
