@@ -1,8 +1,10 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+
+import { RequestEntity } from "src/modules/request/entities/request.entity";
 
 
 @Entity('receipt')
-export class Receipt {
+export class ReceiptEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -15,8 +17,8 @@ export class Receipt {
     @Column()
     receiptType: string
 
-    @Column()
-    requestId: number
+    @ManyToOne(() => RequestEntity, { eager: true })
+    request: RequestEntity
 
     @CreateDateColumn()
     createdAt: Date;

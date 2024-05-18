@@ -60,7 +60,7 @@ import { RequestModule } from "../request/request.module";
     AppModule,
     CooperatedModule,
     OrganizationModule,
-    ReceiptModule
+    ReceiptModule,
     RequestModule
   ],
   controllers: [AppController],
