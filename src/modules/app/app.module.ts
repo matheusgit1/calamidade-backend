@@ -27,6 +27,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CooperatedModule } from "../cooperated/cooperated.module";
 import { OrganizationModule } from "../organization/organization.module";
+import { AddressModule } from "../user/address/address.module";
 import { ReceiptModule } from "../receipt/receipt.module";
 import { RequestModule } from "../request/request.module";
 
@@ -56,6 +57,7 @@ import { RequestModule } from "../request/request.module";
     AppModule,
     CooperatedModule,
     OrganizationModule,
+    AddressModule,
     ReceiptModule,
     RequestModule
   ],
