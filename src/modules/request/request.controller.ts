@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus, HttpCode, DefaultValuePipe, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus, HttpCode, DefaultValuePipe, ParseIntPipe, Query, Request } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
@@ -22,8 +22,8 @@ export class RequestController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createRequestDto: CreateRequestDto) {
-    return this.requestService.create(createRequestDto);
+  create(@Request() request, @Body() createRequestDto: CreateRequestDto) {
+    return this.requestService.create(request.user, createRequestDto);
   }
 
   @Get()
