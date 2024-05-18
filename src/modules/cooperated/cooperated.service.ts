@@ -1,22 +1,27 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from "@nestjs/common";
 import { CreateCooperatedDto } from "./dto/create-cooperated.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cooperated } from "./entities/cooperated.entity";
-import { DataSource, DeepPartial, Repository, getManager } from "typeorm";
+import { DataSource, DeepPartial, Repository } from "typeorm";
 import { IPaginationOptions } from "../../utils/types/pagination-options";
 import { EntityCondition } from "../../utils/types/entity-condition.type";
 import { NullableType } from "../../utils/types/nullable.type";
+import { OrganizationService } from "../organization/organization.service";
 
 @Injectable()
 export class CooperatedService {
   constructor(
     @InjectRepository(Cooperated)
     private cooperatedRepository: Repository<Cooperated>,
+    private readonly organizationService: OrganizationService,
     private dataSource: DataSource,
   ) {}
 
-  create(createCooperatedDto: CreateCooperatedDto) {
-    return this.cooperatedRepository.save(this.cooperatedRepository.create(createCooperatedDto));
+  async create(createCooperatedDto: CreateCooperatedDto) {
+    const organization = await this.organizationService.findOne({ id: +createCooperatedDto.organization });
+    if (!organization) throw new UnprocessableEntityException("organization of provided organization is not found");
+
+    return this.cooperatedRepository.save(this.cooperatedRepository.create({ ...createCooperatedDto, organization }));
   }
 
   findManyWithPagination(paginationOptions: IPaginationOptions): Promise<Cooperated[]> {
@@ -78,6 +83,7 @@ export class CooperatedService {
       cooperated.lastName = dto.lastName;
       cooperated.phone = dto.phone;
       cooperated.document = dto.document;
+      cooperated.organization = dto.organization;
       return cooperated;
     });
 

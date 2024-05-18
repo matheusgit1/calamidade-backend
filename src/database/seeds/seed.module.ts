@@ -9,7 +9,8 @@ import { RoleSeedModule } from './user-role/role-seed.module';
 import { StatusSeedModule } from './user-status/status-seed.module';
 import { UserSeedModule } from './user/user-seed.module';
 import { OrganizationSeedModule } from './organization/organization-seed.module';
-import { CooperatedSeedModule } from './cooperated/cooperated-seed.module';
+import { RequestStatusSeedModule } from './request-status/request-status-seed.module';
+import { RequestHelpTypeSeedModule } from './request-help-type/request-help-type-seed.module';
 
 
 @Module({
@@ -17,8 +18,9 @@ import { CooperatedSeedModule } from './cooperated/cooperated-seed.module';
     RoleSeedModule,
     StatusSeedModule,
     UserSeedModule,
-    CooperatedSeedModule,
     OrganizationSeedModule,
+    RequestStatusSeedModule,
+    RequestHelpTypeSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],
