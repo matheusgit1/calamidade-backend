@@ -18,18 +18,10 @@ export class CooperatedService {
   ) {}
 
   async create(createCooperatedDto: CreateCooperatedDto) {
-    const normalizedDocument = createCooperatedDto.document.replace(/\D/g, "");
-    const alreadyOneWithDocument = await this.cooperatedRepository.findOne({
-      where: {
-        document: normalizedDocument,
-      },
-    });
-    if (alreadyOneWithDocument) throw new UnprocessableEntityException("document already exists");
-
     const organization = await this.organizationService.findOne({ id: +createCooperatedDto.organization });
     if (!organization) throw new UnprocessableEntityException("organization of provided organization is not found");
 
-    return this.cooperatedRepository.save(this.cooperatedRepository.create({ ...createCooperatedDto, document: normalizedDocument, organization }));
+    return this.cooperatedRepository.save(this.cooperatedRepository.create({ ...createCooperatedDto, organization }));
   }
 
   findManyWithPagination(paginationOptions: IPaginationOptions): Promise<CooperatedEntity[]> {

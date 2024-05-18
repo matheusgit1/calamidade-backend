@@ -36,6 +36,7 @@ export async function bootstrap(): Promise<AppBootStrap> {
 
   app.use(json({ limit: "50mb" }));
   app.use(urlencoded({ extended: true, limit: "50mb" }));
+  app.useGlobalFilters(new CustomExceptionFilter());
 
   /**
    * use in case of implementing trace via aws xray

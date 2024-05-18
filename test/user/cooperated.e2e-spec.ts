@@ -3,33 +3,7 @@ import { HttpStatus } from "@nestjs/common";
 import { CooperatedEntity } from "../../src/modules/cooperated/entities/cooperated.entity";
 import { OrganizationEntity } from "../../src/modules/organization/entities/organization.entity";
 import { ADMIN_EMAIL, ADMIN_PASSWORD, APP_URL, TESTER_EMAIL, TESTER_PASSWORD } from "../utils/constants";
-
-function generateCPF(): string {
-  const getRandomDigit = () => Math.floor(Math.random() * 10);
-
-  const calculateDigit = (cpfArray: number[], factor: number): number => {
-    const total = cpfArray.reduce((sum, num, index) => sum + num * (factor - index), 0);
-    const remainder = total % 11;
-    return remainder < 2 ? 0 : 11 - remainder;
-  };
-
-  // generate the first 9 digits of CPF
-  const cpfArray = Array.from({ length: 9 }, getRandomDigit);
-
-  // Calcule the first digit of verificator
-  const firstDigit = calculateDigit(cpfArray, 10);
-  cpfArray.push(firstDigit);
-
-  // Calcule the second digit of verificator
-  const secondDigit = calculateDigit(cpfArray, 11);
-  cpfArray.push(secondDigit);
-
-  // Convert the array of numbers to an string of CPF format
-  const cpf = cpfArray.join("");
-
-  // Using CPF Mask
-  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-}
+import { generateCPFNumbers } from "../utils/generators";
 
 function FactoryCooperated(): Partial<CooperatedEntity> {
   return {
@@ -37,7 +11,7 @@ function FactoryCooperated(): Partial<CooperatedEntity> {
     firstName: "Morgan",
     lastName: "Stark",
     phone: "+551677777777",
-    document: generateCPF(),
+    document: generateCPFNumbers(),
   };
 }
 
@@ -45,7 +19,7 @@ function FactoryOrganization(): Partial<OrganizationEntity> {
   return {
     name: "Morgan",
     email: `fakeemail2${Date.now()}@gmail.com`,
-    document: generateCPF(),
+    document: generateCPFNumbers(),
   };
 }
 
@@ -94,7 +68,7 @@ describe("CooperatedController (e2e)", () => {
     // creating an cooperate
     await request(app)
       .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
-      .send({ ...FactoryCooperated(), organization: organizationId, document: generateCPF() })
+      .send({ ...FactoryCooperated(), organization: organizationId, document: generateCPFNumbers() })
       .auth(tokenAdmin, {
         type: "bearer",
       })
@@ -105,7 +79,7 @@ describe("CooperatedController (e2e)", () => {
 
   describe("creating", () => {
     it("New cooperated entity", async () => {
-      const mockCooperated = { ...FactoryCooperated(), organization: organizationId, document: generateCPF() };
+      const mockCooperated = { ...FactoryCooperated(), organization: organizationId, document: generateCPFNumbers() };
 
       await request(app)
         .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
@@ -117,7 +91,7 @@ describe("CooperatedController (e2e)", () => {
     });
     describe("(error)", () => {
       it("New cooperated entity with document already inserted", async () => {
-        const firstDocument = generateCPF();
+        const firstDocument = generateCPFNumbers();
         await request(app)
           .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
           .send({ ...FactoryCooperated(), organization: organizationId, document: firstDocument })
@@ -135,13 +109,14 @@ describe("CooperatedController (e2e)", () => {
           })
           .send(mockCooperated)
           .expect(HttpStatus.UNPROCESSABLE_ENTITY);
-        expect(secondOne.body.message).toBe("document already exists");
+
+        expect(secondOne.body.errors.document).toBe("Document already exists");
       });
 
       it("New cooperated entity with organization not found", async () => {
         const response = await request(app)
           .post(`/${process.env.API_PREFIX}/v1/cooperateds`)
-          .send({ ...FactoryCooperated(), organization: 3232, document: generateCPF() })
+          .send({ ...FactoryCooperated(), organization: 3232, document: generateCPFNumbers() })
           .auth(tokenAdmin, {
             type: "bearer",
           })

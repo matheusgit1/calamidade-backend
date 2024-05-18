@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { EntityHelper } from "../../../utils/entity-helper";
 import { Expose } from "class-transformer";
 import { OrganizationEntity } from "src/modules/organization/entities/organization.entity";
@@ -8,7 +8,8 @@ export class CooperatedEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: String, unique: true, nullable: true })
+  @Index({ unique: true })
+  @Column({ type: String, nullable: true })
   @Expose({ groups: ["me", "admin"] })
   email: string | null;
 
@@ -21,6 +22,7 @@ export class CooperatedEntity extends EntityHelper {
   @Column({ type: String, nullable: true })
   phone: string | null;
 
+  @Index({ unique: true })
   @Column({ type: String, nullable: true })
   document: string | null;
 

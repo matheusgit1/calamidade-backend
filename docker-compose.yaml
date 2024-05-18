@@ -1,5 +1,5 @@
 name: nestjs-boilerplate
-version: '3.8'
+version: "3.8"
 services:
   postgres:
     image: postgres:15.3-alpine
@@ -33,13 +33,12 @@ services:
   #     - 6379:6379
 
   api:
-   build:
-     context: .
-     dockerfile: Dockerfile
-   ports:
-     - ${APP_PORT}:${APP_PORT}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:${APP_PORT}
 volumes:
   postgres:
   maildev:
   adminer:
-
