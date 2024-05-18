@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
 import { CreateCooperatedDto } from "./dto/create-cooperated.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Cooperated } from "./entities/cooperated.entity";
+import { CooperatedEntity } from "./entities/cooperated.entity";
 import { DataSource, DeepPartial, Repository } from "typeorm";
 import { IPaginationOptions } from "../../utils/types/pagination-options";
 import { EntityCondition } from "../../utils/types/entity-condition.type";
@@ -11,33 +11,33 @@ import { OrganizationService } from "../organization/organization.service";
 @Injectable()
 export class CooperatedService {
   constructor(
-    @InjectRepository(Cooperated)
-    private cooperatedRepository: Repository<Cooperated>,
+    @InjectRepository(CooperatedEntity)
+    private cooperatedRepository: Repository<CooperatedEntity>,
     private readonly organizationService: OrganizationService,
     private dataSource: DataSource,
   ) {}
 
   async create(createCooperatedDto: CreateCooperatedDto) {
     const organization = await this.organizationService.findOne({ id: +createCooperatedDto.organization });
-    if (!organization) throw new UnprocessableEntityException("organization of provided organization is not found");
+    if (!organization) throw new BadRequestException("organization of provided organization is not found");
 
     return this.cooperatedRepository.save(this.cooperatedRepository.create({ ...createCooperatedDto, organization }));
   }
 
-  findManyWithPagination(paginationOptions: IPaginationOptions): Promise<Cooperated[]> {
+  findManyWithPagination(paginationOptions: IPaginationOptions): Promise<CooperatedEntity[]> {
     return this.cooperatedRepository.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
   }
 
-  findOne(fields: EntityCondition<Cooperated>): Promise<NullableType<Cooperated>> {
+  findOne(fields: EntityCondition<CooperatedEntity>): Promise<NullableType<CooperatedEntity>> {
     return this.cooperatedRepository.findOne({
       where: fields,
     });
   }
 
-  update(id: Cooperated["id"], payload: DeepPartial<Cooperated>): Promise<Cooperated> {
+  update(id: CooperatedEntity["id"], payload: DeepPartial<CooperatedEntity>): Promise<CooperatedEntity> {
     return this.cooperatedRepository.save(
       this.cooperatedRepository.create({
         id,
@@ -46,7 +46,7 @@ export class CooperatedService {
     );
   }
 
-  async softDelete(id: Cooperated["id"]): Promise<void> {
+  async softDelete(id: CooperatedEntity["id"]): Promise<void> {
     await this.cooperatedRepository.softDelete(id);
   }
 
@@ -77,7 +77,7 @@ export class CooperatedService {
     await queryRunner.startTransaction();
 
     const cooperatedEntities = dtos.map(dto => {
-      const cooperated = new Cooperated();
+      const cooperated = new CooperatedEntity();
       cooperated.email = dto.email;
       cooperated.firstName = dto.firstName;
       cooperated.lastName = dto.lastName;

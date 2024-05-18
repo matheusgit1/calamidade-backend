@@ -9,6 +9,8 @@ import { CreateFileDto } from './dto/create-file.dto';
 import path from 'path';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import mime from 'mime-types';
+import { EntityCondition } from 'src/utils/types/entity-condition.type';
+import { NullableType } from 'src/utils/types/nullable.type';
 
 @Injectable()
 export class FileService {
@@ -154,5 +156,11 @@ export class FileService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  findOne(fields: EntityCondition<FileEntity>): Promise<NullableType<FileEntity>> {
+    return this.fileRepository.findOne({
+      where: fields,
+    });
   }
 }
