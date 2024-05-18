@@ -110,7 +110,7 @@ describe("CooperatedController (e2e)", () => {
           .send(mockCooperated)
           .expect(HttpStatus.UNPROCESSABLE_ENTITY);
 
-        expect(secondOne.body.errors.document).toBe("Document already exists");
+        expect(secondOne.body.erros.document).toBe("Document already exists");
       });
 
       it("New cooperated entity with organization not found", async () => {
@@ -120,9 +120,9 @@ describe("CooperatedController (e2e)", () => {
           .auth(tokenAdmin, {
             type: "bearer",
           })
-          .expect(HttpStatus.UNPROCESSABLE_ENTITY);
+          .expect(HttpStatus.BAD_REQUEST);
 
-        expect(response.body.message).toBe("organization of provided organization is not found");
+        expect(response.body.erros).toBe("organization of provided organization is not found");
       });
     });
   });
@@ -155,7 +155,7 @@ describe("CooperatedController (e2e)", () => {
       .expect(HttpStatus.OK);
   });
 
-  it.only("Update a cooperated entity", async () => {
+  it("Update a cooperated entity", async () => {
     const updatedCooperatedData: Partial<CooperatedEntity> = {};
 
     await request(app)

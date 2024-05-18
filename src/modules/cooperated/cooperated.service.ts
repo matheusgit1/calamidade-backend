@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
 import { CreateCooperatedDto } from "./dto/create-cooperated.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CooperatedEntity } from "./entities/cooperated.entity";
@@ -19,7 +19,7 @@ export class CooperatedService {
 
   async create(createCooperatedDto: CreateCooperatedDto) {
     const organization = await this.organizationService.findOne({ id: +createCooperatedDto.organization });
-    if (!organization) throw new UnprocessableEntityException("organization of provided organization is not found");
+    if (!organization) throw new BadRequestException("organization of provided organization is not found");
 
     return this.cooperatedRepository.save(this.cooperatedRepository.create({ ...createCooperatedDto, organization }));
   }
