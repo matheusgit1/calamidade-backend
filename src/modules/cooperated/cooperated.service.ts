@@ -16,7 +16,7 @@ export class CooperatedService {
     private readonly organizationService: OrganizationService,
     private dataSource: DataSource,
   ) {}
-
+  
   async create(createCooperatedDto: CreateCooperatedDto) {
     const organization = await this.organizationService.findOne({ id: +createCooperatedDto.organization });
     if (!organization) throw new UnprocessableEntityException("organization of provided organization is not found");
