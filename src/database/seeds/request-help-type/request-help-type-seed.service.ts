@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RequestHelpType } from 'src/modules/request/entities/request-help-type.entity';
+import { RequestHelpTypeEntity } from 'src/modules/request/help-type/entities/request-help-type.entity';
 import { RequestHelpTypeEnum } from 'src/modules/request/enums/help-type.enum';
 
 @Injectable()
 export class RequestHelpTypeSeedService {
   constructor(
-    @InjectRepository(RequestHelpType)
-    private requestHelpTypeRepository: Repository<RequestHelpType>
+    @InjectRepository(RequestHelpTypeEntity)
+    private requestHelpTypeRepository: Repository<RequestHelpTypeEntity>
   ) {}
 
   async run() {

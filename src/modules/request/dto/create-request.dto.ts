@@ -6,8 +6,8 @@ import {
   ValidateIf
 } from 'class-validator';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
-import { RequestStatus } from '../entities/request-status.entity';
-import { RequestHelpType } from '../entities/request-help-type.entity';
+import { RequestStatusEntity } from '../status/entities/request-status.entity';
+import { RequestHelpTypeEntity } from '../help-type/entities/request-help-type.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 
 export class CreateRequestDto {
@@ -23,34 +23,33 @@ export class CreateRequestDto {
   @IsNotEmpty()
   amount: number;
 
-  @ApiProperty({ type: RequestStatus })
+  @ApiProperty({ type: RequestStatusEntity })
   @IsOptional()
   @Validate(IsExist, ['RequestStatus', 'id'], {
     message: 'statusNotExists',
   })
-  status?: RequestStatus;
+  status?: RequestStatusEntity;
 
-  @ApiProperty({ type: RequestHelpType })
+  @ApiProperty({ type: RequestHelpTypeEntity })
   @IsNotEmpty()
   @Validate(IsExist, ['RequestHelpType', 'id'], {
     message: 'helpTypeNotExists',
   })
-  helpType: RequestHelpType;
+  helpType: RequestHelpTypeEntity;
 
   @ApiProperty({example: 1, type: User})
   @IsNotEmpty()
-  // É possível passar um id ao inves de um objeto, e usar o IsExist?
-  // @Validate(IsExist, ['User', 'id'], {
-  //   message: 'User not found',
-  // })
-  userId: number;
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'User not found',
+  })
+  user: User;
 
   @ApiProperty({example: 2, type: User})
   @IsOptional()
-  // @Validate(IsExist, ['User', 'id'], {
-  //   message: 'God father not found',
-  // })
-  godFatherId?: number;
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'God father not found',
+  })
+  godFather?: User;
 
   @ApiProperty()
   @ValidateIf(req => (!req.banco && !req.agencia && !req.conta) || req.chavePix)

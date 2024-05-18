@@ -1,7 +1,7 @@
 import { ColumnNumericTransformer } from "src/utils/transformers/column-numeric.transformer";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { RequestStatus } from "./request-status.entity";
-import { RequestHelpType } from "./request-help-type.entity";
+import { RequestStatusEntity } from "../status/entities/request-status.entity";
+import { RequestHelpTypeEntity } from "../help-type/entities/request-help-type.entity";
 import { RequestStatusEnum } from "../enums/status.enum";
 import { User } from "src/modules/user/entities/user.entity";
 import { EntityHelper } from "src/utils/entity-helper";
@@ -20,14 +20,14 @@ export class RequestEntity extends EntityHelper {
   @Column({ type: 'numeric', precision: 10, scale: 2, transformer: new ColumnNumericTransformer() })
   amount: number;
 
-  @ManyToOne(() => RequestStatus, { eager: true, nullable: false })
-  status: RequestStatus;
+  @ManyToOne(() => RequestStatusEntity, { eager: true, nullable: false })
+  status: RequestStatusEntity;
 
   @Column({ default: RequestStatusEnum.analysis })
   statusId: number
 
-  @ManyToOne(() => RequestHelpType, { eager: true, nullable: false })
-  helpType: RequestHelpType;
+  @ManyToOne(() => RequestHelpTypeEntity, { eager: true, nullable: false })
+  helpType: RequestHelpTypeEntity;
 
   @Column({ type: 'varchar', nullable: true })
   chavePix: string;

@@ -18,31 +18,25 @@ export class RequestService {
   ) {}
 
   async create(createRequestDto: CreateRequestDto) {
-    const user = await this.userRepository.findOne({
-      where: {
-        id: createRequestDto.userId
-      }
-    });
-    if (!user) throw new NotFoundException("User was not found");
+    // const user = await this.userRepository.findOne({
+    //   where: {
+    //     id: createRequestDto.userId
+    //   }
+    // });
+    // if (!user) throw new NotFoundException("User was not found");
 
-    if (createRequestDto.godFatherId) {
-      const godFather = await this.userRepository.findOne({
-        where: {
-          id: createRequestDto.godFatherId
-        }
-      });
-      if (!godFather) throw new NotFoundException("God father was not found");
-    }
+    // if (createRequestDto.godFatherId) {
+    //   const godFather = await this.userRepository.findOne({
+    //     where: {
+    //       id: createRequestDto.godFatherId
+    //     }
+    //   });
+    //   if (!godFather) throw new NotFoundException("God father was not found");
+    // }
 
     return this.requestRepository.save(
       this.requestRepository.create({
-        ...createRequestDto,
-        user: {
-          id: createRequestDto.userId
-        },
-        godFather: {
-          id: createRequestDto.godFatherId
-        }
+        ...createRequestDto
       }),
     );
   }
@@ -63,12 +57,12 @@ export class RequestService {
   }
 
   update(id: number, updateRequestDto: UpdateRequestDto) {
-    return this.requestRepository.save(
-      this.requestRepository.create({
-        id,
-        ...updateRequestDto,
-      }),
-    );
+    // return this.requestRepository.save(
+    //   this.requestRepository.create({
+    //     id,
+    //     ...updateRequestDto,
+    //   }),
+    // );
   }
 
   async remove(id: number): Promise<void> {

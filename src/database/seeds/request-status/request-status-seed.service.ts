@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RequestStatus } from 'src/modules/request/entities/request-status.entity';
+import { RequestStatusEntity } from 'src/modules/request/status/entities/request-status.entity';
 import { RequestStatusEnum } from 'src/modules/request/enums/status.enum';
 
 @Injectable()
 export class RequestStatusSeedService {
   constructor(
-    @InjectRepository(RequestStatus)
-    private requestStatusRepository: Repository<RequestStatus>
+    @InjectRepository(RequestStatusEntity)
+    private requestStatusRepository: Repository<RequestStatusEntity>
   ) {}
 
   async run() {
