@@ -19,6 +19,7 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
 import { OrganizationEntity } from 'src/modules/organization/entities/organization.entity';
+import { RequestEntity } from 'src/modules/request/entities/request.entity';
 
 @Entity({ name: 'user' })
 export class User extends EntityHelper {
@@ -81,6 +82,8 @@ export class User extends EntityHelper {
 
   @ManyToOne(() => UserStatus, { eager: true })
   status?: UserStatus;
+
+  requests?: RequestEntity[]
 
   @Column({ type: 'varchar', nullable: true })
   @Index()
