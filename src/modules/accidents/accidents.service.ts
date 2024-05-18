@@ -20,7 +20,7 @@ export class AccidentsService {
 
   async create(createAccidentDto: CreateAccidentDto) {
     const [request, file] = await Promise.all([
-      this.requestService.findOne({ id: +createAccidentDto.file }),
+      this.requestService.findOne({ id: +createAccidentDto.request }),
       this.fileService.findOne({ id: createAccidentDto.file as unknown as string }),
     ]);
 
