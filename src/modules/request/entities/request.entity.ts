@@ -30,16 +30,16 @@ export class RequestEntity extends EntityHelper {
   helpType: RequestHelpTypeEntity;
 
   @Column({ type: 'varchar', nullable: true })
-  chavePix: string;
+  financialPixkey: string;
 
   @Column({ type: 'varchar', nullable: true })
-  banco: string;
+  financialBank: string;
 
   @Column({ type: 'varchar', nullable: true })
-  agencia: string;
+  financialAgency: string;
 
   @Column({ type: 'varchar', nullable: true })
-  conta: string;
+  financialAccount: string;
 
   @ManyToOne(() => User, { eager: true })
   user: User;

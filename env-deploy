@@ -7,13 +7,13 @@ APP_HEADER_LANGUAGE=x-custom-lang
 FRONTEND_DOMAIN=https://coopartilhar.com.br
 BACKEND_DOMAIN=https://api.coopartilhar.com.br
 
-DATABASE_TYPE=cockroachdb
-DATABASE_HOST=calamidade-teste-14658.7tt.aws-us-east-1.cockroachlabs.cloud
-DATABASE_PORT=26257
-DATABASE_USERNAME=teste1
-DATABASE_NAME=calamidade2
+DATABASE_TYPE="cockroachdb"
+DATABASE_HOST="coopartilhar-1700.j77.cockroachlabs.cloud"
+DATABASE_PORT="26257"
+DATABASE_USERNAME="staging"
+DATABASE_NAME="staging"
 DATABASE_SYNCHRONIZE=false
-DATABASE_MAX_CONNECTIONS=100
+DATABASE_MAX_CONNECTIONS=1000
 DATABASE_SSL_ENABLED=true
 DATABASE_REJECT_UNAUTHORIZED=false
 
