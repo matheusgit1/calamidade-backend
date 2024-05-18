@@ -23,7 +23,7 @@
       "node_modules/@types"
     ],
     "types": [
-      "node"
+      "node", "jest"
     ], 
     "moduleResolution": "node",
     "resolveJsonModule": true,

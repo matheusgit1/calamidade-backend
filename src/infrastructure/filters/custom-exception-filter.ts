@@ -4,6 +4,7 @@ import { BusinessException } from "../exceptions/business.exception";
 import { ResourceNotFoundException } from "../exceptions/resource-not-found.exception";
 import { ProxyException } from "../exceptions/proxy.exception";
 import { InvalidInputException } from "../exceptions/invalid-input.exception";
+import { QueryFailedError } from "typeorm";
 
 @Injectable()
 export class CustomExceptionFilter implements ExceptionFilter {
