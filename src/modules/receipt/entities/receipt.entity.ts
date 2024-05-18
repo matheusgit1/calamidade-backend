@@ -4,6 +4,7 @@ import { RequestEntity } from "src/modules/request/entities/request.entity";
 import { FileEntity } from "src/modules/file/entities/file.entity";
 import { ReceiptType } from "./receipt-type.entity";
 import { ReceiptTypeEnum } from "../enums/receipt-type.enum";
+import { ColumnNumericTransformer } from "src/utils/transformers/column-numeric.transformer";
 
 @Entity("receipt")
 export class ReceiptEntity {
@@ -15,8 +16,8 @@ export class ReceiptEntity {
   @ApiProperty({ type: () => RequestEntity, example: { id: 1, title: "Exemplo de Requisição" }, description: "A requisição associada." })
   file: FileEntity;
 
-  @Column()
-  @ApiProperty({ example: 500, description: "O valor comprovado do recibo." })
+  @ApiProperty({ example: 500.2, description: "O valor comprovado do recibo." })
+  @Column({ type: "numeric", precision: 10, scale: 2, transformer: new ColumnNumericTransformer() })
   provenValue: number;
 
   @ManyToOne(() => ReceiptType, { eager: true })
