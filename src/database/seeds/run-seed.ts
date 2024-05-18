@@ -9,7 +9,7 @@ import { RequestStatusSeedService } from './request-status/request-status-seed.s
 import { RequestHelpTypeSeedService } from './request-help-type/request-help-type-seed.service';
 import { ReceiptSeedService } from './receipt/receipt-seed.service';
 import { ReceiptTypeSeedService } from './receipt-type/receipt-type-seed.service';
-
+import { RequestSeedService } from './request/request-seed.service';
 
 const runSeed = async () => {
   const app = await NestFactory.create(SeedModule);
@@ -25,6 +25,7 @@ const runSeed = async () => {
   await app.get(ReceiptSeedService).run();
   await app.get(RequestStatusSeedService).run();
   await app.get(RequestHelpTypeSeedService).run();
+  await app.get(RequestSeedService).run();
 
   await app.close();
 };

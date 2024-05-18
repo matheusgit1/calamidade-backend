@@ -13,7 +13,7 @@ import { RequestStatusSeedModule } from './request-status/request-status-seed.mo
 import { RequestHelpTypeSeedModule } from './request-help-type/request-help-type-seed.module';
 import { ReceiptSeedModule } from './receipt/receipt-seed.module';
 import { ReceiptTypeSeedModule } from './receipt-type/receipt-type-seed.module';
-
+import { RequestSeedModule } from './request/request-seed.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { ReceiptTypeSeedModule } from './receipt-type/receipt-type-seed.module';
     ReceiptSeedModule,
     UserSeedModule,
     OrganizationSeedModule,
-    ReceiptSeedModule,
+    RequestSeedModule,
     RequestStatusSeedModule,
     RequestHelpTypeSeedModule,
     ConfigModule.forRoot({
