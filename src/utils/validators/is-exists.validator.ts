@@ -28,11 +28,6 @@ export class IsExist implements ValidatorConstraintInterface {
         },
       });
 
-      console.log({
-        [pathToProperty ? pathToProperty : validationArguments.property]:
-          pathToProperty ? value?.[pathToProperty] : value,
-      })
-
     return Boolean(entity);
   }
 }
