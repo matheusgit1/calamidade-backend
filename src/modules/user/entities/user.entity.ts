@@ -16,7 +16,7 @@ import {
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { UserStatus } from './user-status.entity';
-import { FileEntity } from '../../files/entities/file.entity';
+import { FileEntity } from '../../file/entities/file.entity';
 import bcrypt from 'bcryptjs';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
@@ -25,6 +25,8 @@ import { OrganizationEntity } from 'src/modules/organization/entities/organizati
 
 import { Cooperated } from '../../cooperated/entities/cooperated.entity';
 import { AddressEntity } from '../address/entities/address.entity';
+import { RequestEntity } from 'src/modules/request/entities/request.entity';
+
 
 @Entity({ name: 'user' })
 export class User extends EntityHelper {
@@ -103,6 +105,8 @@ export class User extends EntityHelper {
 
   @OneToMany(() => AddressEntity, (address) => address.user, { eager: true })
   addresses: AddressEntity[]
+
+  requests?: RequestEntity[]
 
   @Column({ type: 'varchar', nullable: true })
   @Index()

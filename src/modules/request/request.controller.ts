@@ -1,0 +1,62 @@
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus, HttpCode, DefaultValuePipe, ParseIntPipe, Query } from '@nestjs/common';
+import { RequestService } from './request.service';
+import { CreateRequestDto } from './dto/create-request.dto';
+import { UpdateRequestDto } from './dto/update-request.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UserRoleEnum } from '../user/enums/roles.enum';
+import { Roles } from '../user/roles/roles.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../user/roles/roles.guard';
+import { infinityPagination } from 'src/utils/infinity-pagination';
+
+@ApiBearerAuth()
+@Roles(UserRoleEnum.user)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiTags('Requests')
+@Controller({
+  path: 'requests',
+  version: '1'
+})
+export class RequestController {
+  constructor(private readonly requestService: RequestService) {}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() createRequestDto: CreateRequestDto) {
+    return this.requestService.create(createRequestDto);
+  }
+
+  @Get()
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+  ) {
+    if (limit > 50) {
+      limit = 50;
+    }
+
+    return infinityPagination(
+      await this.requestService.findManyWithPagination({
+        page,
+        limit,
+      }),
+      { page, limit },
+    );
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.requestService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateRequestDto: UpdateRequestDto) {
+    return this.requestService.update(+id, updateRequestDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id') id: string) {
+    return this.requestService.remove(+id);
+  }
+}
