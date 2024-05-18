@@ -11,6 +11,7 @@ import { UserSeedModule } from './user/user-seed.module';
 import { OrganizationSeedModule } from './organization/organization-seed.module';
 import { RequestStatusSeedModule } from './request-status/request-status-seed.module';
 import { RequestHelpTypeSeedModule } from './request-help-type/request-help-type-seed.module';
+import { ReceiptSeedModule } from './receipt/receipt-seed.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { RequestHelpTypeSeedModule } from './request-help-type/request-help-type
     StatusSeedModule,
     UserSeedModule,
     OrganizationSeedModule,
+    ReceiptSeedModule,
     RequestStatusSeedModule,
     RequestHelpTypeSeedModule,
     ConfigModule.forRoot({
