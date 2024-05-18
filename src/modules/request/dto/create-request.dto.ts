@@ -53,22 +53,22 @@ export class CreateRequestDto {
   godFatherId?: number;
 
   @ApiProperty()
-  @ValidateIf(o => (!o.banco && !o.agencia && !o.conta) || o.chavePix)
+  @ValidateIf(req => (!req.banco && !req.agencia && !req.conta) || req.chavePix)
   @IsNotEmpty()
   chavePix?: string;
 
   @ApiProperty()
-  @ValidateIf(o => !o.chavePix || o.banco)
+  @ValidateIf(req => !req.chavePix || req.banco)
   @IsNotEmpty()
   banco?: string;
 
   @ApiProperty()
-  @ValidateIf(o => !o.chavePix || o.agencia)
+  @ValidateIf(req => !req.chavePix || req.agencia)
   @IsNotEmpty()
   agencia?: string;
 
   @ApiProperty()
-  @ValidateIf(o => !o.chavePix || o.conta)
+  @ValidateIf(req => !req.chavePix || req.conta)
   @IsNotEmpty()
   conta?: string;
 }
