@@ -4,7 +4,9 @@ import { SeedModule } from './seed.module';
 import { StatusSeedService } from './user-status/status-seed.service';
 import { UserSeedService } from './user/user-seed.service';
 import { OrganizationSeedService } from './organization/organization-seed.service';
-import { CooperatedSeedService } from './cooperated/cooperated-seed.service';
+// import { CooperatedSeedService } from './cooperated/cooperated-seed.service';
+import { RequestStatusSeedService } from './request-status/request-status-seed.service';
+import { RequestHelpTypeSeedService } from './request-help-type/request-help-type-seed.service';
 
 
 const runSeed = async () => {
@@ -14,8 +16,10 @@ const runSeed = async () => {
   await app.get(RoleSeedService).run();
   await app.get(StatusSeedService).run();
   await app.get(UserSeedService).run();
-  await app.get(CooperatedSeedService).run();
+  // await app.get(CooperatedSeedService).run();
   await app.get(OrganizationSeedService).run();
+  await app.get(RequestStatusSeedService).run();
+  await app.get(RequestHelpTypeSeedService).run();
 
   await app.close();
 };

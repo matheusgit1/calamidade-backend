@@ -29,6 +29,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CooperatedModule } from "../cooperated/cooperated.module";
 import { OrganizationModule } from "../organization/organization.module";
+import { RequestModule } from "../request/request.module";
 
 @Module({
   imports: [
@@ -57,7 +58,8 @@ import { OrganizationModule } from "../organization/organization.module";
     HomeModule,
     AppModule,
     CooperatedModule,
-    OrganizationModule
+    OrganizationModule,
+    RequestModule
   ],
   controllers: [AppController],
   providers: [AppService],
