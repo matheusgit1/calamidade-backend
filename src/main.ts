@@ -33,10 +33,10 @@ export async function bootstrap(): Promise<AppBootStrap> {
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  app.useGlobalFilters(new CustomExceptionFilter());
 
   app.use(json({ limit: "50mb" }));
   app.use(urlencoded({ extended: true, limit: "50mb" }));
+  app.useGlobalFilters(new CustomExceptionFilter());
 
   /**
    * use in case of implementing trace via aws xray
