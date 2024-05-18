@@ -30,6 +30,7 @@ import { AppService } from "./app.service";
 import { CooperatedModule } from "../cooperated/cooperated.module";
 import { OrganizationModule } from "../organization/organization.module";
 import { ReceiptModule } from "../receipt/receipt.module";
+import { RequestModule } from "../request/request.module";
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { ReceiptModule } from "../receipt/receipt.module";
     CooperatedModule,
     OrganizationModule,
     ReceiptModule
+    RequestModule
   ],
   controllers: [AppController],
   providers: [AppService],

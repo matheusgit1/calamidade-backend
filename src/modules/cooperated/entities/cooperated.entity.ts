@@ -1,13 +1,7 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { EntityHelper } from '../../../utils/entity-helper';
-import { Expose } from 'class-transformer';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { EntityHelper } from "../../../utils/entity-helper";
+import { Expose } from "class-transformer";
+import { OrganizationEntity } from "src/modules/organization/entities/organization.entity";
 
 @Entity()
 export class Cooperated extends EntityHelper {
@@ -15,7 +9,7 @@ export class Cooperated extends EntityHelper {
   id: number;
 
   @Column({ type: String, unique: true, nullable: true })
-  @Expose({ groups: ['me', 'admin'] })
+  @Expose({ groups: ["me", "admin"] })
   email: string | null;
 
   @Column({ type: String, nullable: true })
@@ -29,6 +23,9 @@ export class Cooperated extends EntityHelper {
 
   @Column({ type: String, nullable: true })
   document: string | null;
+
+  @ManyToOne(() => OrganizationEntity, { eager: false })
+  organization?: OrganizationEntity | null;
 
   @CreateDateColumn()
   createdAt: Date;
