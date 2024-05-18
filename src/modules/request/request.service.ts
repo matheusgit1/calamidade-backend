@@ -6,6 +6,8 @@ import { RequestEntity } from './entities/request.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { User } from '../user/entities/user.entity';
+import { EntityCondition } from 'src/utils/types/entity-condition.type';
+import { NullableType } from 'src/utils/types/nullable.type';
 
 @Injectable()
 export class RequestService {
@@ -48,13 +50,12 @@ export class RequestService {
     });
   }
 
-  findOne(id: number) {
+  findOne(fields: EntityCondition<RequestEntity>): Promise<NullableType<RequestEntity>> {
     return this.requestRepository.findOne({
-      where: {
-        id
-      },
+      where: fields,
     });
   }
+
 
   update(id: number, updateRequestDto: UpdateRequestDto) {
     // return this.requestRepository.save(

@@ -31,6 +31,7 @@ import { CooperatedModule } from "../cooperated/cooperated.module";
 import { OrganizationModule } from "../organization/organization.module";
 import { ReceiptModule } from "../receipt/receipt.module";
 import { RequestModule } from "../request/request.module";
+import { AccidentsModule } from "../accidents/accidents.module";
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { RequestModule } from "../request/request.module";
     HomeModule,
     AppModule,
     CooperatedModule,
+    AccidentsModule,
     OrganizationModule,
     ReceiptModule,
     RequestModule

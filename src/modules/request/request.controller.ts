@@ -8,6 +8,8 @@ import { Roles } from '../user/roles/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../user/roles/roles.guard';
 import { infinityPagination } from 'src/utils/infinity-pagination';
+import { NullableType } from 'src/utils/types/nullable.type';
+import { RequestEntity } from './entities/request.entity';
 
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user)
@@ -45,8 +47,8 @@ export class RequestController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.requestService.findOne(+id);
+  findOne(@Param("id") id: string): Promise<NullableType<RequestEntity>> {
+    return this.requestService.findOne({ id: +id });
   }
 
   @Patch(':id')

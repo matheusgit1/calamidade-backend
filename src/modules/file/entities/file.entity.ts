@@ -1,19 +1,13 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { Allow } from 'class-validator';
-import { EntityHelper } from 'src/utils/entity-helper';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
+import { Allow } from "class-validator";
+import { EntityHelper } from "../../../utils/entity-helper";
+import { AccidentEntity } from "../../accidents/entities/accident.entity";
 
-@Entity({ name: 'file' })
+@Entity({ name: "file" })
 export class FileEntity extends EntityHelper {
-  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @PrimaryGeneratedColumn('uuid')
+  @ApiProperty({ example: "cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae" })
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Allow()
@@ -22,6 +16,9 @@ export class FileEntity extends EntityHelper {
 
   @Column()
   bucket: string;
+
+  @OneToOne(() => AccidentEntity, accident => accident.file)
+  accident: AccidentEntity;
 
   @CreateDateColumn()
   createdAt: Date;
