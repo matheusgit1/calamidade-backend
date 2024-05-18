@@ -14,7 +14,6 @@ import { SessionModule } from 'src/modules/session/session.module';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { OrganizationModule } from '../organization/organization.module';
 
-
 @Module({
   imports: [
     UsersModule,
