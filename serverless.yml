@@ -34,6 +34,8 @@ package:
     - "!test/**"
     - "!docs/**"
     - "!.husky/**"
+    - "!.github/**"
+    - "!.vscode/*"
     - "!.hygen*"
     - "!*docker*"
     - "!*Dockerfile*"
@@ -67,11 +69,11 @@ functions:
     url:
       cors:
         allowedOrigins:
-          - '*'
+          - "*"
         allowedHeaders:
-          - '*'
+          - "*"
         allowedMethods:
-          - '*'
+          - "*"
 
     layers:
       - arn:aws:lambda:sa-east-1:580247275435:layer:LambdaInsightsExtension:51

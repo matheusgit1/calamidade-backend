@@ -18,9 +18,20 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
-    "typeRoots": ["src/@types", "node_modules/@types"], // Ajuste esta linha
-    "types": ["node"] // Adicione esta linha
+    "typeRoots": [
+      "src/@types",
+      "node_modules/@types"
+    ],
+    "types": [
+      "node", "jest"
+    ], 
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

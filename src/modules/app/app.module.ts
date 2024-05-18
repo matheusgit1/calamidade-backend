@@ -20,7 +20,7 @@ import { AuthAppleModule } from "../auth/social/apple/auth-apple.module";
 import { AuthFacebookModule } from "../auth/social/facebook/auth-facebook.module";
 import { AuthGoogleModule } from "../auth/social/google/auth-google.module";
 import { AuthTwitterModule } from "../auth/social/twitter/auth-twitter.module";
-import { FilesModule } from "../files/files.module";
+import { FileModule } from "../file/file.module";
 import { ForgotModule } from "../forgot/forgot.module";
 import { HomeModule } from "../home/home.module";
 import { SessionModule } from "../session/session.module";
@@ -30,6 +30,8 @@ import { AppService } from "./app.service";
 import { CooperatedModule } from "../cooperated/cooperated.module";
 import { OrganizationModule } from "../organization/organization.module";
 import { AddressModule } from "../address/address.module";
+import { ReceiptModule } from "../receipt/receipt.module";
+import { RequestModule } from "../request/request.module";
 
 @Module({
   imports: [
@@ -45,7 +47,7 @@ import { AddressModule } from "../address/address.module";
       },
     }),
     UsersModule,
-    FilesModule,
+    FileModule,
     AuthModule,
     AuthFacebookModule,
     AuthGoogleModule,
@@ -60,8 +62,10 @@ import { AddressModule } from "../address/address.module";
     CooperatedModule,
     OrganizationModule,
     AddressModule
+    ReceiptModule,
+    RequestModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

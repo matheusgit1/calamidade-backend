@@ -45,26 +45,17 @@ export class AuthService {
     private configService: ConfigService<AllConfigType>,
   ) { }
 
-  async validateLogin(
-    loginDto: AuthEmailLoginDto,
-    onlyAdmin: boolean,
-  ): Promise<LoginResponseType> {
+  async validateLogin(loginDto: AuthEmailLoginDto, onlyAdmin: boolean): Promise<LoginResponseType> {
     const user = await this.usersService.findOne({
       email: loginDto.email,
     });
 
-    if (
-      !user ||
-      (user?.role &&
-        !(onlyAdmin ? [UserRoleEnum.admin] : [UserRoleEnum.user]).includes(
-          user.role.id,
-        ))
-    ) {
+    if (!user || (user?.role && !(onlyAdmin ? [UserRoleEnum.admin] : [UserRoleEnum.user]).includes(user.role.id))) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            email: 'notFound',
+            email: "notFound",
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -83,17 +74,14 @@ export class AuthService {
       );
     }
 
-    const isValidPassword = await bcrypt.compare(
-      loginDto.password,
-      user.password,
-    );
+    const isValidPassword = await bcrypt.compare(loginDto.password, user.password);
 
     if (!isValidPassword) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            password: 'incorrectPassword',
+            password: "incorrectPassword",
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -187,7 +175,7 @@ export class AuthService {
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            user: 'userNotFound',
+            user: "userNotFound",
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -268,17 +256,14 @@ export class AuthService {
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            email: 'emailNotExists',
+            email: "emailNotExists",
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
 
-    const hash = crypto
-      .createHash('sha256')
-      .update(randomStringGenerator())
-      .digest('hex');
+    const hash = crypto.createHash("sha256").update(randomStringGenerator()).digest("hex");
     await this.forgotService.create({
       hash,
       user,
@@ -329,10 +314,7 @@ export class AuthService {
     });
   }
 
-  async update(
-    userJwtPayload: JwtPayloadType,
-    userDto: AuthUpdateDto,
-  ): Promise<NullableType<User>> {
+  async update(userJwtPayload: JwtPayloadType, userDto: AuthUpdateDto): Promise<NullableType<User>> {
     if (userDto.password) {
       if (userDto.oldPassword) {
         const currentUser = await this.usersService.findOne({
@@ -344,24 +326,21 @@ export class AuthService {
             {
               status: HttpStatus.UNPROCESSABLE_ENTITY,
               errors: {
-                user: 'userNotFound',
+                user: "userNotFound",
               },
             },
             HttpStatus.UNPROCESSABLE_ENTITY,
           );
         }
 
-        const isValidOldPassword = await bcrypt.compare(
-          userDto.oldPassword,
-          currentUser.password,
-        );
+        const isValidOldPassword = await bcrypt.compare(userDto.oldPassword, currentUser.password);
 
         if (!isValidOldPassword) {
           throw new HttpException(
             {
               status: HttpStatus.UNPROCESSABLE_ENTITY,
               errors: {
-                oldPassword: 'incorrectOldPassword',
+                oldPassword: "incorrectOldPassword",
               },
             },
             HttpStatus.UNPROCESSABLE_ENTITY,
@@ -379,7 +358,7 @@ export class AuthService {
           {
             status: HttpStatus.UNPROCESSABLE_ENTITY,
             errors: {
-              oldPassword: 'missingOldPassword',
+              oldPassword: "missingOldPassword",
             },
           },
           HttpStatus.UNPROCESSABLE_ENTITY,
@@ -394,9 +373,7 @@ export class AuthService {
     });
   }
 
-  async refreshToken(
-    sessionId: number,
-  ): Promise<Omit<LoginResponseType, 'user'>> {
+  async refreshToken(sessionId: number): Promise<Omit<LoginResponseType, "user">> {
     const session = await this.sessionService.findOne({
       where: {
         id: sessionId,
@@ -424,18 +401,14 @@ export class AuthService {
     await this.usersService.softDelete(user.id);
   }
 
-  async logout(data: Pick<JwtRefreshPayloadType, 'sessionId'>) {
+  async logout(data: Pick<JwtRefreshPayloadType, "sessionId">) {
     return this.sessionService.softDelete({
       id: data.sessionId,
     });
   }
 
-  private async getTokensData(data: {
-    id: User['id'];
-    role: User['role'];
-    sessionId: Session['id'];
-  }) {
-    const tokenExpiresIn = this.configService.getOrThrow('auth.expires', {
+  private async getTokensData(data: { id: User["id"]; role: User["role"]; sessionId: Session["id"] }) {
+    const tokenExpiresIn = this.configService.getOrThrow("auth.expires", {
       infer: true,
     });
 
@@ -449,7 +422,7 @@ export class AuthService {
           sessionId: data.sessionId,
         },
         {
-          secret: this.configService.getOrThrow('auth.secret', { infer: true }),
+          secret: this.configService.getOrThrow("auth.secret", { infer: true }),
           expiresIn: tokenExpiresIn,
         },
       ),
@@ -458,10 +431,10 @@ export class AuthService {
           sessionId: data.sessionId,
         },
         {
-          secret: this.configService.getOrThrow('auth.refreshSecret', {
+          secret: this.configService.getOrThrow("auth.refreshSecret", {
             infer: true,
           }),
-          expiresIn: this.configService.getOrThrow('auth.refreshExpires', {
+          expiresIn: this.configService.getOrThrow("auth.refreshExpires", {
             infer: true,
           }),
         },
