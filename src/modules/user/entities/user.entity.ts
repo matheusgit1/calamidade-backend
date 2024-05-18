@@ -10,6 +10,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
   AfterLoad,
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { UserStatus } from './user-status.entity';
@@ -19,6 +20,7 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
 import { OrganizationEntity } from 'src/modules/organization/entities/organization.entity';
+import { Address } from '../../address/entities/address.entity';
 
 @Entity({ name: 'user' })
 export class User extends EntityHelper {
@@ -81,6 +83,9 @@ export class User extends EntityHelper {
 
   @ManyToOne(() => UserStatus, { eager: true })
   status?: UserStatus;
+
+  @OneToMany(() => Address, (address) => address.user, { eager: true })
+  addresses: Address[]
 
   @Column({ type: 'varchar', nullable: true })
   @Index()
