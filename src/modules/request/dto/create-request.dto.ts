@@ -37,13 +37,6 @@ export class CreateRequestDto {
   })
   helpType: RequestHelpTypeEntity;
 
-  @ApiProperty({example: 1, type: User})
-  @IsNotEmpty()
-  @Validate(IsExist, ['User', 'id'], {
-    message: 'User not found',
-  })
-  user: User;
-
   @ApiProperty({example: 2, type: User})
   @IsOptional()
   @Validate(IsExist, ['User', 'id'], {
@@ -52,22 +45,22 @@ export class CreateRequestDto {
   godFather?: User;
 
   @ApiProperty()
-  @ValidateIf(req => (!req.banco && !req.agencia && !req.conta) || req.chavePix)
+  @ValidateIf(req => (!req.financialBank && !req.financialAgency && !req.financialAccount) || req.financialPixkey)
   @IsNotEmpty()
-  chavePix?: string;
+  financialPixkey?: string;
 
   @ApiProperty()
-  @ValidateIf(req => !req.chavePix || req.banco)
+  @ValidateIf(req => !req.financialPixkey || req.financialBank)
   @IsNotEmpty()
-  banco?: string;
+  financialBank?: string;
 
   @ApiProperty()
-  @ValidateIf(req => !req.chavePix || req.agencia)
+  @ValidateIf(req => !req.financialPixkey || req.financialAgency)
   @IsNotEmpty()
-  agencia?: string;
+  financialAgency?: string;
 
   @ApiProperty()
-  @ValidateIf(req => !req.chavePix || req.conta)
+  @ValidateIf(req => !req.financialPixkey || req.financialAccount)
   @IsNotEmpty()
-  conta?: string;
+  financialAccount?: string;
 }
