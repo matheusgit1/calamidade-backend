@@ -3,6 +3,7 @@ import { IsEmail, IsNotEmpty, IsOptional, MinLength, Validate } from 'class-vali
 import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
 import { Transform } from 'class-transformer';
 import { lowerCaseTransformer } from 'src/utils/transformers/lower-case.transformer';
+import { IsValidCpfOrCnpjConstraint } from '../../../utils/validators/is-document.validator';
 
 export class AuthRegisterLoginDto {
   @ApiProperty({ example: 'test1@example.com' })
@@ -24,4 +25,18 @@ export class AuthRegisterLoginDto {
   @ApiProperty({ example: 'Stark' })
   @IsNotEmpty()
   lastName: string;
+
+  @ApiProperty({ example: '99999999999' })
+  @MinLength(11)
+  @Validate(IsValidCpfOrCnpjConstraint)
+  @Validate(IsNotExist, ['User'], {
+    message: 'documentAlreadyExists',
+  })
+  @IsNotEmpty()
+  document: string;
+
+  @ApiProperty({ example: '99999999999' })
+  @MinLength(11)
+  @IsNotEmpty()
+  telephone: string;
 }

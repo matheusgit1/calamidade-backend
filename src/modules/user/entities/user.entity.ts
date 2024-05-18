@@ -10,6 +10,9 @@ import {
   BeforeInsert,
   BeforeUpdate,
   AfterLoad,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { UserStatus } from './user-status.entity';
@@ -19,7 +22,11 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
 import { OrganizationEntity } from 'src/modules/organization/entities/organization.entity';
+
+import { Cooperated } from '../../cooperated/entities/cooperated.entity';
+import { AddressEntity } from '../address/entities/address.entity';
 import { RequestEntity } from 'src/modules/request/entities/request.entity';
+
 
 @Entity({ name: 'user' })
 export class User extends EntityHelper {
@@ -70,6 +77,15 @@ export class User extends EntityHelper {
   @Expose({ groups: ['me', 'admin'] })
   lastName: string | null;
 
+  @Index()
+  @Column({ type: 'varchar', unique: true })
+  @Expose({ groups: ['me', 'admin'] })
+  document: string;
+
+  @Column({ type: 'varchar' })
+  @Expose({ groups: ['me', 'admin'] })
+  telephone: string;
+
   @ManyToOne(() => FileEntity, { eager: true })
   photo?: FileEntity | null;
 
@@ -82,6 +98,13 @@ export class User extends EntityHelper {
 
   @ManyToOne(() => UserStatus, { eager: true })
   status?: UserStatus;
+
+  @OneToOne(() => Cooperated)
+  @JoinColumn()
+  cooperated: Cooperated
+
+  @OneToMany(() => AddressEntity, (address) => address.user, { eager: true })
+  addresses: AddressEntity[]
 
   requests?: RequestEntity[]
 
