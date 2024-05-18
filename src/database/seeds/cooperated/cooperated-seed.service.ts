@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
-import { Cooperated } from "src/modules/cooperated/entities/cooperated.entity";
+import { CooperatedEntity } from "src/modules/cooperated/entities/cooperated.entity";
 
 @Injectable()
 export class CooperatedSeedService {
   constructor(
-    @InjectRepository(Cooperated)
-    private repository: Repository<Cooperated>,
+    @InjectRepository(CooperatedEntity)
+    private repository: Repository<CooperatedEntity>,
   ) {}
 
   async run() {

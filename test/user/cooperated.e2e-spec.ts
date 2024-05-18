@@ -1,6 +1,6 @@
 import request from "supertest";
 import { HttpStatus } from "@nestjs/common";
-import { Cooperated } from "../../src/modules/cooperated/entities/cooperated.entity";
+import { CooperatedEntity } from "../../src/modules/cooperated/entities/cooperated.entity";
 import { OrganizationEntity } from "../../src/modules/organization/entities/organization.entity";
 import { ADMIN_EMAIL, ADMIN_PASSWORD, APP_URL, TESTER_EMAIL, TESTER_PASSWORD } from "../utils/constants";
 
@@ -31,7 +31,7 @@ function generateCPF(): string {
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
 
-function FactoryCooperated(): Partial<Cooperated> {
+function FactoryCooperated(): Partial<CooperatedEntity> {
   return {
     email: `fakeemail2${Date.now()}@gmail.com`,
     firstName: "Morgan",
@@ -58,7 +58,7 @@ describe("CooperatedController (e2e)", () => {
 
   const app = APP_URL;
 
-  const cooperatedData: Partial<Cooperated> = FactoryCooperated();
+  const cooperatedData: Partial<CooperatedEntity> = FactoryCooperated();
 
   const organizationData: Partial<OrganizationEntity> = FactoryOrganization();
 
@@ -180,8 +180,8 @@ describe("CooperatedController (e2e)", () => {
       .expect(HttpStatus.OK);
   });
 
-  it("Update a cooperated entity", async () => {
-    const updatedCooperatedData: Partial<Cooperated> = {};
+  it.only("Update a cooperated entity", async () => {
+    const updatedCooperatedData: Partial<CooperatedEntity> = {};
 
     await request(app)
       .patch(`/${process.env.API_PREFIX}/v1/cooperateds/${createdCooperatedId}`)

@@ -23,7 +23,7 @@ import { RolesGuard } from '../user/roles/roles.guard';
 import { UserRoleEnum } from '../user/enums/roles.enum';
 import { Roles } from '../user/roles/roles.decorator';
 import { InfinityPaginationResultType } from '../../utils/types/infinity-pagination-result.type';
-import { Cooperated } from './entities/cooperated.entity';
+import { CooperatedEntity } from './entities/cooperated.entity';
 import { infinityPagination } from '../../utils/infinity-pagination';
 import { NullableType } from '../../utils/types/nullable.type';
 import { GetDocumentBodyDto } from '../auth/dto/auth-get-document.dto';
@@ -81,7 +81,7 @@ export class CooperatedController {
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-  ): Promise<InfinityPaginationResultType<Cooperated>> {
+  ): Promise<InfinityPaginationResultType<CooperatedEntity>> {
     if (limit > 50) {
       limit = 50;
     }
@@ -100,7 +100,7 @@ export class CooperatedController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRoleEnum.user)
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string): Promise<NullableType<Cooperated>> {
+  findOne(@Param('id') id: string): Promise<NullableType<CooperatedEntity>> {
     return this.cooperatedService.findOne({ id: +id });
   }
 

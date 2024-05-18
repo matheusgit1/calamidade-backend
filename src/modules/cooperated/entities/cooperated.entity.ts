@@ -3,8 +3,8 @@ import { EntityHelper } from "../../../utils/entity-helper";
 import { Expose } from "class-transformer";
 import { OrganizationEntity } from "src/modules/organization/entities/organization.entity";
 
-@Entity()
-export class Cooperated extends EntityHelper {
+@Entity({name: 'cooperated'})
+export class CooperatedEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
