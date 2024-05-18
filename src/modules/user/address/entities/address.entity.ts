@@ -1,9 +1,10 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "../../user/entities/user.entity";
+import { User } from "../../entities/user.entity";
 
 
-@Entity({ name: 'addresses' })
-export class Address {
+
+@Entity({ name: 'user_address' })
+export class AddressEntity {
     
     @PrimaryGeneratedColumn()
     id: number;

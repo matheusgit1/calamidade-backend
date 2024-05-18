@@ -22,8 +22,9 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { AuthProvidersEnum } from 'src/modules/auth/auth-providers.enum';
 import { Exclude, Expose } from 'class-transformer';
 import { OrganizationEntity } from 'src/modules/organization/entities/organization.entity';
-import { Address } from '../../address/entities/address.entity';
+
 import { Cooperated } from '../../cooperated/entities/cooperated.entity';
+import { AddressEntity } from '../address/entities/address.entity';
 
 @Entity({ name: 'user' })
 export class User extends EntityHelper {
@@ -100,8 +101,8 @@ export class User extends EntityHelper {
   @JoinColumn()
   cooperated: Cooperated
 
-  @OneToMany(() => Address, (address) => address.user, { eager: true })
-  addresses: Address[]
+  @OneToMany(() => AddressEntity, (address) => address.user, { eager: true })
+  addresses: AddressEntity[]
 
   @Column({ type: 'varchar', nullable: true })
   @Index()

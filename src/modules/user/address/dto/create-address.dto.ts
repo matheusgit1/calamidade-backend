@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsNotEmpty, IsOptional, IsString, MinLength, ValidateIf } from "class-validator";
-import { isStringNullOrEmpty } from "../../../utils/string-util";
+import { isStringNullOrEmpty } from "../../../../utils/string-util";
+
 
 export class CreateAddressDto {
     

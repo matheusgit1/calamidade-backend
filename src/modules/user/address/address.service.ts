@@ -1,19 +1,20 @@
 import { HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
-import { Address } from './entities/address.entity';
+import { AddressEntity } from './entities/address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NullableType } from '../../utils/types/nullable.type';
-import { EntityCondition } from '../../utils/types/entity-condition.type';
-import { User } from '../user/entities/user.entity';
+import { User } from '../entities/user.entity';
+import { EntityCondition } from '../../../utils/types/entity-condition.type';
+import { NullableType } from '../../../utils/types/nullable.type';
+
 
 @Injectable()
 export class AddressService {
 
   constructor(
-    @InjectRepository(Address)
-    private addressRepository: Repository<Address>,
+    @InjectRepository(AddressEntity)
+    private addressRepository: Repository<AddressEntity>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) { }
@@ -45,7 +46,7 @@ export class AddressService {
     return `This action returns all address`;
   }
 
-  findOne(fields: EntityCondition<Address>): Promise<NullableType<Address>> {
+  findOne(fields: EntityCondition<AddressEntity>): Promise<NullableType<AddressEntity>> {
     return this.addressRepository.findOne({
       where: fields,
     });

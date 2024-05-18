@@ -3,10 +3,10 @@ import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserRoleEnum } from '../user/enums/roles.enum';
-import { Roles } from '../user/roles/roles.decorator';
+import { UserRoleEnum } from '../enums/roles.enum';
+import { Roles } from '../roles/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../user/roles/roles.guard';
+import { RolesGuard } from '../roles/roles.guard';
 
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user)
