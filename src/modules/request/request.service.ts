@@ -13,6 +13,7 @@ import { Repository } from "typeorm";
 import { UpdateRequestDto } from "./dto/update-request.dto";
 import { User } from "../user/entities/user.entity";
 import { UsersService } from "../user/users.service";
+import { HashGeneratorUtil } from "src/utils/hash-generator";
 
 @Injectable()
 export class RequestService {
@@ -158,6 +159,7 @@ export class RequestService {
     userDto.email = cooperated.email;
     userDto.firstName = cooperated.firstName;
     userDto.lastName = cooperated.lastName;
+    userDto.password = HashGeneratorUtil.generate();
     userDto.document = cooperated.document ?? '';
     userDto.telephone = cooperated.phone ?? ''
     return userDto
