@@ -25,14 +25,14 @@ export class CreateRequestDto {
 
   @ApiProperty({ type: RequestStatusEntity })
   @IsOptional()
-  @Validate(IsExist, ['RequestStatus', 'id'], {
+  @Validate(IsExist, ['request_status', 'id'], {
     message: 'statusNotExists',
   })
   status?: RequestStatusEntity;
 
   @ApiProperty({ type: RequestHelpTypeEntity })
   @IsNotEmpty()
-  @Validate(IsExist, ['RequestHelpType', 'id'], {
+  @Validate(IsExist, ['request_help_type', 'id'], {
     message: 'helpTypeNotExists',
   })
   helpType: RequestHelpTypeEntity;
