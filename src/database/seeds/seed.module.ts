@@ -13,6 +13,8 @@ import { RequestStatusSeedModule } from './request-status/request-status-seed.mo
 import { RequestHelpTypeSeedModule } from './request-help-type/request-help-type-seed.module';
 import { ReceiptSeedModule } from './receipt/receipt-seed.module';
 import { ReceiptTypeSeedModule } from './receipt-type/receipt-type-seed.module';
+import { FileSeedModule } from './file/file-seed.module';
+import { CooperatedSeedModule } from './cooperated/cooperated-seed.module';
 
 
 @Module({
@@ -21,6 +23,8 @@ import { ReceiptTypeSeedModule } from './receipt-type/receipt-type-seed.module';
     StatusSeedModule,
     ReceiptTypeSeedModule,
     ReceiptSeedModule,
+    FileSeedModule,
+    CooperatedSeedModule,
     UserSeedModule,
     OrganizationSeedModule,
     ReceiptSeedModule,
