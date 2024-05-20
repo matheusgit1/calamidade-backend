@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus, HttpCode, DefaultValuePipe, ParseIntPipe, Query, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus, HttpCode, DefaultValuePipe, ParseIntPipe, Query, Request, Response, Res } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
@@ -10,6 +10,7 @@ import { RolesGuard } from '../user/roles/roles.guard';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { NullableType } from 'src/utils/types/nullable.type';
 import { RequestEntity } from './entities/request.entity';
+import { CreateRequestForOthersDto } from './dto/create-request-for-others.dto';
 
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user)
@@ -26,6 +27,12 @@ export class RequestController {
   @HttpCode(HttpStatus.CREATED)
   create(@Request() request, @Body() createRequestDto: CreateRequestDto) {
     return this.requestService.create(request.user, createRequestDto);
+  }
+
+  @Post("/godfather")
+  @HttpCode(HttpStatus.CREATED)
+  async createForOthers(@Request() request, @Body() createRequestForOthersDto: CreateRequestForOthersDto) {   
+    return await this.requestService.createForOthers(request.user, createRequestForOthersDto);
   }
 
   @Get()
