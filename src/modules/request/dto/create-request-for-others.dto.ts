@@ -2,15 +2,16 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsOptional,
+  MinLength,
   Validate,
   ValidateIf
 } from 'class-validator';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { RequestStatusEntity } from '../status/entities/request-status.entity';
 import { RequestHelpTypeEntity } from '../help-type/entities/request-help-type.entity';
-import { User } from 'src/modules/user/entities/user.entity';
+import { IsValidCpfOrCnpjConstraint } from 'src/utils/validators/is-document.validator';
 
-export class CreateRequestDto {
+export class CreateRequestForOthersDto {
   @ApiProperty({ example: 'Título' })
   @IsNotEmpty()
   title: string;
@@ -25,24 +26,19 @@ export class CreateRequestDto {
 
   @ApiProperty({ type: RequestStatusEntity })
   @IsOptional()
-  @Validate(IsExist, ['request_status', 'id'], {
-    message: 'statusNotExists',
-  })
   status?: RequestStatusEntity;
 
   @ApiProperty({ type: RequestHelpTypeEntity })
   @IsNotEmpty()
-  @Validate(IsExist, ['request_help_type', 'id'], {
-    message: 'helpTypeNotExists',
-  })
   helpType: RequestHelpTypeEntity;
 
-  @ApiProperty({example: 2, type: User})
-  @IsOptional()
-  @Validate(IsExist, ['User', 'id'], {
-    message: 'God father not found',
+  @ApiProperty({ example: '99999999999' })
+  @MinLength(11)
+  @Validate(IsValidCpfOrCnpjConstraint, {
+    message: 'invalidDocument',
   })
-  godFather?: User;
+  @IsNotEmpty()
+  documentOfAssisted: string;
 
   @ApiProperty()
   @ValidateIf(req => (!req.financialBank && !req.financialAgency && !req.financialAccount) || req.financialPixkey)
