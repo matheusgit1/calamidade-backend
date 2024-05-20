@@ -29,7 +29,7 @@ import { OrderingEnum } from "./enums/ordering-filter.enum";
 
 @ApiBearerAuth()
 @Roles(UserRoleEnum.user)
-// @UseGuards(AuthGuard("jwt"), RolesGuard)
+@UseGuards(AuthGuard("jwt"), RolesGuard)
 @ApiTags("Requests")
 @Controller({
   path: "requests",
